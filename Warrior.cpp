@@ -27,7 +27,7 @@ Each close wall in the area increases the score by 1.
 The function tests a 3X3 area when the warrior is in the center of the area.
 */
 void Warrior::refrashSafetyScore()
-{
+{  
 	int score = 0, i, j;
 	int x = this->location.GetX(); 
 	int y = this->location.GetY();
