@@ -375,6 +375,5 @@ void main(int argc, char* argv[])
 	glutCreateMenu(Menu);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
-
 	glutMainLoop();
 }

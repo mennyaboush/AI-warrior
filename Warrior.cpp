@@ -1,7 +1,6 @@
 #include "Warrior.h"
 
 
-
 Warrior::Warrior()
 {
 }
@@ -9,7 +8,7 @@ Warrior::Warrior()
 Warrior::Warrior(int maze[ConstValue::MSIZE][ConstValue::MSIZE] ,Room room)
 {
 	//Save referance to maze.
-	int i, j;
+	int i;
 	for (i = 0; i < ConstValue::MSIZE; i++) {
 		*(this->maze)[i] = maze[i];
 	}
@@ -39,3 +38,63 @@ void Warrior::refrashSafetyScore()
 		}
 	}
 }
+
+/*
+Each shot consumes one ball.
+The damage caused to the second fighter depends on the distance between them
+*/
+void Warrior::shoot(Warrior &other)
+{
+	int maxDamage = 20;
+	
+	//Check the ammo.
+	if (this->gunsAmmo > 0)
+	{
+		int distance = getDistance(other);
+		
+		//check if the warrior no too far
+		int damage = maxDamage - distance;
+		if (damage > 0)
+		{
+			gunsAmmo--;
+			std::cout << this->id << " shot " << other.id;
+			other.injured(damage);
+		}
+		else
+			getClose(other.location);
+	}
+}
+
+/*
+this function assumed that the targetLocation in the same room,
+and the targetLoction != location.
+*/
+void Warrior::getClose(Point2D targetLoction)
+{
+	if (targetLoction.GetX() > location.GetX())
+		location.setX(location.GetX() + 1);
+	else if(targetLoction.GetX() < location.GetX())
+		location.setX(location.GetX() - 1);
+	else if(targetLoction.GetY() > location.GetY())
+		location.setY(location.GetY() + 1);
+	else 
+		location.setY(location.GetY() - 1);
+}
+
+/* Decrease the life point until dead. */
+void Warrior::injured(int hitPoint)
+{
+	lifePoint = lifePoint - hitPoint;
+	if (lifePoint <= 0)
+	{
+		lifePoint = 0;
+		life = false;
+	}
+}
+
+int Warrior::getDistance(Warrior & other)
+{
+	return (int)sqrt(pow(this->location.GetX()-other.location.GetX(),2)
+	+ pow(this->location.GetY() - other.location.GetY(), 2));
+}
+
