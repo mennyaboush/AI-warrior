@@ -1,7 +1,7 @@
 ﻿  main.cpp
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\main.cpp(69): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\main.cpp(58): warning C4101: 'pt': unreferenced local variable
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\main.cpp(132): warning C4101: 'tmp': unreferenced local variable
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\main.cpp(137): warning C4101: 'weight': unreferenced local variable
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\main.cpp(133): warning C4101: 'pt': unreferenced local variable
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\main.cpp(75): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\main.cpp(64): warning C4101: 'pt': unreferenced local variable
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\main.cpp(138): warning C4101: 'tmp': unreferenced local variable
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\main.cpp(143): warning C4101: 'weight': unreferenced local variable
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\main.cpp(139): warning C4101: 'pt': unreferenced local variable
   First.vcxproj -> C:\Users\מני\Desktop\סמסטר א\בינה מלאכותית\final project\Relevant code from lesson\Tunnels\First\Debug\First.exe

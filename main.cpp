@@ -11,12 +11,14 @@
 #include "Parent.h"
 #include "ConstValue.h"
 #include "Storage.h" // the storage is colorage NOW need to paint them
+#include "Warrior.h"
+
 using namespace std;
 
 
 const int W = 600; // window width
 const int H = 600; // window height
-const int NUM_ROOMS = 10;
+const int NUM_ROOMS = ConstValue::NUM_ROOMS;
 
 const int SPACE = 1;
 const int WALL = 2;
@@ -26,6 +28,8 @@ const int TARGET = 5;
 const int GRAY = 6;
 const int MEDICAL = 7;
 const int AMMO = 8;
+const int WARRIOR = 9;
+
 const int UP = 1;
 const int DOWN = 2;
 const int LEFT = 3;
@@ -39,6 +43,8 @@ bool bfs_started = false;
 Room all_rooms[NUM_ROOMS];
 Storage medicalStorage[ConstValue::NUM_OF_MEDICAL_STORAGE];
 Storage ammoStorage[ConstValue::NUM_OF_AMMO_STORAGE];
+Warrior warriors[ConstValue::NUM_OF_WARRIORS];
+
 // gray queue
 vector <Point2D> gray;
 vector <Point2D> black;
@@ -49,7 +55,7 @@ priority_queue<Node, vector<Node>, CompareNodes> pq;
 Point2D start,target;
 
 
-
+void drawWarrior(const Warrior &w);
 void SetupMaze();
 
 void init()
@@ -234,6 +240,13 @@ void drawStorage(Storage s)
 		}
 }
 
+/*Marking the position of the warrior in the maze.*/
+void drawWarrior(const Warrior &warrior)
+{
+	Point2D location = warrior.getLocation();
+	maze[location.GetY()][location.GetX()] = WARRIOR;
+}
+
 void SetupMaze()
 {
 	int i, j,counter;
@@ -290,7 +303,12 @@ void SetupMaze()
 		medicalStorage[i] = s;
 		drawStorage(s);
 	}
-
+	//crate warriors.
+	for (i = 0; i < ConstValue::NUM_OF_WARRIORS; i++)
+	{
+		warriors[i] = Warrior(maze, all_rooms[rand() % ConstValue::NUM_ROOMS]);
+		drawWarrior(warriors[i]);
+	}
 	DigTunnels();
 }
 
@@ -326,6 +344,9 @@ void DrawMaze()
 				break;
 			case AMMO:
 				glColor3d(1,0,0);//(92 / 255, 26 / 255, 26 / 255); // BROWN;
+				break;
+			case WARRIOR:
+				glColor3d(0, 0, 0);//BLACK;
 				break;
 
 			}

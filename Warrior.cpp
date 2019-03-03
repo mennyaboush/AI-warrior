@@ -13,7 +13,7 @@ Warrior::Warrior(int maze[ConstValue::MSIZE][ConstValue::MSIZE] ,Room room)
 		*(this->maze)[i] = maze[i];
 	}
 	this->location = room.GetCenter();
-	refrashSafetyScore();
+	//refrashSafetyScore();
 }
 
 
@@ -84,6 +84,7 @@ void Warrior::getClose(Point2D targetLoction)
 /* Decrease the life point until dead. */
 void Warrior::injured(int hitPoint)
 {
+	id = generatorId++;
 	lifePoint = lifePoint - hitPoint;
 	if (lifePoint <= 0)
 	{
@@ -92,7 +93,7 @@ void Warrior::injured(int hitPoint)
 	}
 }
 
-int Warrior::getDistance(Warrior & other)
+int Warrior::getDistance(const Warrior & other) const
 {
 	return (int)sqrt(pow(this->location.GetX()-other.location.GetX(),2)
 	+ pow(this->location.GetY() - other.location.GetY(), 2));

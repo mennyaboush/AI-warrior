@@ -9,8 +9,11 @@ The warrior need to implements 2 praiorty Q
 to select a mission 
 and for nevigation.
 */
+static int generatorId = 0;
+
 class Warrior
 {
+
 private:
 	int id;
 	Point2D location;
@@ -30,16 +33,18 @@ private:
 	void getClose(Point2D targetLoction);
 	void injured(int hitPoint);
 	void throGrenade();
-	int getDistance(Warrior &other) ;
+	int getDistance(const Warrior &other) const;
 	
 public:
+
 	void lookForMedicalStorage();
 	void lookForAmmoStorage();
 	void runAway();// maybe it can use in lookForMedical?
 	void fight();
+	Point2D getLocation() const { return this->location; }
 	void setX(int x) { this->location.setX(x); }
 	void setY(int y) { this->location.setY(y); }
-	bool isALife() { return life; }
+	bool isALife() const { return life; }
 	Warrior();
 	Warrior(int maze[ConstValue::MSIZE][ConstValue::MSIZE], Room room);
 	~Warrior();
