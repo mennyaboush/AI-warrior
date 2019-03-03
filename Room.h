@@ -15,14 +15,15 @@ private:
 public:
 	Room(const Point2D& center_point, int w, int h);
 	Point2D GetCenter() const;
-	int GetWidth();
-	int GetHeight();
-	bool IsOverlap(const Room& other);
-	
+	int GetWidth() const;
+	int GetHeight() const;
+	bool IsOverlap(const Room& other) const;
+	bool locatedInTheRoom(const Point2D &p) const;
+
 	//get the coordinate boundary of the room.
-	int getLeft();
-	int getRight();
-	int getTop();
-	int getBottom();
+	int getLeft() const;
+	int getRight() const;
+	int getTop() const;
+	int getBottom() const;
 };
 

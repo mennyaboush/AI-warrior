@@ -26,26 +26,32 @@ Point2D Room::GetCenter() const
 }
 
 
-int Room::GetWidth()
+int Room::GetWidth() const
 {
 	return width;
 }
 
 
-int Room::GetHeight()
+int Room::GetHeight() const
 {
 	return height;
 }
 
 
-bool Room::IsOverlap(const Room& other)
+bool Room::IsOverlap(const Room& other) const
 {
 	return abs(center.GetX()-other.GetCenter().GetX())
 		< (width+other.width)/2+5 && abs(center.GetY() - 
 			other.GetCenter().GetY()) < (height+other.height)/2+5  ;
 }
 
-int Room::getLeft()
+bool Room::locatedInTheRoom(const Point2D & p) const
+{
+	return (p.GetX() <= getRight() && p.GetX() >= getLeft()
+		&& p.GetY() <= getBottom() && p.GetY() >= GetHeight());
+}
+
+int Room::getLeft() const
 {
 	int left = this->GetCenter().GetX() - this->GetWidth() / 2;
 	if (left < 0)
@@ -54,7 +60,7 @@ int Room::getLeft()
 		return left;
 }
 
-int Room::getRight()
+int Room::getRight() const
 {
 	int right = this->GetCenter().GetX() + this->GetWidth() / 2;
 	if (right >= ConstValue::MSIZE)
@@ -62,7 +68,7 @@ int Room::getRight()
 	return right;
 }
 
-int Room::getTop()
+int Room::getTop() const
 {
 	int top = this->GetCenter().GetY() - this->GetHeight() / 2;
 	if(top < 0)
@@ -71,7 +77,7 @@ int Room::getTop()
 		return top;
 }
 
-int Room::getBottom()
+int Room::getBottom() const
 {
 	int bottom = this->GetCenter().GetY() + this->GetHeight() / 2;
 	if (bottom >= ConstValue::MSIZE) return bottom = ConstValue::MSIZE - 1;

@@ -13,6 +13,7 @@ Warrior::Warrior(int maze[ConstValue::MSIZE][ConstValue::MSIZE] ,Room room)
 		*(this->maze)[i] = maze[i];
 	}
 	this->location = room.GetCenter();
+	this->currentRoom = room;
 	//refrashSafetyScore();
 }
 
@@ -45,15 +46,13 @@ The damage caused to the second fighter depends on the distance between them
 */
 void Warrior::shoot(Warrior &other)
 {
-	int maxDamage = 20;
-	
 	//Check the ammo.
 	if (this->gunsAmmo > 0)
 	{
 		int distance = getDistance(other);
 		
 		//check if the warrior no too far
-		int damage = maxDamage - distance;
+		int damage = ConstValue::MAX_DISTANCE_TO_INJURED - distance;
 		if (damage > 0)
 		{
 			gunsAmmo--;
@@ -97,5 +96,26 @@ int Warrior::getDistance(const Warrior & other) const
 {
 	return (int)sqrt(pow(this->location.GetX()-other.location.GetX(),2)
 	+ pow(this->location.GetY() - other.location.GetY(), 2));
+}
+
+/*Look for other warrior in room using A* algorithm*/
+bool Warrior::lookForEnemyInRoom(Warrior & other)
+{
+	if ()
+	priority_queue<Node, vector<Node>, CompareNodes> pq;
+	
+}
+
+/*Serch enemy in the maze
+look in the current room, then go to another room and check him.*/
+void Warrior::lookForEnemy(Warrior &other)
+{
+	//1. look for enemy in the current room.
+	lookForEnemyInRoom(other);
+	//2. calculat the next room the warrior will check.
+
+	//3. go to next room  safely as possible.
+
+	//4. look for enemy in the current room.
 }
 

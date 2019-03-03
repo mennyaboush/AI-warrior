@@ -3,12 +3,16 @@
 #include "Room.h"
 #include <iostream>
 #include <math.h>
+#include <queue>
+#include "Node.h"
+#include "CompareNodes.h"
 
 /*
 The warrior need to implements 2 praiorty Q 
 to select a mission 
 and for nevigation.
 */
+using namespace std;
 static int generatorId = 0;
 
 class Warrior
@@ -16,6 +20,7 @@ class Warrior
 
 private:
 	int id;
+	Room *currentRoom;
 	Point2D location;
 	int lifePoint = 100; //range [0,100]
 	int gunsAmmo = 50; // 50 bullets
@@ -34,9 +39,10 @@ private:
 	void injured(int hitPoint);
 	void throGrenade();
 	int getDistance(const Warrior &other) const;
-	
-public:
+	bool lookForEnemyInRoom(Warrior &other);
 
+public:
+	void lookForEnemy(Warrior &other);
 	void lookForMedicalStorage();
 	void lookForAmmoStorage();
 	void runAway();// maybe it can use in lookForMedical?
