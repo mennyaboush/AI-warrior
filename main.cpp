@@ -20,21 +20,6 @@ const int W = 600; // window width
 const int H = 600; // window height
 const int NUM_ROOMS = ConstValue::NUM_ROOMS;
 
-const int SPACE = 1;
-const int WALL = 2;
-const int VISITED = 3;
-const int START = 4;
-const int TARGET = 5;
-const int GRAY = 6;
-const int MEDICAL = 7;
-const int AMMO = 8;
-const int WARRIOR = 9;
-
-const int UP = 1;
-const int DOWN = 2;
-const int LEFT = 3;
-const int RIGHT = 4;
-
 static const int MSIZE = ConstValue::MSIZE;
 const double SQSIZE = 2.0 / MSIZE;
 
@@ -68,7 +53,7 @@ void init()
 	// clean up the maze
 	for (i = 0; i < MSIZE; i++)
 		for (j = 0; j < MSIZE; j++)
-			maze[i][j] = WALL;
+			maze[i][j] = ConstValue::WALL;
 	//registerLisener(new Warrior)
 	SetupMaze();
 
@@ -88,28 +73,28 @@ void AddNewNode(Node current, int direction)
 
 	switch (direction)
 	{
-	case UP:
+	case ConstValue::UP:
 		dx = 0;
 		dy = -1;
 		break;
-	case DOWN:
+	case ConstValue::DOWN:
 		dx = 0;
 		dy = 1;
 		break;
-	case LEFT:
+	case ConstValue::LEFT:
 		dx = -1;
 		dy = 0;
 		break;
-	case RIGHT:
+	case ConstValue::RIGHT:
 		dx = 1;
 		dy = 0;
 		break;
 	}// switch
 
-	if (direction==UP && current.GetPoint().GetY() > 0 ||
-		direction == DOWN && current.GetPoint().GetY() < MSIZE-1 ||
-		direction == LEFT && current.GetPoint().GetX() > 0 ||
-		direction == RIGHT && current.GetPoint().GetX() < MSIZE - 1)
+	if (direction== ConstValue::UP && current.GetPoint().GetY() > 0 ||
+		direction == ConstValue::DOWN && current.GetPoint().GetY() < MSIZE-1 ||
+		direction == ConstValue::LEFT && current.GetPoint().GetX() > 0 ||
+		direction == ConstValue::RIGHT && current.GetPoint().GetX() < MSIZE - 1)
 	{
 		pt = new Point2D(current.GetPoint().GetX()+dx, current.GetPoint().GetY() +dy);
 		gray_it = find(gray.begin(), gray.end(), *pt);
@@ -117,7 +102,7 @@ void AddNewNode(Node current, int direction)
 		if (gray_it == gray.end() && black_it == black.end()) // this is a new point
 		{
 			// very important to tunnels
-			if (maze[current.GetPoint().GetY() +dy][current.GetPoint().GetX()+dx] == WALL)
+			if (maze[current.GetPoint().GetY() +dy][current.GetPoint().GetX()+dx] == ConstValue::WALL)
 				weight = wall_weight;
 			else weight = space_weight;
 			// weight depends on previous weight and wheater we had to dig
@@ -159,8 +144,8 @@ void RunAStar4Tunnels()
 				Point2D tmp_prev = itr->GetPrev();
 				Point2D tmp_cur = itr->GetCurrent();
 				// set SPACE
-				if (maze[tmp_cur.GetY()][tmp_cur.GetX()] == WALL)
-					maze[tmp_cur.GetY()][tmp_cur.GetX()] = SPACE;
+				if (maze[tmp_cur.GetY()][tmp_cur.GetX()] == ConstValue::WALL)
+					maze[tmp_cur.GetY()][tmp_cur.GetX()] = ConstValue::SPACE;
 				itr = find(parents.begin(), parents.end(),
 					Parent(tmp_prev, current.GetPoint(), true));
 			}
@@ -174,13 +159,13 @@ void RunAStar4Tunnels()
 			// and paint it black
 			black.push_back(current.GetPoint());
 			// try to go UP
-			AddNewNode(current, UP);
+			AddNewNode(current, ConstValue::UP);
 			// try to go DOWN
-			AddNewNode(current, DOWN);
+			AddNewNode(current, ConstValue::DOWN);
 			// try to go LEFT
-			AddNewNode(current, LEFT);
+			AddNewNode(current, ConstValue::LEFT);
 			// try to go RIGHT
-			AddNewNode(current, RIGHT);
+			AddNewNode(current, ConstValue::RIGHT);
 		}
 
 	} // while
@@ -227,7 +212,7 @@ void drawStorage(Storage s)
 		{
 			for (j = y - 1; j <= y + 1 + 1; j++)
 			{
-				maze[j][i] = AMMO;
+				maze[j][i] = ConstValue::AMMO;
 			}
 		}
 	else
@@ -235,7 +220,7 @@ void drawStorage(Storage s)
 		{
 			for (j = y - 1; j <= y + 1 + 1; j++)
 			{
-				maze[j][i] = MEDICAL;
+				maze[j][i] = ConstValue::MEDICAL;
 			}
 		}
 }
@@ -244,7 +229,7 @@ void drawStorage(Storage s)
 void drawWarrior(const Warrior &warrior)
 {
 	Point2D location = warrior.getLocation();
-	maze[location.GetY()][location.GetX()] = WARRIOR;
+	maze[location.GetY()][location.GetX()] = ConstValue::WARRIOR;
 }
 
 void SetupMaze()
@@ -283,7 +268,7 @@ void SetupMaze()
 		all_rooms[counter] = *pr;
 		for (i = top; i <= bottom; i++)
 			for (j = left; j <= right; j++)
-				maze[i][j] = SPACE;
+				maze[i][j] = ConstValue::SPACE;
 
 	}
 
@@ -321,31 +306,31 @@ void DrawMaze()
 		{
 			switch (maze[i][j])
 			{
-			case WALL:
+			case ConstValue::WALL:
 				glColor3d(0.4, 0, 0); // dark red;
 				break;
-			case SPACE:
+			case ConstValue::SPACE:
 				glColor3d(1, 1, 1); // white;
 				break;
-			case VISITED:
+			case ConstValue::VISITED:
 				glColor3d(0, 0.9, 0); // green;
 				break;
-			case START:
+			case ConstValue::START:
 				glColor3d(0, 0, 1); // blue;
 				break;
-			case TARGET:
+			case ConstValue::TARGET:
 				glColor3d(1,0,0 ); // RED;
 				break;
-			case GRAY:
+			case ConstValue::GRAY:
 				glColor3d(1, .8, 0); // ORANGE;
 				break;
-			case MEDICAL:
+			case ConstValue::MEDICAL:
 				glColor3d(0,0,1);//(162 / 255, 147/255, 147 / 2550); // GRAY;
 				break;
-			case AMMO:
+			case ConstValue::AMMO:
 				glColor3d(1,0,0);//(92 / 255, 26 / 255, 26 / 255); // BROWN;
 				break;
-			case WARRIOR:
+			case ConstValue::WARRIOR:
 				glColor3d(0, 0, 0);//BLACK;
 				break;
 

@@ -1,5 +1,5 @@
 #include "Warrior.h"
-
+#include "Parent.h"
 
 Warrior::Warrior()
 {
@@ -13,7 +13,7 @@ Warrior::Warrior(int maze[ConstValue::MSIZE][ConstValue::MSIZE] ,Room room)
 		*(this->maze)[i] = maze[i];
 	}
 	this->location = room.GetCenter();
-	this->currentRoom = room;
+	this->currentRoom = &room;
 	//refrashSafetyScore();
 }
 
@@ -101,9 +101,62 @@ int Warrior::getDistance(const Warrior & other) const
 /*Look for other warrior in room using A* algorithm*/
 bool Warrior::lookForEnemyInRoom(Warrior & other)
 {
-	if ()
-	priority_queue<Node, vector<Node>, CompareNodes> pq;
-	
+	if (currentRoom->locatedInTheRoom(other.getLocation))
+	{
+		//Variables for A* algorithm
+		Node current;
+		priority_queue<Node, vector<Node>, CompareNodes> pq;
+		vector <Parent> parents;
+		bool finished = false;
+
+		//A* action
+		pq.emplace(this->getLocation());
+		while (!pq.empty() && !finished)
+		{
+			vector<Parent>::iterator itr;
+			current = pq.top();
+			pq.pop(); // remove it from pq
+
+			if (current.GetH() == 0) // the solution has been found
+			{
+				finished = true;
+				// go back to start and change WALL to SPACE
+				itr = find(parents.begin(), parents.end(),
+					Parent(current.GetPoint(), current.GetPoint(), true));
+				while (itr->HasParent())
+				{
+					Point2D tmp_prev = itr->GetPrev();
+					Point2D tmp_cur = itr->GetCurrent();
+					// set SPACE
+					if (*(maze[tmp_cur.GetY()][tmp_cur.GetX()]) == ConstValue::WALL)
+						*(maze[tmp_cur.GetY()][tmp_cur.GetX()]) = ConstValue::SPACE;
+					itr = find(parents.begin(), parents.end(),
+						Parent(tmp_prev, current.GetPoint(), true));
+				}
+			}
+			else // check the neighbours
+			{
+				// remove current from gray 
+				gray_it = find(gray.begin(), gray.end(), current.GetPoint());
+				if (gray_it != gray.end())
+					gray.erase(gray_it);
+				// and paint it black
+				black.push_back(current.GetPoint());
+				// try to go UP
+				AddNewNode(current, ConstValue::UP);
+				// try to go DOWN
+				AddNewNode(current, ConstValue::DOWN);
+				// try to go LEFT
+				AddNewNode(current, ConstValue::LEFT);
+				// try to go RIGHT
+				AddNewNode(current, ConstValue::RIGHT);
+			}
+
+		} // while
+		
+	}
+	else  // The enemy in other room.
+		return false;
 }
 
 /*Serch enemy in the maze
