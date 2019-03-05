@@ -51,6 +51,11 @@ bool Room::locatedInTheRoom(const Point2D & p) const
 		&& p.GetY() <= getBottom() && p.GetY() >= GetHeight());
 }
 
+void Room::addDoor(Door door)
+{
+	doors.push_back(door)
+}
+
 int Room::getLeft() const
 {
 	int left = this->GetCenter().GetX() - this->GetWidth() / 2;

@@ -6,6 +6,7 @@
 #include <queue>
 #include "Node.h"
 #include "CompareNodes.h"
+#include <stack>
 
 /*
 The warrior need to implements 2 praiorty Q 
@@ -28,7 +29,7 @@ private:
 	int safetyScore; // Depends on walls neer the warrior 
 	int *maze[ConstValue::MSIZE][ConstValue::MSIZE];
 	bool life = true;
-
+	stack<Point2D> walkingPath;
 	//functions
 	void lookForMedicalStorageInTheRoom();
 	void lookForAmmoStorageInTheRoom();
@@ -40,6 +41,8 @@ private:
 	void throGrenade();
 	int getDistance(const Warrior &other) const;
 	bool lookForEnemyInRoom(Warrior &other);
+	void AddNewNode(Node current, int direction);
+
 
 public:
 	void lookForEnemy(Warrior &other);

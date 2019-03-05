@@ -19,6 +19,7 @@ public:
 	static const int MEDICAL = 7;
 	static const int AMMO = 8;
 	static const int WARRIOR = 9;
+	static const int DOOR = 10;
 
 	static const int UP = 1;
 	static const int DOWN = 2;
