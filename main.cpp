@@ -1,24 +1,49 @@
 #include "GLUT.h"
 #include <math.h>
 #include <time.h>
+#include <iostream>
 #include <vector>
 #include <queue>
 #include <algorithm>
+#include <fstream>
 #include "Point2D.h"
 #include "Room.h"
 #include "Node.h"
 #include "CompareNodes.h"
 #include "Parent.h"
 #include "ConstValue.h"
-#include "Storage.h" // the storage is colorage NOW need to paint them
-#include "Warrior.h"
+#include "Storage.h" 
+#include "Door.h" 
 
 using namespace std;
 
-
 const int W = 600; // window width
 const int H = 600; // window height
-const int NUM_ROOMS = ConstValue::NUM_ROOMS;
+const int NUM_ROOMS = 10;
+
+const int SPACE = 1;
+const int WALL = 2;
+const int VISITED = 3;
+const int START = 4;
+const int TARGET = 5;
+const int GRAY = 6;
+const int MEDICAL = 7;
+const int AMMO = 8;
+const int UP = 1;
+const int DOWN = 2;
+const int LEFT = 3;
+const int RIGHT = 4;
+
+const int RED = 11;
+const int GREEN = 12;
+const int BLUE = 13;
+const int YELLO = 14;
+const int ORANGE = 15;
+const int GREY = 16;
+const int PINK = 17;
+const int PURPLE = 18;
+const int BLACK = 19;
+const int BROWN = 20;
 
 static const int MSIZE = ConstValue::MSIZE;
 const double SQSIZE = 2.0 / MSIZE;
@@ -28,7 +53,6 @@ bool bfs_started = false;
 Room all_rooms[NUM_ROOMS];
 Storage medicalStorage[ConstValue::NUM_OF_MEDICAL_STORAGE];
 Storage ammoStorage[ConstValue::NUM_OF_AMMO_STORAGE];
-Warrior warriors[ConstValue::NUM_OF_WARRIORS];
 
 // gray queue
 vector <Point2D> gray;
@@ -39,9 +63,95 @@ priority_queue<Node, vector<Node>, CompareNodes> pq;
 
 Point2D start,target;
 
-
-void drawWarrior(const Warrior &w);
 void SetupMaze();
+
+void saveMazeToFile()
+{
+	ofstream myfile;
+	myfile.open("maze.txt");
+	myfile << MSIZE << " ";
+	myfile << MSIZE << " ";
+
+	for (int i = 0; i < MSIZE; i++)
+	{
+		for( int j = 0; j < MSIZE; j++)
+			myfile << maze[i][j] << " ";
+	}
+	//myfile << maze[i][j] << " ";
+	myfile.close();
+
+
+	ofstream f;
+	f.open("rooms.txt");
+	f << 10 << " ";
+
+	for (int i = 0; i < 10; i++)
+	{
+			f << all_rooms[i].GetCenter().GetX() << " " 
+				<< all_rooms[i].GetCenter().GetY() << " " 
+				<< all_rooms[i].GetHeight() << " "
+				<< all_rooms[i].GetWidth() << " " ;
+	}
+	//myfile << maze[i][j] << " ";
+	f.close();
+}
+
+void readMazeFromFile()
+{
+	// maze
+	ifstream myfile;
+	myfile.open("maze.txt");
+	int col;
+	int row;
+	myfile >> col;
+	myfile >> row;
+
+	for (int i = 0; i < MSIZE; i++)
+	{
+		for (int j = 0; j < MSIZE; j++)
+		{
+			myfile >> maze[i][j];	
+			//myfile >> tmp;
+		}
+	}
+	myfile.close();
+
+	// rooms
+	myfile.open("rooms.txt");
+	int size, x, y, h, w;
+
+	myfile >> size;
+
+	for (int i = 0; i < NUM_ROOMS; i++)
+	{
+		myfile >> x;
+		myfile >> y;
+		myfile >> h;
+		myfile >> w;
+		all_rooms[i] = *new Room(*new Point2D(x, y), w, h);
+	}
+	myfile.close();
+
+	// doors
+	myfile.open("doors.txt");
+	int from, to, x1, y1, x2, y2;
+
+	myfile >> size;
+
+
+	for (int i = 0; i < size; i++)
+	{
+		myfile >> from;
+		myfile >> x1;
+		myfile >> y1;
+		myfile >> to;
+		myfile >> x2;
+		myfile >> y2;
+		Door* door = new Door(all_rooms[from - 1], all_rooms[to - 1]);
+		all_rooms[from - 1].addDoor(*door);
+	}
+	myfile.close();
+}
 
 void init()
 {
@@ -53,9 +163,19 @@ void init()
 	// clean up the maze
 	for (i = 0; i < MSIZE; i++)
 		for (j = 0; j < MSIZE; j++)
-			maze[i][j] = ConstValue::WALL;
+			maze[i][j] = WALL;
+
 	//registerLisener(new Warrior)
-	SetupMaze();
+	//SetupMaze();
+	//saveMazeToFile();
+	readMazeFromFile();
+
+	int h= 11;
+	for (int i = 0; i < 10; i++)
+	{
+		maze[all_rooms[i].GetCenter().GetY()][all_rooms[i].GetCenter().GetX()] = h;
+		h++;
+	}
 
 	glClearColor(0.7, 0.7, 0.7, 0);
 
@@ -73,28 +193,28 @@ void AddNewNode(Node current, int direction)
 
 	switch (direction)
 	{
-	case ConstValue::UP:
+	case UP:
 		dx = 0;
 		dy = -1;
 		break;
-	case ConstValue::DOWN:
+	case DOWN:
 		dx = 0;
 		dy = 1;
 		break;
-	case ConstValue::LEFT:
+	case LEFT:
 		dx = -1;
 		dy = 0;
 		break;
-	case ConstValue::RIGHT:
+	case RIGHT:
 		dx = 1;
 		dy = 0;
 		break;
-	}// switch
+	} // switch
 
-	if (direction== ConstValue::UP && current.GetPoint().GetY() > 0 ||
-		direction == ConstValue::DOWN && current.GetPoint().GetY() < MSIZE-1 ||
-		direction == ConstValue::LEFT && current.GetPoint().GetX() > 0 ||
-		direction == ConstValue::RIGHT && current.GetPoint().GetX() < MSIZE - 1)
+	if (direction == UP && current.GetPoint().GetY() > 0 ||
+		direction == DOWN && current.GetPoint().GetY() < MSIZE-1 ||
+		direction == LEFT && current.GetPoint().GetX() > 0 ||
+		direction == RIGHT && current.GetPoint().GetX() < MSIZE - 1)
 	{
 		pt = new Point2D(current.GetPoint().GetX()+dx, current.GetPoint().GetY() +dy);
 		gray_it = find(gray.begin(), gray.end(), *pt);
@@ -102,7 +222,7 @@ void AddNewNode(Node current, int direction)
 		if (gray_it == gray.end() && black_it == black.end()) // this is a new point
 		{
 			// very important to tunnels
-			if (maze[current.GetPoint().GetY() +dy][current.GetPoint().GetX()+dx] == ConstValue::WALL)
+			if (maze[current.GetPoint().GetY() +dy][current.GetPoint().GetX()+dx] == WALL)
 				weight = wall_weight;
 			else weight = space_weight;
 			// weight depends on previous weight and wheater we had to dig
@@ -114,10 +234,9 @@ void AddNewNode(Node current, int direction)
 			parents.push_back(Parent(tmp->GetPoint(), current.GetPoint(), true));
 		}
 	}
-
 }
 
-void RunAStar4Tunnels()
+void RunAStar4Tunnels(int idx)
 {
 	Node current;
 	Node* tmp;
@@ -139,16 +258,40 @@ void RunAStar4Tunnels()
 			// go back to start and change WALL to SPACE
 			itr = find(parents.begin(), parents.end(),
 				Parent(current.GetPoint(), current.GetPoint(), true));
+			
+			bool enter = true;
+			Point2D tmp_prev = itr->GetPrev();
+			Point2D tmp_cur = itr->GetCurrent();
 			while (itr->HasParent())
 			{
-				Point2D tmp_prev = itr->GetPrev();
-				Point2D tmp_cur = itr->GetCurrent();
+				tmp_prev = itr->GetPrev();
+				tmp_cur = itr->GetCurrent();
 				// set SPACE
-				if (maze[tmp_cur.GetY()][tmp_cur.GetX()] == ConstValue::WALL)
-					maze[tmp_cur.GetY()][tmp_cur.GetX()] = ConstValue::SPACE;
+				if (maze[tmp_cur.GetY()][tmp_cur.GetX()] == WALL)
+				{
+					maze[tmp_cur.GetY()][tmp_cur.GetX()] = SPACE;
+
+					if (enter)
+					{
+						// building a door
+						//all_rooms[idx].addDoor(new Point2D(tmp_cur.GetY(), tmp_cur.GetX());
+						cout << "--- " << "y: " << tmp_cur.GetY() << " x: " << tmp_cur.GetX() << endl;
+						maze[tmp_cur.GetY()][tmp_cur.GetX()] = AMMO;
+						enter = false;
+					}
+				}
+
+				else if (maze[tmp_cur.GetY()][tmp_cur.GetX()] != WALL && !enter)
+				{
+					enter = true;
+					cout << "--- " << "y: " << tmp_cur.GetY() << " x: " << tmp_cur.GetX() << endl;
+					maze[tmp_cur.GetY()][tmp_cur.GetX()] = AMMO;
+				}
+
 				itr = find(parents.begin(), parents.end(),
 					Parent(tmp_prev, current.GetPoint(), true));
 			}
+
 		}
 		else // check the neighbours
 		{
@@ -159,30 +302,32 @@ void RunAStar4Tunnels()
 			// and paint it black
 			black.push_back(current.GetPoint());
 			// try to go UP
-			AddNewNode(current, ConstValue::UP);
+			AddNewNode(current, UP);
 			// try to go DOWN
-			AddNewNode(current, ConstValue::DOWN);
+			AddNewNode(current, DOWN);
 			// try to go LEFT
-			AddNewNode(current, ConstValue::LEFT);
+			AddNewNode(current, LEFT);
 			// try to go RIGHT
-			AddNewNode(current, ConstValue::RIGHT);
+			AddNewNode(current, RIGHT);
 		}
-
 	} // while
 }
-
 
 void DigTunnels()
 {
 	int i, j;
 
-	for(i=0;i<NUM_ROOMS;i++)
+
+	for (i = 0; i < NUM_ROOMS; i++)
+	{
 		for (j = i + 1; j < NUM_ROOMS; j++)
 		{
+			cout << i << " " << all_rooms[i].GetCenter().GetX() << " "  << all_rooms[i].GetCenter().GetY()<< endl;
+
 			start = all_rooms[i].GetCenter();
 			target = all_rooms[j].GetCenter();
 
-			printf("Start: %d      Target: %d\n", i, j);
+			// printf("Start: %d      Target: %d\n", i, j);
 
 			Node* tmp = new Node(start, target, 0);
 			while (!pq.empty())
@@ -195,9 +340,10 @@ void DigTunnels()
 			parents.clear();
 			parents.push_back(Parent(tmp->GetPoint(),
 				tmp->GetPoint(), false));
-			RunAStar4Tunnels();
+			RunAStar4Tunnels(i);
 			delete tmp;
 		}
+	}
 }
 
 
@@ -208,11 +354,11 @@ void drawStorage(Storage s)
 	int y = s.getCenter().GetY();
 	int i, j;
 	if(s.getIsAmmo())
-		for (i = x - 1; i <= x + 1; i++)
+		for (i = x - 1; i <= x + 1 ; i++)
 		{
-			for (j = y - 1; j <= y + 1 + 1; j++)
+			for (j = y - 1 ; j <= y + 1 ; j++)
 			{
-				maze[j][i] = ConstValue::AMMO;
+				maze[j][i] = AMMO;
 			}
 		}
 	else
@@ -220,16 +366,9 @@ void drawStorage(Storage s)
 		{
 			for (j = y - 1; j <= y + 1 + 1; j++)
 			{
-				maze[j][i] = ConstValue::MEDICAL;
+				maze[j][i] = MEDICAL;
 			}
 		}
-}
-
-/*Marking the position of the warrior in the maze.*/
-void drawWarrior(const Warrior &warrior)
-{
-	Point2D location = warrior.getLocation();
-	maze[location.GetY()][location.GetX()] = ConstValue::WARRIOR;
 }
 
 void SetupMaze()
@@ -238,6 +377,7 @@ void SetupMaze()
 	int left, right, top, bottom;
 	bool isValidRoom;
 	Room* pr=NULL;
+
 	for (counter = 0; counter < NUM_ROOMS; counter++)
 	{
 		// create room
@@ -268,31 +408,25 @@ void SetupMaze()
 		all_rooms[counter] = *pr;
 		for (i = top; i <= bottom; i++)
 			for (j = left; j <= right; j++)
-				maze[i][j] = ConstValue::SPACE;
-
+				maze[i][j] = SPACE;
 	}
 
 	//Create ammo storgae
 	for (i = 0; i < ConstValue::NUM_OF_AMMO_STORAGE; i++)
 	{
-		int roomIndex = rand() % NUM_ROOMS;
-		Storage s = Storage(all_rooms[roomIndex], TRUE);
-		ammoStorage[i] = s;
-		drawStorage(s);
+		int roomIndex = i;
+		Storage *s = new Storage(all_rooms[roomIndex], TRUE);
+		ammoStorage[i] = *s;
+		drawStorage(*s);
 	}
+
 	//Create medical storgae
 	for (i = 0; i < ConstValue::NUM_OF_MEDICAL_STORAGE; i++)
 	{
-		int roomIndex = rand() % NUM_ROOMS;
-		Storage s = Storage(all_rooms[roomIndex], FALSE);
-		medicalStorage[i] = s;
-		drawStorage(s);
-	}
-	//crate warriors.
-	for (i = 0; i < ConstValue::NUM_OF_WARRIORS; i++)
-	{
-		warriors[i] = Warrior(maze, all_rooms[rand() % ConstValue::NUM_ROOMS]);
-		drawWarrior(warriors[i]);
+		int roomIndex = NUM_ROOMS - i - 1;
+		Storage *s = new Storage(all_rooms[roomIndex], FALSE);
+		medicalStorage[i] = *s;
+		drawStorage(*s);
 	}
 	DigTunnels();
 }
@@ -306,34 +440,61 @@ void DrawMaze()
 		{
 			switch (maze[i][j])
 			{
-			case ConstValue::WALL:
+			case WALL:
 				glColor3d(0.4, 0, 0); // dark red;
 				break;
-			case ConstValue::SPACE:
+			case SPACE:
 				glColor3d(1, 1, 1); // white;
 				break;
-			case ConstValue::VISITED:
+			case VISITED:
 				glColor3d(0, 0.9, 0); // green;
 				break;
-			case ConstValue::START:
+			case START:
 				glColor3d(0, 0, 1); // blue;
 				break;
-			case ConstValue::TARGET:
+			case TARGET:
 				glColor3d(1,0,0 ); // RED;
 				break;
-			case ConstValue::GRAY:
+			case GRAY:
 				glColor3d(1, .8, 0); // ORANGE;
 				break;
-			case ConstValue::MEDICAL:
-				glColor3d(0,0,1);//(162 / 255, 147/255, 147 / 2550); // GRAY;
+			case MEDICAL:
+				glColor3d(0,0,1); //blue
 				break;
-			case ConstValue::AMMO:
-				glColor3d(1,0,0);//(92 / 255, 26 / 255, 26 / 255); // BROWN;
-				break;
-			case ConstValue::WARRIOR:
-				glColor3d(0, 0, 0);//BLACK;
+			case AMMO:
+				glColor3d(1,0,0); //red
 				break;
 
+			case RED:
+				glColor3d(1, 0, 0); //red
+				break;
+			case GREEN:
+				glColor3d(0, 0.9, 0); // green;
+				break;
+			case BLUE:
+				glColor3d(0, 0, 1); // blue;
+				break;
+			case YELLO:
+				glColor3d(1, 1, 0); //YELLOW
+				break;
+			case ORANGE:
+				glColor3d(1, 0.8, 0); // ORANGE;
+				break;
+			case GREY:
+				glColor3d(0.5, 0.5, 0.5); //grey
+				break;
+			case PINK:
+				glColor3d(1, 0.7, 1); //pink
+				break;
+			case PURPLE:
+				glColor3d(0.7, 0, 0.7); //purple
+				break;
+			case BLACK:
+				glColor3d(0, 0, 0); // BLACK
+				break;
+			case BROWN:
+				glColor3d(0.4, 0, 0); // dark red;
+				break;
 			}
 			// draw square
 			glBegin(GL_POLYGON);
@@ -343,10 +504,7 @@ void DrawMaze()
 				glVertex2d(j*SQSIZE - 1 - SQSIZE / 2, i*SQSIZE - 1 - SQSIZE / 2);
 			glEnd();
 		}
-
 }
-
-
 
 void display()
 {
@@ -372,7 +530,7 @@ void main(int argc, char* argv[])
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
 	glutInitWindowSize(W, H);
 	glutInitWindowPosition(200, 100);
-	glutCreateWindow("Digits Example ");
+	glutCreateWindow("");
 
 	glutDisplayFunc(display); // refresh function
 	glutIdleFunc(idle); // idle: when nothing happens

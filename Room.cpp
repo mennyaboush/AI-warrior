@@ -1,6 +1,5 @@
 #include "Room.h"
-
-
+#include "Door.h"
 
 Room::Room()
 {
@@ -38,22 +37,11 @@ int Room::GetHeight() const
 }
 
 
-bool Room::IsOverlap(const Room& other) const
+bool Room::IsOverlap(const Room& other)
 {
 	return abs(center.GetX()-other.GetCenter().GetX())
 		< (width+other.width)/2+5 && abs(center.GetY() - 
 			other.GetCenter().GetY()) < (height+other.height)/2+5  ;
-}
-
-bool Room::locatedInTheRoom(const Point2D & p) const
-{
-	return (p.GetX() <= getRight() && p.GetX() >= getLeft()
-		&& p.GetY() <= getBottom() && p.GetY() >= GetHeight());
-}
-
-void Room::addDoor(Door door)
-{
-	doors.push_back(door)
 }
 
 int Room::getLeft() const
@@ -88,4 +76,14 @@ int Room::getBottom() const
 	if (bottom >= ConstValue::MSIZE) return bottom = ConstValue::MSIZE - 1;
 	else
 		return bottom;
+}
+
+vector<Door*> Room::getDoors() const
+{
+	return doors;
+}
+
+void Room::addDoor(Door& door)
+{
+	doors.push_back(&door);
 }

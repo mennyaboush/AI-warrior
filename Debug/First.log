@@ -1,16 +1,17 @@
-﻿  Warrior.cpp
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(104): error C3867: 'Warrior::getLocation': non-standard syntax; use '&' to create a pointer to member
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(148): error C2065: 'gray_it': undeclared identifier
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(148): error C2065: 'gray': undeclared identifier
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(148): error C2672: 'find': no matching overloaded function found
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(148): error C2780: '_InIt std::find(_InIt,const _InIt,const _Ty &)': expects 3 arguments - 2 provided
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\xutility(3538): note: see declaration of 'std::find'
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(149): error C2065: 'gray_it': undeclared identifier
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(149): error C2065: 'gray': undeclared identifier
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(150): error C2065: 'gray': undeclared identifier
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(150): error C2065: 'gray_it': undeclared identifier
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(152): error C2065: 'black': undeclared identifier
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(154): error C3861: 'AddNewNode': identifier not found
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(156): error C3861: 'AddNewNode': identifier not found
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(158): error C3861: 'AddNewNode': identifier not found
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(160): error C3861: 'AddNewNode': identifier not found
+﻿  Action.cpp
+  CompareActions.cpp
+  Door.cpp
+  main.cpp
+c:\users\sonya\desktop\final\first\first\main.cpp(180): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+c:\users\sonya\desktop\final\first\first\main.cpp(159): warning C4101: 'pt': unreferenced local variable
+c:\users\sonya\desktop\final\first\first\main.cpp(242): warning C4101: 'tmp': unreferenced local variable
+c:\users\sonya\desktop\final\first\first\main.cpp(247): warning C4101: 'weight': unreferenced local variable
+c:\users\sonya\desktop\final\first\first\main.cpp(243): warning C4101: 'pt': unreferenced local variable
+  Room.cpp
+  Storage.cpp
+c:\users\sonya\desktop\final\first\first\storage.cpp(7): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Warrior.cpp
+c:\users\sonya\desktop\final\first\first\warrior.cpp(7): warning C4101: 'j': unreferenced local variable
+c:\users\sonya\desktop\final\first\first\warrior.cpp(7): warning C4101: 'i': unreferenced local variable
+  Generating Code...
+  First.vcxproj -> C:\Users\Sonya\Desktop\final\First\Debug\First.exe
