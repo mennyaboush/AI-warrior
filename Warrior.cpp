@@ -61,7 +61,7 @@ void Warrior::shoot(Warrior &other)
 			other.injured(damage);
 		}
 		else
-			getClose(other.getCurrentRoom().GetCenter());
+			localAStar(other.getCurrentRoom().GetCenter());
 	}
 }
 
@@ -69,7 +69,7 @@ void Warrior::shoot(Warrior &other)
 this function assumed that the targetLocation in the same room,
 and the targetLoction != location.
 */
-void Warrior::getClose(Point2D targetLoction)
+void Warrior::localAStar(Point2D targetLoction)
 {
 	//deleate the warrior from the maze
 	*maze[location.GetY()][location.GetX()] = ConstValue::SPACE;
@@ -262,17 +262,23 @@ bool Warrior::lookForEnemyInRoom(Warrior & other)
 /*go to the next room to reach the destination room */
 void Warrior::exitTheRoom(Room &room)
 {
-	vector<Door*> doors = currentRoom.getDoors();
-	Door* targetDoor = nullptr;
-	for (int i = 0; i < doors.size(); i++)
+	//1. serch the door whith the destionation.
+	vector<Door*> doors = room.getDoors();
+	int numOfDoors = doors.size();
+	Door *doorDest;
+	for (int i = 0; i < numOfDoors; i++)
 	{
 		if (doors[i]->isDestinationDoor(room))
 		{
-			targetDoor = doors[i];
+			doorDest = doors[i];
 			break;
 		}
 	}
-	getClose(targetDoor->getDestination().GetCenter());
+
+	//2. go to the enter of door.
+	this->localAStar(doorDest.get)
+	//3. got to the exit of the door.
+	
 }
 /*Serch enemy in the maze
 look in the current room, then go to another room and check him.*/

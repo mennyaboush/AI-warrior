@@ -130,21 +130,27 @@ void readMazeFromFile()
 	myfile.close();
 
 	// doors
-	myfile.open("doors.txt");
+	myfile.open("doors2.txt");
 	int from, to, x1, y1, x2, y2;
-
+	int room_num;
 	myfile >> size;
 
-
+	//read doors: sorceRoom ,enter and exit location of the doors and vactor with all the destionations
 	for (int i = 0; i < size; i++)
 	{
 		myfile >> from;
 		myfile >> x1;
 		myfile >> y1;
-		myfile >> to;
 		myfile >> x2;
 		myfile >> y2;
-		Door* door = new Door(all_rooms[from - 1], all_rooms[to - 1]);
+		myfile >> room_num;	
+		Door* door = new Door(all_rooms[from - 1],*new Point2D(x1, y1), *new Point2D(x2, y2));
+
+		for (int j = 0; j < room_num; j++) {
+			int roomIndex;
+			myfile >> roomIndex;
+			door->addDestination(all_rooms[roomIndex]);
+		}
 		all_rooms[from - 1].addDoor(*door);
 	}
 	myfile.close();
@@ -508,7 +514,7 @@ void idle()
 		//reset path
 	}
 	// call astar
-	(warriors[0])->lookForEnemy(*warriors[1]);
+	//(warriors[0])->lookForEnemy(*warriors[1]);
 	//draw warriors
 
 	glutPostRedisplay();// calls indirectly to display

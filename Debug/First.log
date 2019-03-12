@@ -1,19 +1,2 @@
-﻿  Action.cpp
-  CompareActions.cpp
-  Door.cpp
-  Room.cpp
-  Storage.cpp
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\storage.cpp(7): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Warrior.cpp
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(56): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(114): warning C4101: 'tmp': unreferenced local variable
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(118): warning C4101: 'weight': unreferenced local variable
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(267): warning C4018: '<': signed/unsigned mismatch
-  main.cpp
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\main.cpp(186): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\main.cpp(156): warning C4101: 'pt': unreferenced local variable
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\main.cpp(248): warning C4101: 'tmp': unreferenced local variable
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\main.cpp(253): warning C4101: 'weight': unreferenced local variable
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\main.cpp(249): warning C4101: 'pt': unreferenced local variable
-  Generating Code...
+﻿  Door.cpp
   First.vcxproj -> C:\Users\מני\Desktop\סמסטר א\בינה מלאכותית\final project\Relevant code from lesson\Tunnels\First\Debug\First.exe
