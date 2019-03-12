@@ -29,7 +29,7 @@ private:
 	int		gunsAmmo = 50; // 50 bullets
 	int		grenadeAmmo = 2; // 2 grenades
 	int		safetyScore; // Depends on walls neer the warrior 
-	int		***maze;
+	int		*maze[ConstValue::MSIZE][ConstValue::MSIZE];
 
 	bool	life = true;
 	
@@ -43,7 +43,7 @@ private:
 	void lookForMedicalStorageInTheRoom();
 	void lookForAmmoStorageInTheRoom();
 	void refrashSafetyScore(); //scan the area and change the safetyScore.
-	void exitTheRoom(Warrior &other); //Implaments in A*.
+	void exitTheRoom(Room &room); //Implaments in A*.
 	void shoot(Warrior &other);
 	void getClose(Point2D targetLoction);
 	void injured(int hitPoint);
@@ -53,7 +53,7 @@ private:
 	void AddNode(Node current, int direction);
 	
 public:
-	Warrior(int ***maze, Room room);
+	Warrior(int maze[ConstValue::MSIZE][ConstValue::MSIZE], Room &room);
 	~Warrior();
 
 	void moveWarrior(Warrior& other);

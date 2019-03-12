@@ -93,3 +93,17 @@ bool Room::locatedInTheRoom(const Point2D & p) const
 	return (p.GetX() <= getRight() && p.GetX() >= getLeft()
 		&& p.GetY() <= getBottom() && p.GetY() >= GetHeight());
 }
+
+/*chack all the doors and the rooms.*/
+bool Room::isDestionationRoom(const Room & destionation) const
+{
+	int numOfDoors = doors.size();
+	for (int i = 0; i < numOfDoors; i++)
+	{
+		if (doors[i]->isDestinationDoor(destionation))
+		{
+			return true;
+		}
+	}
+	return false;
+}

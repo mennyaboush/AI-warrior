@@ -2,8 +2,14 @@
 #include "Action.h"
 #include "Door.h"
 
-Warrior::Warrior(int ***maze, Room room): maze(maze), currentRoom(room)
+Warrior::Warrior(int maze[ConstValue::MSIZE][ConstValue::MSIZE], Room &room):  currentRoom(room)
 {
+	//init maze
+	for (int i = 0; i < ConstValue::MSIZE; i++) 
+	{
+		for(int j = 0 ; j < ConstValue::MSIZE; j++)
+			(this->maze[i][j]) = &maze[i][j];
+	}
 	// temp
 	actionQueue.push(new Action(*this, Action::FIGHT, 10));
 	actionQueue.push(new Action(*this, Action::FIND_AMMO, 0));
@@ -65,6 +71,10 @@ and the targetLoction != location.
 */
 void Warrior::getClose(Point2D targetLoction)
 {
+	//deleate the warrior from the maze
+	*maze[location.GetY()][location.GetX()] = ConstValue::SPACE;
+	
+	//change the location of warrior.
 	if (targetLoction.GetX() > location.GetX())
 		location.setX(location.GetX() + 1);
 	else if (targetLoction.GetX() < location.GetX())
@@ -73,6 +83,9 @@ void Warrior::getClose(Point2D targetLoction)
 		location.setY(location.GetY() + 1);
 	else
 		location.setY(location.GetY() - 1);
+	
+	//draw the warrior on the maze
+	*maze[location.GetY()][location.GetX()] = ConstValue::WARRIOR;
 }
 
 /* Decrease the life point until dead. */
@@ -246,15 +259,20 @@ bool Warrior::lookForEnemyInRoom(Warrior & other)
 	return false;
 }
 
-void Warrior::exitTheRoom(Warrior &other)
+/*go to the next room to reach the destination room */
+void Warrior::exitTheRoom(Room &room)
 {
 	vector<Door*> doors = currentRoom.getDoors();
-
+	Door* targetDoor = nullptr;
 	for (int i = 0; i < doors.size(); i++)
 	{
-		
+		if (doors[i]->isDestinationDoor(room))
+		{
+			targetDoor = doors[i];
+			break;
+		}
 	}
-	
+	getClose(targetDoor->getDestination().GetCenter());
 }
 /*Serch enemy in the maze
 look in the current room, then go to another room and check him.*/
@@ -262,7 +280,7 @@ void Warrior::lookForEnemy(Warrior &other)
 {
 	//1. look for enemy in the current room.
 	if (!lookForEnemyInRoom(other))
-		exitTheRoom(other);
+		exitTheRoom(other.getCurrentRoom());
 	//2. calculat the next room the warrior will check.
 
 	//3. go to next room  safely as possible.

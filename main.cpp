@@ -179,7 +179,7 @@ void init()
 	{
 		Room& r = all_rooms[rand() % ConstValue::NUM_ROOMS];
 		maze[r.GetCenter().GetY()][r.GetCenter().GetX()] = ConstValue::WARRIOR;
-		Warrior *w = new Warrior((int***)&maze, r);
+		Warrior *w = new Warrior(maze, r);
 		warriors[i] = w;
 		drawWarrior(*warriors[i]);
 	}
@@ -481,36 +481,6 @@ void DrawMaze()
 				glColor3d(0, 0, 0); // BLACK
 				break;
 
-			//case RED:
-			//	glColor3d(1, 0, 0); //red
-			//	break;
-			//case GREEN:
-			//	glColor3d(0, 0.9, 0); // green;
-			//	break;
-			//case BLUE:
-			//	glColor3d(0, 0, 1); // blue;
-			//	break;
-			//case YELLO:
-			//	glColor3d(1, 1, 0); //YELLOW
-			//	break;
-			//case ORANGE:
-			//	glColor3d(1, 0.8, 0); // ORANGE;
-			//	break;
-			//case GREY:
-			//	glColor3d(0.5, 0.5, 0.5); //grey
-			//	break;
-			//case PINK:
-			//	glColor3d(1, 0.7, 1); //pink
-			//	break;
-			//case PURPLE:
-			//	glColor3d(0.7, 0, 0.7); //purple
-			//	break;
-			//case BLACK:
-			//	glColor3d(0, 0, 0); // BLACK
-			//	break;
-			//case BROWN:
-			//	glColor3d(0.4, 0, 0); // dark red;
-			//	break;
 			}
 			// draw square
 			glBegin(GL_POLYGON);
@@ -538,7 +508,8 @@ void idle()
 		//reset path
 	}
 	// call astar
-	(warriors[0])->moveWarrior(*warriors[1]);
+	(warriors[0])->lookForEnemy(*warriors[1]);
+	//draw warriors
 
 	glutPostRedisplay();// calls indirectly to display
 }

@@ -3,8 +3,10 @@
 #include "ConstValue.h"
 #include <math.h>
 #include <vector>
+#include <set>
 
 class Door;
+
 using namespace std;
 
 class Room
@@ -25,6 +27,7 @@ public:
 	int GetHeight() const;
 	bool IsOverlap(const Room& other);
 	bool locatedInTheRoom(const Point2D &p) const;
+	bool isDestionationRoom(const Room &destionation) const;
 
 	//get the coordinate boundary of the room.
 	int getLeft() const;
