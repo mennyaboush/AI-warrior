@@ -14,21 +14,17 @@
 #include "ConstValue.h"
 #include "Storage.h" 
 #include "Door.h" 
+#include "Warrior.h" 
 
 using namespace std;
+
+//temp
+int counter = 0;
 
 const int W = 600; // window width
 const int H = 600; // window height
 const int NUM_ROOMS = 10;
 
-const int SPACE = 1;
-const int WALL = 2;
-const int VISITED = 3;
-const int START = 4;
-const int TARGET = 5;
-const int GRAY = 6;
-const int MEDICAL = 7;
-const int AMMO = 8;
 const int UP = 1;
 const int DOWN = 2;
 const int LEFT = 3;
@@ -53,17 +49,18 @@ bool bfs_started = false;
 Room all_rooms[NUM_ROOMS];
 Storage medicalStorage[ConstValue::NUM_OF_MEDICAL_STORAGE];
 Storage ammoStorage[ConstValue::NUM_OF_AMMO_STORAGE];
+Warrior *warriors[ConstValue::NUM_OF_WARRIORS];
 
 // gray queue
 vector <Point2D> gray;
 vector <Point2D> black;
 vector <Parent> parents;
 
-priority_queue<Node, vector<Node>, CompareNodes> pq;
+priority_queue<Node*, vector<Node*>, CompareNodes> pq;
 
 Point2D start,target;
 
-void SetupMaze();
+void drawWarrior(const Warrior &warrior);
 
 void saveMazeToFile()
 {
@@ -163,20 +160,29 @@ void init()
 	// clean up the maze
 	for (i = 0; i < MSIZE; i++)
 		for (j = 0; j < MSIZE; j++)
-			maze[i][j] = WALL;
+			maze[i][j] = ConstValue::WALL;
 
 	//registerLisener(new Warrior)
 	//SetupMaze();
 	//saveMazeToFile();
 	readMazeFromFile();
 
-	int h= 11;
+	/*int h= 11;
 	for (int i = 0; i < 10; i++)
 	{
 		maze[all_rooms[i].GetCenter().GetY()][all_rooms[i].GetCenter().GetX()] = h;
 		h++;
-	}
+	}*/
 
+	//crate warriors.
+	for (i = 0; i < ConstValue::NUM_OF_WARRIORS; i++)
+	{
+		Room& r = all_rooms[rand() % ConstValue::NUM_ROOMS];
+		maze[r.GetCenter().GetY()][r.GetCenter().GetX()] = ConstValue::WARRIOR;
+		Warrior *w = new Warrior((int***)&maze, r);
+		warriors[i] = w;
+		drawWarrior(*warriors[i]);
+	}
 	glClearColor(0.7, 0.7, 0.7, 0);
 
 	glOrtho(-1, 1, -1, 1, -1, 1);
@@ -222,13 +228,13 @@ void AddNewNode(Node current, int direction)
 		if (gray_it == gray.end() && black_it == black.end()) // this is a new point
 		{
 			// very important to tunnels
-			if (maze[current.GetPoint().GetY() +dy][current.GetPoint().GetX()+dx] == WALL)
+			if (maze[current.GetPoint().GetY() +dy][current.GetPoint().GetX()+dx] == ConstValue::WALL)
 				weight = wall_weight;
 			else weight = space_weight;
 			// weight depends on previous weight and wheater we had to dig
 			// to this point or not
 			tmp = new Node(*pt, target, current.GetG() + weight);
-			pq.emplace(*tmp); // insert first node to priority queue
+			pq.emplace(tmp); // insert first node to priority queue
 			gray.push_back(*pt); // paint it gray
 			// add Parent
 			parents.push_back(Parent(tmp->GetPoint(), current.GetPoint(), true));
@@ -248,7 +254,7 @@ void RunAStar4Tunnels(int idx)
 
 	while (!pq.empty() && !finished)
 	{
-		current = pq.top();
+		current = *pq.top();
 		pq.pop(); // remove it from pq
 
 		if (current.GetH() == 0) // the solution has been found
@@ -267,25 +273,25 @@ void RunAStar4Tunnels(int idx)
 				tmp_prev = itr->GetPrev();
 				tmp_cur = itr->GetCurrent();
 				// set SPACE
-				if (maze[tmp_cur.GetY()][tmp_cur.GetX()] == WALL)
+				if (maze[tmp_cur.GetY()][tmp_cur.GetX()] == ConstValue::WALL)
 				{
-					maze[tmp_cur.GetY()][tmp_cur.GetX()] = SPACE;
+					maze[tmp_cur.GetY()][tmp_cur.GetX()] = ConstValue::SPACE;
 
 					if (enter)
 					{
 						// building a door
 						//all_rooms[idx].addDoor(new Point2D(tmp_cur.GetY(), tmp_cur.GetX());
 						cout << "--- " << "y: " << tmp_cur.GetY() << " x: " << tmp_cur.GetX() << endl;
-						maze[tmp_cur.GetY()][tmp_cur.GetX()] = AMMO;
+						maze[tmp_cur.GetY()][tmp_cur.GetX()] = ConstValue::AMMO;
 						enter = false;
 					}
 				}
 
-				else if (maze[tmp_cur.GetY()][tmp_cur.GetX()] != WALL && !enter)
+				else if (maze[tmp_cur.GetY()][tmp_cur.GetX()] != ConstValue::WALL && !enter)
 				{
 					enter = true;
 					cout << "--- " << "y: " << tmp_cur.GetY() << " x: " << tmp_cur.GetX() << endl;
-					maze[tmp_cur.GetY()][tmp_cur.GetX()] = AMMO;
+					maze[tmp_cur.GetY()][tmp_cur.GetX()] = ConstValue::AMMO;
 				}
 
 				itr = find(parents.begin(), parents.end(),
@@ -333,7 +339,7 @@ void DigTunnels()
 			while (!pq.empty())
 				pq.pop();
 
-			pq.emplace(*tmp); // insert first node to priority queue
+			pq.emplace(tmp); // insert first node to priority queue
 			gray.clear();
 			gray.push_back(start); // paint it gray
 			black.clear();
@@ -346,7 +352,6 @@ void DigTunnels()
 	}
 }
 
-
 /*Mark the point on the maze in the current value MEDICAL or AMMO*/
 void drawStorage(Storage s)
 {
@@ -358,7 +363,7 @@ void drawStorage(Storage s)
 		{
 			for (j = y - 1 ; j <= y + 1 ; j++)
 			{
-				maze[j][i] = AMMO;
+				maze[j][i] = ConstValue::AMMO;
 			}
 		}
 	else
@@ -366,9 +371,16 @@ void drawStorage(Storage s)
 		{
 			for (j = y - 1; j <= y + 1 + 1; j++)
 			{
-				maze[j][i] = MEDICAL;
+				maze[j][i] = ConstValue::MEDICAL;
 			}
 		}
+}
+
+/*Marking the position of the warrior in the maze.*/
+void drawWarrior(const Warrior &warrior)
+{
+	Point2D location = warrior.getLocation();
+	maze[location.GetY()][location.GetX()] = ConstValue::WARRIOR;
 }
 
 void SetupMaze()
@@ -408,7 +420,7 @@ void SetupMaze()
 		all_rooms[counter] = *pr;
 		for (i = top; i <= bottom; i++)
 			for (j = left; j <= right; j++)
-				maze[i][j] = SPACE;
+				maze[i][j] = ConstValue::SPACE;
 	}
 
 	//Create ammo storgae
@@ -428,6 +440,7 @@ void SetupMaze()
 		medicalStorage[i] = *s;
 		drawStorage(*s);
 	}
+
 	DigTunnels();
 }
 
@@ -440,61 +453,64 @@ void DrawMaze()
 		{
 			switch (maze[i][j])
 			{
-			case WALL:
+			case ConstValue::WALL:
 				glColor3d(0.4, 0, 0); // dark red;
 				break;
-			case SPACE:
+			case ConstValue::SPACE:
 				glColor3d(1, 1, 1); // white;
 				break;
-			case VISITED:
+			case ConstValue::VISITED:
 				glColor3d(0, 0.9, 0); // green;
 				break;
-			case START:
+			case ConstValue::START:
 				glColor3d(0, 0, 1); // blue;
 				break;
-			case TARGET:
+			case ConstValue::TARGET:
 				glColor3d(1,0,0 ); // RED;
 				break;
-			case GRAY:
+			case ConstValue::GRAY:
 				glColor3d(1, .8, 0); // ORANGE;
 				break;
-			case MEDICAL:
+			case ConstValue::MEDICAL:
 				glColor3d(0,0,1); //blue
 				break;
-			case AMMO:
+			case ConstValue::AMMO:
 				glColor3d(1,0,0); //red
 				break;
-
-			case RED:
-				glColor3d(1, 0, 0); //red
-				break;
-			case GREEN:
-				glColor3d(0, 0.9, 0); // green;
-				break;
-			case BLUE:
-				glColor3d(0, 0, 1); // blue;
-				break;
-			case YELLO:
-				glColor3d(1, 1, 0); //YELLOW
-				break;
-			case ORANGE:
-				glColor3d(1, 0.8, 0); // ORANGE;
-				break;
-			case GREY:
-				glColor3d(0.5, 0.5, 0.5); //grey
-				break;
-			case PINK:
-				glColor3d(1, 0.7, 1); //pink
-				break;
-			case PURPLE:
-				glColor3d(0.7, 0, 0.7); //purple
-				break;
-			case BLACK:
+			case ConstValue::WARRIOR:
 				glColor3d(0, 0, 0); // BLACK
 				break;
-			case BROWN:
-				glColor3d(0.4, 0, 0); // dark red;
-				break;
+
+			//case RED:
+			//	glColor3d(1, 0, 0); //red
+			//	break;
+			//case GREEN:
+			//	glColor3d(0, 0.9, 0); // green;
+			//	break;
+			//case BLUE:
+			//	glColor3d(0, 0, 1); // blue;
+			//	break;
+			//case YELLO:
+			//	glColor3d(1, 1, 0); //YELLOW
+			//	break;
+			//case ORANGE:
+			//	glColor3d(1, 0.8, 0); // ORANGE;
+			//	break;
+			//case GREY:
+			//	glColor3d(0.5, 0.5, 0.5); //grey
+			//	break;
+			//case PINK:
+			//	glColor3d(1, 0.7, 1); //pink
+			//	break;
+			//case PURPLE:
+			//	glColor3d(0.7, 0, 0.7); //purple
+			//	break;
+			//case BLACK:
+			//	glColor3d(0, 0, 0); // BLACK
+			//	break;
+			//case BROWN:
+			//	glColor3d(0.4, 0, 0); // dark red;
+			//	break;
 			}
 			// draw square
 			glBegin(GL_POLYGON);
@@ -517,6 +533,13 @@ void display()
 
 void idle()
 {
+	if (counter % 20 == 20)
+	{
+		//reset path
+	}
+	// call astar
+	(warriors[0])->moveWarrior(*warriors[1]);
+
 	glutPostRedisplay();// calls indirectly to display
 }
 

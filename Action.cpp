@@ -25,10 +25,10 @@ Action::eType Action::getType() const
 	return type;
 }
 
-Action &Action::operator=(const Action & other)
-{
-	this -> warrior = other.warrior;
-	this->type = other.type;
-	this->score = other.score;
-	return *this;
-}
+//Action &Action::operator=(const Action & other)
+//{
+//	this -> warrior = other.warrior;
+//	this->type = other.type;
+//	this->score = other.score;
+//	return *this;
+//}

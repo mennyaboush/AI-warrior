@@ -5,9 +5,12 @@
 #include "Node.h"
 #include <queue>
 #include <vector>
+#include <stack>
 #include <iostream>
 #include "CompareNodes.h"
 #include "CompareActions.h"
+#include "ConstValue.h"
+#include "Parent.h"
 
 class Action;
 using namespace std;
@@ -28,29 +31,44 @@ private:
 	int		safetyScore; // Depends on walls neer the warrior 
 	int		***maze;
 
+	bool	life = true;
+	
+	Room	&currentRoom;
 	Point2D	location;
 	
-	priority_queue<Action, vector<Action>, CompareActions> actionQueue;
+	stack<Point2D> walkingPath;
+	priority_queue<Action*, vector<Action*>, CompareActions> actionQueue;
 
 	//functions
 	void lookForMedicalStorageInTheRoom();
 	void lookForAmmoStorageInTheRoom();
 	void refrashSafetyScore(); //scan the area and change the safetyScore.
-	void exitTheRoom(); //Implaments in A*.
+	void exitTheRoom(Warrior &other); //Implaments in A*.
+	void shoot(Warrior &other);
+	void getClose(Point2D targetLoction);
+	void injured(int hitPoint);
+	void throGrenade();
+	double getDistance(const Warrior &other) const;
+	bool lookForEnemyInRoom(Warrior &other);
+	void AddNode(Node current, int direction);
+	
 public:
 	Warrior(int ***maze, Room room);
 	~Warrior();
-	//void lookForMedicalStorage();
-	//void lookForAmmoStorage();
-	//void runAway();// maybe it can use in lookForMedical?
-	//
-	void lookForTarget(Point2D target);
-	void moveWarrior();
-	
 
-	//getters
+	void moveWarrior(Warrior& other);
+	
+	void lookForEnemy(Warrior &other);
+
+	//getters & setters
 	int getlifePoints() { return lifePoint; }
 	int	getGunsAmmo() { return gunsAmmo; }
 	int	getGrenadeAmmo() { return grenadeAmmo; }
+	Room& getCurrentRoom() { return currentRoom; }
+	Point2D getLocation() const { return this->location; }
+	void setX(int x) { this->location.setX(x); }
+	void setY(int y) { this->location.setY(y); }
+	bool isALife() const { return life; }
+
 };
 

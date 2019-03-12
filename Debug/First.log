@@ -1,17 +1,17 @@
 ﻿  Action.cpp
   CompareActions.cpp
   Door.cpp
-  main.cpp
-c:\users\sonya\desktop\final\first\first\main.cpp(180): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
-c:\users\sonya\desktop\final\first\first\main.cpp(159): warning C4101: 'pt': unreferenced local variable
-c:\users\sonya\desktop\final\first\first\main.cpp(242): warning C4101: 'tmp': unreferenced local variable
-c:\users\sonya\desktop\final\first\first\main.cpp(247): warning C4101: 'weight': unreferenced local variable
-c:\users\sonya\desktop\final\first\first\main.cpp(243): warning C4101: 'pt': unreferenced local variable
   Room.cpp
-  Storage.cpp
-c:\users\sonya\desktop\final\first\first\storage.cpp(7): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   Warrior.cpp
-c:\users\sonya\desktop\final\first\first\warrior.cpp(7): warning C4101: 'j': unreferenced local variable
-c:\users\sonya\desktop\final\first\first\warrior.cpp(7): warning C4101: 'i': unreferenced local variable
+c:\users\sonya\desktop\final\first\first\warrior.cpp(50): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\sonya\desktop\final\first\first\warrior.cpp(101): warning C4101: 'tmp': unreferenced local variable
+c:\users\sonya\desktop\final\first\first\warrior.cpp(105): warning C4101: 'weight': unreferenced local variable
+c:\users\sonya\desktop\final\first\first\warrior.cpp(253): warning C4018: '<': signed/unsigned mismatch
+  main.cpp
+c:\users\sonya\desktop\final\first\first\main.cpp(186): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+c:\users\sonya\desktop\final\first\first\main.cpp(156): warning C4101: 'pt': unreferenced local variable
+c:\users\sonya\desktop\final\first\first\main.cpp(248): warning C4101: 'tmp': unreferenced local variable
+c:\users\sonya\desktop\final\first\first\main.cpp(253): warning C4101: 'weight': unreferenced local variable
+c:\users\sonya\desktop\final\first\first\main.cpp(249): warning C4101: 'pt': unreferenced local variable
   Generating Code...
   First.vcxproj -> C:\Users\Sonya\Desktop\final\First\Debug\First.exe

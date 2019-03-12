@@ -87,3 +87,9 @@ void Room::addDoor(Door& door)
 {
 	doors.push_back(&door);
 }
+
+bool Room::locatedInTheRoom(const Point2D & p) const
+{
+	return (p.GetX() <= getRight() && p.GetX() >= getLeft()
+		&& p.GetY() <= getBottom() && p.GetY() >= GetHeight());
+}

@@ -24,7 +24,8 @@ public:
 	int GetWidth() const;
 	int GetHeight() const;
 	bool IsOverlap(const Room& other);
-	
+	bool locatedInTheRoom(const Point2D &p) const;
+
 	//get the coordinate boundary of the room.
 	int getLeft() const;
 	int getRight() const;
@@ -32,5 +33,9 @@ public:
 	int getBottom() const;
 	vector<Door*> getDoors() const;
 	void addDoor(Door& door);
+
+	
+
+	
 };
 

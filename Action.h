@@ -12,7 +12,7 @@ public:
 	enum eType { RUN, FIND_AMMO, FIND_MED, FIGHT, HURT };
 
 	Action(Warrior& warrior, eType type, int startScore);
-	Action &operator=(const Action & other);
+	Action &operator=(const Action & other) = delete;
 
 private:
 	static const int NUM_OF_TYPES = 4;

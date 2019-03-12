@@ -12,7 +12,7 @@ CompareActions::~CompareActions()
 }
 
 
-bool CompareActions::operator( )(const Action& a1, const Action& a2)
+bool CompareActions::operator( )(const Action* a1, const Action* a2)
 {
-	return a1.getScore() > a2.getScore();
+	return a1->getScore() < a2->getScore();
 }
