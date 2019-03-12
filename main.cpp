@@ -5,7 +5,7 @@
 #include <queue>
 #include <algorithm>
 #include "Point2D.h"
-#include "Room.h"
+#include "My_Room.h"
 #include "Node.h"
 #include "CompareNodes.h"
 #include "Parent.h"
@@ -13,7 +13,7 @@
 #include "Storage.h" // the storage is colorage NOW need to paint them
 #include "Warrior.h"
 
-using namespace std;
+//using namespace std;
 
 
 const int W = 600; // window width
@@ -25,17 +25,17 @@ const double SQSIZE = 2.0 / MSIZE;
 
 int maze[MSIZE][MSIZE];
 bool bfs_started = false;
-Room all_rooms[NUM_ROOMS];
+My_Room all_rooms[NUM_ROOMS];
 Storage medicalStorage[ConstValue::NUM_OF_MEDICAL_STORAGE];
 Storage ammoStorage[ConstValue::NUM_OF_AMMO_STORAGE];
 Warrior warriors[ConstValue::NUM_OF_WARRIORS];
 
 // gray queue
-vector <Point2D> gray;
-vector <Point2D> black;
-vector <Parent> parents;
+std::vector <Point2D> gray;
+std::vector <Point2D> black;
+std::vector <Parent> parents;
 
-priority_queue<Node, vector<Node>, CompareNodes> pq;
+std::priority_queue<Node, std::vector<Node>, CompareNodes> pq;
 
 Point2D start,target;
 
@@ -66,8 +66,8 @@ void AddNewNode(Node current, int direction)
 {
 	Node* tmp;
 	Point2D* pt;
-	vector<Point2D>::iterator gray_it;
-	vector<Point2D>::iterator black_it;
+	std::vector<Point2D>::iterator gray_it;
+	std::vector<Point2D>::iterator black_it;
 	double space_weight = 0.1, wall_weight = 5, weight;
 	int dx, dy;
 
@@ -97,8 +97,8 @@ void AddNewNode(Node current, int direction)
 		direction == ConstValue::RIGHT && current.GetPoint().GetX() < MSIZE - 1)
 	{
 		pt = new Point2D(current.GetPoint().GetX()+dx, current.GetPoint().GetY() +dy);
-		gray_it = find(gray.begin(), gray.end(), *pt);
-		black_it = find(black.begin(), black.end(), *pt);
+		gray_it = std::find(gray.begin(), gray.end(), *pt);
+		black_it = std::find(black.begin(), black.end(), *pt);
 		if (gray_it == gray.end() && black_it == black.end()) // this is a new point
 		{
 			// very important to tunnels
@@ -117,16 +117,16 @@ void AddNewNode(Node current, int direction)
 
 }
 
-void RunAStar4Tunnels()
+void RunAStar4Tunnels(int roomIndex, int destinationRoomIndex)
 {
 	Node current;
 	Node* tmp;
 	Point2D* pt;
-	vector<Point2D>::iterator gray_it;
-	vector<Point2D>::iterator black_it;
+	std::vector<Point2D>::iterator gray_it;
+	std::vector<Point2D>::iterator black_it;
 	bool finished = false;
 	double space_weight = 0.5, wall_weight = 0.5,weight;
-
+	bool enter = true;
 	while (!pq.empty() && !finished)
 	{
 		current = pq.top();
@@ -134,10 +134,10 @@ void RunAStar4Tunnels()
 
 		if (current.GetH() == 0) // the solution has been found
 		{
-			vector<Parent>::iterator itr;
+			std::vector<Parent>::iterator itr;
 			finished = true;
 			// go back to start and change WALL to SPACE
-			itr = find(parents.begin(), parents.end(),
+			itr = std::find(parents.begin(), parents.end(),
 				Parent(current.GetPoint(), current.GetPoint(), true));
 			while (itr->HasParent())
 			{
@@ -145,7 +145,15 @@ void RunAStar4Tunnels()
 				Point2D tmp_cur = itr->GetCurrent();
 				// set SPACE
 				if (maze[tmp_cur.GetY()][tmp_cur.GetX()] == ConstValue::WALL)
+				{
 					maze[tmp_cur.GetY()][tmp_cur.GetX()] = ConstValue::SPACE;
+					if (enter)
+					{
+						maze[tmp_cur.GetY()][tmp_cur.GetX()] = ConstValue::DOOR;
+						//Door d = Door(all_rooms[roomIndex],(start, Point2D(tmp_cur.GetX(), tmp_cur.GetY()));
+						//all_rooms[roomIndex].addDoor(d);
+					}
+				}
 				itr = find(parents.begin(), parents.end(),
 					Parent(tmp_prev, current.GetPoint(), true));
 			}
@@ -195,7 +203,7 @@ void DigTunnels()
 			parents.clear();
 			parents.push_back(Parent(tmp->GetPoint(),
 				tmp->GetPoint(), false));
-			RunAStar4Tunnels();
+			RunAStar4Tunnels(i,j);
 			delete tmp;
 		}
 }
@@ -237,15 +245,15 @@ void SetupMaze()
 	int i, j,counter;
 	int left, right, top, bottom;
 	bool isValidRoom;
-	Room* pr=NULL;
+	My_Room* pr=NULL;
 	for (counter = 0; counter < NUM_ROOMS; counter++)
 	{
 		// create room
 		do
 		{
 			free(pr);
-			pr = new Room(Point2D(rand()%MSIZE,rand() % MSIZE),
-				Room::MINIMUM_SIZE + rand() % 15, Room::MINIMUM_SIZE + rand() % 25);
+			pr = new My_Room(Point2D(rand()%MSIZE,rand() % MSIZE),
+				My_Room::MINIMUM_SIZE + rand() % 15, My_Room::MINIMUM_SIZE + rand() % 25);
 
 			//Set limits to the room and check for leakage from window size
 			top = pr->GetCenter().GetY() - pr->GetHeight() / 2;

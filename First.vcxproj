@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CompareNodes.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Parent.cpp" />
@@ -159,10 +160,11 @@
   <ItemGroup>
     <ClInclude Include="CompareNodes.h" />
     <ClInclude Include="ConstValue.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Parent.h" />
     <ClInclude Include="Point2D.h" />
-    <ClInclude Include="Room.h" />
+    <ClInclude Include="My_Room.h" />
     <ClInclude Include="Storage.h" />
     <ClInclude Include="Warrior.h" />
   </ItemGroup>

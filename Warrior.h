@@ -1,6 +1,6 @@
 #pragma once
 #include "Point2D.h"
-#include "Room.h"
+#include "My_Room.h"
 #include <iostream>
 #include <math.h>
 #include <queue>
@@ -13,7 +13,7 @@ The warrior need to implements 2 praiorty Q
 to select a mission 
 and for nevigation.
 */
-using namespace std;
+//using namespace std;
 static int generatorId = 0;
 
 class Warrior
@@ -21,7 +21,7 @@ class Warrior
 
 private:
 	int id;
-	Room *currentRoom;
+	My_Room *currentRoom;
 	Point2D location;
 	int lifePoint = 100; //range [0,100]
 	int gunsAmmo = 50; // 50 bullets
@@ -29,7 +29,7 @@ private:
 	int safetyScore; // Depends on walls neer the warrior 
 	int *maze[ConstValue::MSIZE][ConstValue::MSIZE];
 	bool life = true;
-	stack<Point2D> walkingPath;
+	std::stack<Point2D> walkingPath;
 	//functions
 	void lookForMedicalStorageInTheRoom();
 	void lookForAmmoStorageInTheRoom();
@@ -41,7 +41,6 @@ private:
 	void throGrenade();
 	int getDistance(const Warrior &other) const;
 	bool lookForEnemyInRoom(Warrior &other);
-	void AddNewNode(Node current, int direction);
 
 
 public:
@@ -55,7 +54,7 @@ public:
 	void setY(int y) { this->location.setY(y); }
 	bool isALife() const { return life; }
 	Warrior();
-	Warrior(int maze[ConstValue::MSIZE][ConstValue::MSIZE], Room room);
+	Warrior(int maze[ConstValue::MSIZE][ConstValue::MSIZE], My_Room room);
 	~Warrior();
 };
 

@@ -1,16 +1,50 @@
-﻿  Warrior.cpp
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(104): error C3867: 'Warrior::getLocation': non-standard syntax; use '&' to create a pointer to member
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(148): error C2065: 'gray_it': undeclared identifier
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(148): error C2065: 'gray': undeclared identifier
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(148): error C2672: 'find': no matching overloaded function found
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(148): error C2780: '_InIt std::find(_InIt,const _InIt,const _Ty &)': expects 3 arguments - 2 provided
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\xutility(3538): note: see declaration of 'std::find'
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(149): error C2065: 'gray_it': undeclared identifier
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(149): error C2065: 'gray': undeclared identifier
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(150): error C2065: 'gray': undeclared identifier
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(150): error C2065: 'gray_it': undeclared identifier
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(152): error C2065: 'black': undeclared identifier
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(154): error C3861: 'AddNewNode': identifier not found
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(156): error C3861: 'AddNewNode': identifier not found
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(158): error C3861: 'AddNewNode': identifier not found
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(160): error C3861: 'AddNewNode': identifier not found
+﻿  Door.cpp
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\my_room.h(15): error C2065: 'Door': undeclared identifier
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\my_room.h(15): error C2923: 'std::vector': 'Door' is not a valid template type argument for parameter '_Ty'
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\my_room.h(15): error C3203: 'allocator': unspecialized class template can't be used as a template argument for template parameter '_Alloc', expected a real type
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\my_room.h(24): error C2061: syntax error: identifier 'Door'
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\my_room.h(25): error C2065: 'Door': undeclared identifier
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\my_room.h(25): error C2923: 'std::vector': 'Door' is not a valid template type argument for parameter '_Ty'
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\my_room.h(25): error C3203: 'allocator': unspecialized class template can't be used as a template argument for template parameter '_Alloc', expected a real type
+  main.cpp
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(11): error C3646: 'current': unknown override specifier
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(11): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(12): error C2065: 'My_Room': undeclared identifier
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(12): error C2059: syntax error: '>'
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(12): error C2976: 'std::vector': too few template arguments
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\vector(625): note: see declaration of 'std::vector'
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(18): error C2061: syntax error: identifier 'My_Room'
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(18): error C2535: 'Door::Door(void)': member function already defined or declared
+  c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(17): note: see declaration of 'Door::Door'
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\main.cpp(60): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+  Room.cpp
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(11): error C3646: 'current': unknown override specifier
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(11): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(12): error C2065: 'My_Room': undeclared identifier
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(12): error C2059: syntax error: '>'
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(12): error C2976: 'std::vector': too few template arguments
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\vector(625): note: see declaration of 'std::vector'
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(18): error C2061: syntax error: identifier 'My_Room'
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(18): error C2535: 'Door::Door(void)': member function already defined or declared
+  c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(17): note: see declaration of 'Door::Door'
+  Storage.cpp
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(11): error C3646: 'current': unknown override specifier
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(11): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(12): error C2065: 'My_Room': undeclared identifier
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(12): error C2059: syntax error: '>'
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(12): error C2976: 'std::vector': too few template arguments
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\vector(625): note: see declaration of 'std::vector'
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(18): error C2061: syntax error: identifier 'My_Room'
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(18): error C2535: 'Door::Door(void)': member function already defined or declared
+  c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(17): note: see declaration of 'Door::Door'
+  Warrior.cpp
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(11): error C3646: 'current': unknown override specifier
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(11): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(12): error C2065: 'My_Room': undeclared identifier
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(12): error C2059: syntax error: '>'
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(12): error C2976: 'std::vector': too few template arguments
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\vector(625): note: see declaration of 'std::vector'
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(18): error C2061: syntax error: identifier 'My_Room'
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(18): error C2535: 'Door::Door(void)': member function already defined or declared
+  c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\door.h(17): note: see declaration of 'Door::Door'
+  Generating Code...

@@ -1,6 +1,6 @@
 #pragma once
 #include "Point2D.h"
-#include "Room.h"
+#include "My_Room.h"
 #include <stdlib.h>
 #include <time.h>
 
@@ -12,7 +12,7 @@ class Storage
 {
 private:
 	Point2D center; // use like ID and for draw.
-	Room containedInRoom; 
+	My_Room containedInRoom; 
 	bool isAmmo; // true id this ammo storage false if thie medical storage.
 	
 	//functions
@@ -21,7 +21,7 @@ public:
 	static const int STORAGE_SIZE = 3;
 	
 	//functions
-	Storage(Room containedInRoom, bool isAmmo);
+	Storage(My_Room containedInRoom, bool isAmmo);
 	Storage() {}
 	~Storage();
 	Point2D getCenter();
