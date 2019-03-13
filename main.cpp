@@ -184,8 +184,10 @@ void init()
 	for (i = 0; i < ConstValue::NUM_OF_WARRIORS; i++)
 	{
 		Room& r = all_rooms[rand() % ConstValue::NUM_ROOMS];
-		maze[r.GetCenter().GetY()][r.GetCenter().GetX()] = ConstValue::WARRIOR;
-		Warrior *w = new Warrior(maze, r);
+		int y = r.GetCenter().GetY();
+		int x = r.GetCenter().GetX();
+		maze[y][x] = ConstValue::WARRIOR;
+		Warrior *w = new Warrior(maze, r, *new Point2D(x, y));
 		warriors[i] = w;
 		drawWarrior(*warriors[i]);
 	}
@@ -514,7 +516,7 @@ void idle()
 		//reset path
 	}
 	// call astar
-	//(warriors[0])->lookForEnemy(*warriors[1]);
+	(warriors[0])->lookForEnemy(*warriors[1]);
 	//draw warriors
 
 	glutPostRedisplay();// calls indirectly to display

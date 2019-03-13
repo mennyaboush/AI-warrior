@@ -33,7 +33,7 @@ private:
 
 	bool	life = true;
 	
-	Room	&currentRoom;
+	Room	currentRoom;
 	Point2D	location;
 	
 	stack<Point2D> walkingPath;
@@ -45,7 +45,7 @@ private:
 	void refrashSafetyScore(); //scan the area and change the safetyScore.
 	void exitTheRoom(Room &room); //Implaments in A*.
 	void shoot(Warrior &other);
-	void getClose(Point2D targetLoction);
+	void localAStar(Point2D &targetLoction);
 	void injured(int hitPoint);
 	void throGrenade();
 	double getDistance(const Warrior &other) const;
@@ -53,7 +53,7 @@ private:
 	void AddNode(Node current, int direction);
 	
 public:
-	Warrior(int maze[ConstValue::MSIZE][ConstValue::MSIZE], Room &room);
+	Warrior(int maze[ConstValue::MSIZE][ConstValue::MSIZE], Room &room, Point2D &location);
 	~Warrior();
 
 	void moveWarrior(Warrior& other);

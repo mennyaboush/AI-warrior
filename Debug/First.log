@@ -1,2 +1,3 @@
 ﻿  Door.cpp
-  First.vcxproj -> C:\Users\מני\Desktop\סמסטר א\בינה מלאכותית\final project\Relevant code from lesson\Tunnels\First\Debug\First.exe
+c:\users\sonya\desktop\final\first\first\door.cpp(19): warning C4018: '<': signed/unsigned mismatch
+  First.vcxproj -> C:\Users\Sonya\Desktop\final\First\Debug\First.exe

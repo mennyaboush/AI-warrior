@@ -1,8 +1,9 @@
 #include "Door.h"
 
 Door::Door(Room& current, Point2D &enterlocation, Point2D &exitlocation):
-	current(current), enterLocation(enterLocation), exitLocation(exitLocation)
+	current(current), enterLocation(enterlocation), exitLocation(exitlocation)
 {
+	current.getBottom();
 }
 
 
@@ -15,15 +16,17 @@ visit? pass the door. else serch.
 */
 bool Door::isDestinationDoor(const Room& destination) const
 {
-//	static set<Room *> visited;
-//	if (&(this->destination) == &destination)
-//	{
-//		visited.clear();
-//		return true;
-//	}
-//	visited.insert(&this->current);
-//	if(*(visited.find((Room*)&destination)  )!= &destination) //== visited.end())
-//		return (this->destination).isDestionationRoom(destination);
+	for (int i = 0; i < destinations.size(); i++)
+	{
+		if (destinations[i]->GetCenter().GetX() == destination.GetCenter().GetX() 
+			&& destinations[i]->GetCenter().GetY() == destination.GetCenter().GetY())
+			return true;
+	}
+	/*if ( this->destinations.find((Room*)&destination) != destinations.end() )
+	{
+		return true;
+	}*/
 	return false;
+
 }
 

@@ -2,7 +2,8 @@
 #include "Action.h"
 #include "Door.h"
 
-Warrior::Warrior(int maze[ConstValue::MSIZE][ConstValue::MSIZE], Room &room):  currentRoom(room)
+Warrior::Warrior(int maze[ConstValue::MSIZE][ConstValue::MSIZE], Room &room, Point2D &location):
+	currentRoom(room), location(location)
 {
 	//init maze
 	for (int i = 0; i < ConstValue::MSIZE; i++) 
@@ -69,7 +70,7 @@ void Warrior::shoot(Warrior &other)
 this function assumed that the targetLocation in the same room,
 and the targetLoction != location.
 */
-void Warrior::localAStar(Point2D targetLoction)
+void Warrior::localAStar(Point2D &targetLoction)
 {
 	//deleate the warrior from the maze
 	*maze[location.GetY()][location.GetX()] = ConstValue::SPACE;
@@ -262,13 +263,13 @@ bool Warrior::lookForEnemyInRoom(Warrior & other)
 /*go to the next room to reach the destination room */
 void Warrior::exitTheRoom(Room &room)
 {
-	//1. serch the door whith the destionation.
-	vector<Door*> doors = room.getDoors();
+	//1. serch the door with the destionation.
+	vector<Door*> doors = this->currentRoom.getDoors();
 	int numOfDoors = doors.size();
-	Door *doorDest;
+	Door *doorDest = nullptr;
 	for (int i = 0; i < numOfDoors; i++)
 	{
-		if (doors[i]->isDestinationDoor(room))
+		if ( doors[i]->isDestinationDoor(room) )
 		{
 			doorDest = doors[i];
 			break;
@@ -276,8 +277,10 @@ void Warrior::exitTheRoom(Room &room)
 	}
 
 	//2. go to the enter of door.
-	this->localAStar(doorDest.get)
+	this->localAStar(doorDest->getEnterLocation());
 	//3. got to the exit of the door.
+	this->localAStar(doorDest->getExitLocation());
+
 	
 }
 /*Serch enemy in the maze
