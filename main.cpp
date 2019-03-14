@@ -517,8 +517,8 @@ void idle()
 	}
 	// call astar
 	(warriors[0])->lookForEnemy(*warriors[1]);
+	
 	//draw warriors
-
 	glutPostRedisplay();// calls indirectly to display
 }
 

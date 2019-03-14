@@ -54,7 +54,7 @@ void Warrior::shoot(Warrior &other)
 		double distance = getDistance(other);
 
 		//check if the warrior no too far
-		int damage = ConstValue::MAX_DISTANCE_TO_INJURED - distance;
+		int damage = ConstValue::MAX_DISTANCE_TO_INJURED - (int)distance;
 		if (damage > 0)
 		{
 			gunsAmmo--;
@@ -66,25 +66,148 @@ void Warrior::shoot(Warrior &other)
 	}
 }
 
+/*this function help to A* and do 2 things
+1. create new node who represent the step for UP direction and push him to priortyQ and to gray vector.
+2. creat parant and push him to the parant collaction.
+*/
+void Warrior::addNodeAStarHelper(Node & currentNode, Node & nextNode, Point2D & targetLocation, vector<Point2D*>& gray, vector<Parent*>& parents, priority_queue<Node*, vector<Node*>, CompareNodes>& pq)
+{
+	//1. create new node who represent the step for UP direction and push him to priortyQ and to gray vector.
+	Node *down =new Node(Point2D(currentNode.GetPoint().GetX(), currentNode.GetPoint().GetY() + 1), targetLocation, 0);
+	gray.push_back(&(down->GetPoint()));
+	pq.emplace(down);
+
+	//2. creat parant and push him to the parant collaction.
+	Parent *p = new Parent(nextNode.GetPoint(), currentNode.GetPoint(), true);
+	parents.push_back(p);
+}
+
+/*get a node and enter all the neighbors to the gray,parents and pq */
+bool Warrior::addNeighborsAStarHelper(Node & current, Point2D & targetLocation, vector<Point2D*>& gray, vector<Parent*>& parents, priority_queue<Node*, vector<Node*>, CompareNodes>& pq)
+{
+	bool finished = false;
+	// try to go UP
+	if (*(maze[current.GetPoint().GetY() + 1][current.GetPoint().GetX()]) == ConstValue::TARGET)
+		finished = true;
+	else if (*(maze[current.GetPoint().GetY() + 1][current.GetPoint().GetX()]) != ConstValue::WALL)
+	{
+		//1. create new node who represent the step for UP direction and push him to priortyQ and to gray vector.
+		Node up = Node(Point2D(current.GetPoint().GetX(), current.GetPoint().GetY() + 1), targetLocation, 0);
+		addNodeAStarHelper(current, up, targetLocation, gray, parents, pq);
+	}
+
+	// try to go DOWN
+	if (*(maze[current.GetPoint().GetY() - 1][current.GetPoint().GetX()]) == ConstValue::TARGET)
+		finished = true;
+	else if (*(maze[current.GetPoint().GetY() - 1][current.GetPoint().GetX()]) != ConstValue::WALL)
+	{
+		Node down = Node(Point2D(current.GetPoint().GetX(), current.GetPoint().GetY() + 1), targetLocation, 0);
+		addNodeAStarHelper(current, down, targetLocation, gray, parents, pq);
+	}
+
+	// try to go LAFT
+	if (*(maze[current.GetPoint().GetY()][current.GetPoint().GetX() - 1]) == ConstValue::TARGET)
+		finished = true;
+	else if (*(maze[current.GetPoint().GetY() - 1][current.GetPoint().GetX() - 1]) != ConstValue::WALL)
+	{
+		Node left = Node(Point2D(current.GetPoint().GetX() - 1, current.GetPoint().GetY()), targetLocation, 0);
+		addNodeAStarHelper(current, left, targetLocation, gray, parents, pq);
+	}
+
+	// try to go RIGHT
+	if (*(maze[current.GetPoint().GetY()][current.GetPoint().GetX() - 1]) == ConstValue::TARGET)
+		finished = true;
+	else if (*(maze[current.GetPoint().GetY() - 1][current.GetPoint().GetX() + 1]) != ConstValue::WALL)
+	{
+		Node right = Node(Point2D(current.GetPoint().GetX() + 1, current.GetPoint().GetY()), targetLocation, 0);
+		addNodeAStarHelper(current, right, targetLocation, gray, parents, pq);
+	}
+	return finished;
+}
+
 /*
 this function assumed that the targetLocation in the same room,
 and the targetLoction != location.
+the function using a* algorithm to reach the targetLocation
 */
-void Warrior::localAStar(Point2D &targetLoction)
+void Warrior::localAStar(Point2D &targetLocation)
+{
+	//static int count = 0;
+	//count++;
+	if (!currentRoom.locatedInTheRoom(targetLocation))
+		cout << "localAStar need to switch room for reach " << targetLocation.GetX()<<","<<targetLocation.GetY() << " cordinat.";
+
+	//Variables for A* algorithm
+	Node *current = nullptr;
+	priority_queue<Node*, vector<Node*>, CompareNodes> pq; // the compare node claa may not considare the saftyScore.
+	vector<Point2D*>::iterator gray_it;
+	vector<Point2D*>::iterator black_it;
+	vector <Point2D*> gray;
+	vector <Point2D*> black;
+	vector <Parent*> parents;
+	bool finished = false;
+
+	//A* action
+	pq.emplace(new Node(this->getLocation(), targetLocation, 0));
+	while (!finished)
+	{
+		//count++;
+		if (pq.empty())
+		{
+			cout << "pq should not be empty in this function!\n fnuctin:lookForEnemyInRoom ";
+		}
+		vector<Parent*>::iterator itr;
+		
+		//delete allocation
+		if (current != nullptr)
+			delete(current);
+
+		current = pq.top();
+		pq.pop(); // remove it from pq
+
+		// the target has been found
+		if (current->GetH() == 0)
+		{
+			finished = true;
+		
+			// go back to start and enter the steps to walkingPath 
+			itr = find(parents.begin(), parents.end(),
+				Parent(current->GetPoint(), current->GetPoint(), true));
+			walkingPath.push(((*itr)->GetCurrent()));
+			while ((*itr)->HasParent())
+			{
+				Point2D tmp_prev = (*itr)->GetPrev();
+				Point2D tmp_cur = (*itr)->GetCurrent();
+				walkingPath.push(tmp_cur);
+				itr = find(parents.begin(), parents.end(),
+					Parent(tmp_prev, current->GetPoint(), true));
+			}
+		}
+
+		// check the neighbours
+		else
+		{
+			// remove current from gray 
+			gray_it = find(gray.begin(), gray.end(), current->GetPoint());
+			if (gray_it != gray.end())
+				gray.erase(gray_it);
+			// and paint it black
+			black.push_back(&current->GetPoint());
+			finished = addNeighborsAStarHelper(*current, targetLocation, gray, parents, pq);
+		}
+	} // while
+}
+
+/*Get a point and move the warrior on the maze to the point cordinate*/
+void Warrior::moveWarrior(Point2D & nextStep)
 {
 	//deleate the warrior from the maze
 	*maze[location.GetY()][location.GetX()] = ConstValue::SPACE;
-	
+
 	//change the location of warrior.
-	if (targetLoction.GetX() > location.GetX())
-		location.setX(location.GetX() + 1);
-	else if (targetLoction.GetX() < location.GetX())
-		location.setX(location.GetX() - 1);
-	else if (targetLoction.GetY() > location.GetY())
-		location.setY(location.GetY() + 1);
-	else
-		location.setY(location.GetY() - 1);
-	
+	this->location.setX(nextStep.GetX());
+	this->location.setY(nextStep.GetY());
+
 	//draw the warrior on the maze
 	*maze[location.GetY()][location.GetX()] = ConstValue::WARRIOR;
 }
@@ -145,22 +268,6 @@ void Warrior::AddNode(Node current, int direction)
 		direction == ConstValue::RIGHT && current.GetPoint().GetX() < ConstValue::MSIZE - 1)
 	{
 		pt = new Point2D(current.GetPoint().GetX() + dx, current.GetPoint().GetY() + dy);
-		//gray_it = find(gray.begin(), gray.end(), *pt);
-		//black_it = find(black.begin(), black.end(), *pt);
-		//if (gray_it == gray.end() && black_it == black.end()) // this is a new point
-		//{
-		//	// very important to tunnels
-		//	if (maze[current.GetPoint().GetY() + dy][current.GetPoint().GetX() + dx] == ConstValue::WALL)
-		//		weight = wall_weight;
-		//	else weight = space_weight;
-		//	// weight depends on previous weight and wheater we had to dig
-		//	// to this point or not
-		//	tmp = new Node(*pt, target, current.GetG() + weight);
-		//	pq.emplace(*tmp); // insert first node to priority queue
-		//	gray.push_back(*pt); // paint it gray
-		//	// add Parent
-		//	parents.push_back(Parent(tmp->GetPoint(), current.GetPoint(), true));
-		//}
 	}
 }
 
@@ -237,24 +344,6 @@ bool Warrior::lookForEnemyInRoom(Warrior & other)
 			if (*(maze[current.GetPoint().GetY() + 1][current.GetPoint().GetX()]) == ConstValue::TARGET)
 				finished = true;
 
-			//if ( !finished  && *(maze[current.GetPoint().GetY() + 1][current.GetPoint().GetX()]) == ConstValue::SPACE)
-			//{ // add it to bestQ
-			//	*maze[current.GetPoint().GetY() + 1][current.GetPoint().GetX()] = ConstValue::GRAY;
-			//	//parents.push_back(Parent(tmp->GetPoint(), current.GetPoint(), true));
-
-			//	//parent[pt->getY() + 1][pt->getX()] = pt;
-
-			//	//pt1 = new Point2D(pt->getX(), pt->getY() + 1);// y is i, x is j!!! 
-
-			//	//BestNode* pbn = new BestNode(*pt1, *target);
-			//	//bestQ.push(*pbn);
-
-			//}
-
-			AddNode(current, ConstValue::UP);
-			AddNode(current, ConstValue::DOWN);
-			AddNode(current, ConstValue::LEFT);
-			AddNode(current, ConstValue::RIGHT);
 		}
 	} // while
 	return false;
@@ -279,7 +368,7 @@ void Warrior::exitTheRoom(Room &room)
 	//2. go to the enter of door.
 	this->localAStar(doorDest->getEnterLocation());
 	//3. got to the exit of the door.
-	this->localAStar(doorDest->getExitLocation());
+	//this->localAStar(doorDest->getExitLocation());
 
 	
 }
@@ -297,27 +386,39 @@ void Warrior::lookForEnemy(Warrior &other)
 	//4. look for enemy in the current room.
 }
 
-void Warrior::moveWarrior(Warrior& other)
+/*Warrior select a mission.
+if the warrior started to walk he keep going
+else he select new mission.*/
+void Warrior::selectMission(Warrior& other)
 {
-	Action toDo = *(actionQueue.top());	// RUN, FIND_AMMO, FIND_MED, FIGHT
+	if (walkingPath.size() > 0)
+	{
+		moveWarrior(walkingPath.top());
+		walkingPath.pop();
+	}
+	else
+	{
+		Action toDo = *(actionQueue.top());	// RUN, FIND_AMMO, FIND_MED, FIGHT
 	//actionQueue.pop();
 
-	switch (toDo.getType())
-	{
-	case Action::FIGHT:
-		lookForEnemy(other);
-		// do 20 steps in the derection of the other warrior and fight if close enought
-		break;
-	case Action::RUN:
-		// do 20 steps in opposite derections of the other warrior
-		//runAway();
-		break;
-	case Action::FIND_AMMO:
-		// go through rooms and look for ammo
-		break;
-	case Action::FIND_MED:
-		// go through rooms and look for med
-		break;
+		switch (toDo.getType())
+		{
+		case Action::FIGHT:
+			lookForEnemy(other);
+			// do 20 steps in the derection of the other warrior and fight if close enought
+			break;
+		case Action::RUN:
+			// do 20 steps in opposite derections of the other warrior
+			//runAway();
+			break;
+		case Action::FIND_AMMO:
+			// go through rooms and look for ammo
+			break;
+		case Action::FIND_MED:
+			// go through rooms and look for med
+			break;
+		}
 	}
+	
 }
 
