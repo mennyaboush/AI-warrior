@@ -1,4 +1,4 @@
 ﻿  Warrior.cpp
-c:\users\sonya\desktop\final\first\first\warrior.cpp(239): warning C4101: 'tmp': unreferenced local variable
-c:\users\sonya\desktop\final\first\first\warrior.cpp(243): warning C4101: 'weight': unreferenced local variable
-  First.vcxproj -> C:\Users\Sonya\Desktop\final\First\Debug\First.exe
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(239): warning C4101: 'tmp': unreferenced local variable
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(243): warning C4101: 'weight': unreferenced local variable
+  First.vcxproj -> C:\Users\מני\Desktop\סמסטר א\בינה מלאכותית\final project\Relevant code from lesson\Tunnels\First\Debug\First.exe
