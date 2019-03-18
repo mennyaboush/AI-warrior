@@ -156,10 +156,20 @@ void readMazeFromFile()
 	myfile.close();
 }
 
+void delay(int number_of_seconds)
+{
+	// Converting time into milli_seconds 
+	int milli_seconds = 10 * number_of_seconds;
+	// Stroing start time 
+	clock_t start_time = clock();
+	// looping till required time is not acheived 
+	while (clock() < start_time + milli_seconds);
+}
+
 void init()
 {
 	int i, j;
-	Point2D* pt;
+	//Point2D* pt;
 
 	srand(time(0));
 
@@ -254,7 +264,7 @@ void RunAStar4Tunnels(int idx)
 {
 	Node current;
 	Node* tmp;
-	Point2D* pt;
+	//Point2D* pt;
 	vector<Point2D>::iterator gray_it;
 	vector<Point2D>::iterator black_it;
 	bool finished = false;
@@ -516,10 +526,11 @@ void idle()
 		//reset path
 	}
 	// call astar
-	(warriors[0])->lookForEnemy(*warriors[1]);
+	(warriors[0])->selectMission(*warriors[1]);
 	
 	//draw warriors
 	glutPostRedisplay();// calls indirectly to display
+	delay(5);
 }
 
 void Menu(int choice)

@@ -5,8 +5,8 @@ class Door
 private:
 	Room &current;
 	vector<Room*> destinations;
-	Point2D enterLocation;
-	Point2D exitLocation;
+	Point2D &enterLocation;
+	Point2D &exitLocation;
 public:
 	Door(Room& current, Point2D &enterlocation, Point2D &exitlocation);
 	~Door();
@@ -15,8 +15,8 @@ public:
 	bool isDestinationDoor(const Room& destination) const;
 	vector<Room*> getDestinations() { return destinations; }
 
-	Point2D getEnterLocation() { return enterLocation; }
-	Point2D getExitLocation() { return exitLocation; }
+	Point2D& getEnterLocation() { return enterLocation; }
+	Point2D& getExitLocation() { return exitLocation; }
 
 };
 

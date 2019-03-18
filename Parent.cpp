@@ -13,7 +13,7 @@ Parent::~Parent()
 }
 
 
-Parent::Parent(Point2D c, Point2D p, bool has)
+Parent::Parent(Point2D &c, Point2D &p, bool has)
 {
 	current = c;
 	prev = p;
@@ -33,13 +33,13 @@ bool Parent::HasParent()
 }
 
 
-Point2D Parent::GetPrev()
+Point2D &Parent::GetPrev()
 {
 	return prev;
 }
 
 
-Point2D Parent::GetCurrent()
+Point2D &Parent::GetCurrent()
 {
 	return current;
 }
