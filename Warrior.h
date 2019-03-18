@@ -51,8 +51,12 @@ private:
 	double getDistance(const Warrior &other) const;
 	bool lookForEnemyInRoom(Warrior &other);
 	void AddNode(Node current, int direction);
-	void addNodeAStarHelper(Node &currentNode, Node &nextNode, Point2D &targetLocation, vector <Point2D*> &gray, vector <Parent*> &parents, priority_queue<Node*, vector<Node*>, CompareNodes> &pq);
-	bool addNeighborsAStarHelper(Node &current, Point2D &targetLocation, vector <Point2D*> &gray, vector <Parent*> &parents, priority_queue<Node*, vector<Node*>, CompareNodes> &pq);
+	
+	void addNodeAStarHelper(Node &currentNode, Node &nextNode, Point2D &targetLocation, vector <Point2D> &gray, vector <Parent> &parents, priority_queue<Node, vector<Node>, CompareNodes> &pq);
+	//void addNodeAStarHelper(Node &currentNode, Node &nextNode, Point2D &targetLocation, vector <Point2D*> &gray, vector <Parent*> &parents, priority_queue<Node*, vector<Node*>, CompareNodes> &pq);
+	bool addNeighborsAStarHelper(Node &current, Point2D &targetLocation, vector <Point2D> &gray, vector <Parent> &parents, priority_queue<Node, vector<Node>, CompareNodes> &pq);
+	//bool addNeighborsAStarHelper(Node &current, Point2D &targetLocation, vector <Point2D*> &gray, vector <Parent*> &parents, priority_queue<Node*, vector<Node*>, CompareNodes> &pq);
+
 
 public:
 	Warrior(int maze[ConstValue::MSIZE][ConstValue::MSIZE], Room &room, Point2D &location);

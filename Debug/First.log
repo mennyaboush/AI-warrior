@@ -1,75 +1,48 @@
 ﻿  Warrior.cpp
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(238): warning C4101: 'tmp': unreferenced local variable
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(242): warning C4101: 'weight': unreferenced local variable
-c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\xutility(3520): error C2679: binary '==': no operator found which takes a right-hand operand of type 'const _Ty' (or there is no acceptable conversion)
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(239): warning C4101: 'tmp': unreferenced local variable
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(243): warning C4101: 'weight': unreferenced local variable
+c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\xmemory0(881): error C2664: 'Node::Node(const Node &)': cannot convert argument 1 from '_Ty' to 'const Node &'
           with
           [
-              _Ty=Parent
+              _Ty=Node *
           ]
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\system_error(284): note: could be 'bool std::operator ==(const std::error_condition &,const std::error_condition &) noexcept'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\system_error(278): note: or       'bool std::operator ==(const std::error_condition &,const std::error_code &) noexcept'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\system_error(272): note: or       'bool std::operator ==(const std::error_code &,const std::error_condition &) noexcept'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\system_error(266): note: or       'bool std::operator ==(const std::error_code &,const std::error_code &) noexcept'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\exception(331): note: or       'bool std::operator ==(const std::exception_ptr &,std::nullptr_t) noexcept'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\exception(326): note: or       'bool std::operator ==(std::nullptr_t,const std::exception_ptr &) noexcept'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\exception(321): note: or       'bool std::operator ==(const std::exception_ptr &,const std::exception_ptr &) noexcept'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\xutility(3520): note: or       'built-in C++ operator==(Parent *, Parent *)'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\xutility(3520): note: while trying to match the argument list '(Parent *, const _Ty)'
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\xmemory0(881): note: Reason: cannot convert from '_Ty' to 'const Node'
           with
           [
-              _Ty=Parent
+              _Ty=Node *
           ]
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\xutility(3533): note: see reference to function template instantiation '_InIt std::_Find_unchecked1<_InIt,_Ty>(_InIt,const _InIt,const _Ty &,std::false_type)' being compiled
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\xmemory0(881): note: No constructor could take the source type, or constructor overload resolution was ambiguous
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\vector(902): note: see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,Node*>(_Alloc &,_Objty *const ,Node *&&)' being compiled
           with
           [
-              _InIt=Parent **,
-              _Ty=Parent
+              _Alloc=std::allocator<Node>,
+              _Ty=Node,
+              _Objty=Node
           ]
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\xutility(3542): note: see reference to function template instantiation '_InIt std::_Find_unchecked<Parent**,_Ty>(const _InIt,const _InIt,const _Ty &)' being compiled
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\vector(902): note: see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,Node*>(_Alloc &,_Objty *const ,Node *&&)' being compiled
           with
           [
-              _InIt=Parent **,
-              _Ty=Parent
+              _Alloc=std::allocator<Node>,
+              _Ty=Node,
+              _Objty=Node
           ]
-  c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(175): note: see reference to function template instantiation '_InIt std::find<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,Parent>(_InIt,const _InIt,const Parent &)' being compiled
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\vector(919): note: see reference to function template instantiation 'void std::vector<Node,std::allocator<_Ty>>::_Emplace_back_with_unused_capacity<Node*>(Node *&&)' being compiled
           with
           [
-              _InIt=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<Parent *>>>,
-              _Ty=Parent *
+              _Ty=Node
           ]
-c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\xutility(3520): error C2679: binary '==': no operator found which takes a right-hand operand of type 'const _Ty' (or there is no acceptable conversion)
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\queue(361): note: see reference to function template instantiation 'void std::vector<Node,std::allocator<_Ty>>::emplace_back<Node*>(Node *&&)' being compiled
           with
           [
-              _Ty=Point2D
+              _Ty=Node
           ]
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\system_error(284): note: could be 'bool std::operator ==(const std::error_condition &,const std::error_condition &) noexcept'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\system_error(278): note: or       'bool std::operator ==(const std::error_condition &,const std::error_code &) noexcept'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\system_error(272): note: or       'bool std::operator ==(const std::error_code &,const std::error_condition &) noexcept'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\system_error(266): note: or       'bool std::operator ==(const std::error_code &,const std::error_code &) noexcept'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\exception(331): note: or       'bool std::operator ==(const std::exception_ptr &,std::nullptr_t) noexcept'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\exception(326): note: or       'bool std::operator ==(std::nullptr_t,const std::exception_ptr &) noexcept'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\exception(321): note: or       'bool std::operator ==(const std::exception_ptr &,const std::exception_ptr &) noexcept'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\xutility(3520): note: or       'built-in C++ operator==(Point2D *, Point2D *)'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\xutility(3520): note: while trying to match the argument list '(Point2D *, const _Ty)'
+  c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(78): note: see reference to function template instantiation 'void std::priority_queue<Node,std::vector<Node,std::allocator<_Ty>>,CompareNodes>::emplace<Node*>(Node *&&)' being compiled
           with
           [
-              _Ty=Point2D
+              _Ty=Node
           ]
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\xutility(3533): note: see reference to function template instantiation '_InIt std::_Find_unchecked1<_InIt,_Ty>(_InIt,const _InIt,const _Ty &,std::false_type)' being compiled
+  c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(78): note: see reference to function template instantiation 'void std::priority_queue<Node,std::vector<Node,std::allocator<_Ty>>,CompareNodes>::emplace<Node*>(Node *&&)' being compiled
           with
           [
-              _InIt=Point2D **,
-              _Ty=Point2D
-          ]
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\xutility(3542): note: see reference to function template instantiation '_InIt std::_Find_unchecked<Point2D**,_Ty>(const _InIt,const _InIt,const _Ty &)' being compiled
-          with
-          [
-              _InIt=Point2D **,
-              _Ty=Point2D
-          ]
-  c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(191): note: see reference to function template instantiation '_InIt std::find<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,Point2D>(_InIt,const _InIt,const Point2D &)' being compiled
-          with
-          [
-              _InIt=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<Point2D *>>>,
-              _Ty=Point2D *
+              _Ty=Node
           ]
