@@ -1,6 +1,6 @@
 #include "Room.h"
 #include "Door.h"
-
+#include <stdlib.h>
 Room::Room()
 {
 }
@@ -90,8 +90,12 @@ void Room::addDoor(Door& door)
 
 bool Room::locatedInTheRoom(const Point2D & p) const
 {
-	return (p.GetX() <= getRight() && p.GetX() >= getLeft()
-		&& p.GetY() <= getBottom() && p.GetY() >= GetHeight());
+	int x = p.GetX();
+	int y = p.GetY();
+	int right = getRight();
+	int left = getLeft();
+
+	return (abs(x - right) < 2 && abs(x - getLeft()) < 2 && abs(y - getBottom()) < 2 && abs(y - GetHeight()) < 2);
 }
 
 /*chack all the doors and the rooms.*/
@@ -100,7 +104,7 @@ bool Room::isDestionationRoom(const Room & destionation) const
 	int numOfDoors = doors.size();
 	for (int i = 0; i < numOfDoors; i++)
 	{
-		if (doors[i]->isDestinationDoor(destionation))
+		if (doors[i]->isDestinationDoor(destionation) )
 		{
 			return true;
 		}

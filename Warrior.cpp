@@ -73,13 +73,13 @@ void Warrior::shoot(Warrior &other)
 void Warrior::addNodeAStarHelper(Node & currentNode, Node & nextNode, Point2D & targetLocation, vector<Point2D>& gray, vector<Parent>& parents, priority_queue<Node*, vector<Node*>, CompareNodes>& pq)
 {
 	//1. create new node who represent the step for UP direction and push him to priortyQ and to gray vector.
-	Node down = Node(Point2D(currentNode.GetPoint().GetX(), currentNode.GetPoint().GetY() + 1), targetLocation, 0);
-	gray.push_back(down.GetPoint());//(&(down->GetPoint()));
-	pq.emplace(&down);
+	Node *n = new Node(Point2D(currentNode.GetPoint().GetX(), currentNode.GetPoint().GetY() + 1), targetLocation, 0);
+	gray.push_back(n->GetPoint());
+	pq.emplace(n);
 
 	//2. creat parant and push him to the parant collaction.
-	Parent p = Parent(nextNode.GetPoint(), currentNode.GetPoint(), true);
-	parents.push_back(p);
+	Parent *p = new Parent(nextNode.GetPoint(), currentNode.GetPoint(), true);
+	parents.push_back(*p);
 }
 
 /*get a node and enter all the neighbors to the gray,parents and pq */
@@ -92,8 +92,8 @@ bool Warrior::addNeighborsAStarHelper(Node & current, Point2D & targetLocation, 
 	else if (*(maze[current.GetPoint().GetY() + 1][current.GetPoint().GetX()]) != ConstValue::WALL)
 	{
 		//1. create new node who represent the step for UP direction and push him to priortyQ and to gray vector.
-		Node up = Node(Point2D(current.GetPoint().GetX(), current.GetPoint().GetY() + 1), targetLocation, 0);
-		addNodeAStarHelper(current, up, targetLocation, gray, parents, pq);
+		Node *up = new Node(Point2D(current.GetPoint().GetX(), current.GetPoint().GetY() + 1), targetLocation, 0);
+		addNodeAStarHelper(current, *up, targetLocation, gray, parents, pq);
 	}
 
 	// try to go DOWN
@@ -101,26 +101,26 @@ bool Warrior::addNeighborsAStarHelper(Node & current, Point2D & targetLocation, 
 		finished = true;
 	else if (*(maze[current.GetPoint().GetY() - 1][current.GetPoint().GetX()]) != ConstValue::WALL)
 	{
-		Node down = Node(Point2D(current.GetPoint().GetX(), current.GetPoint().GetY() + 1), targetLocation, 0);
-		addNodeAStarHelper(current, down, targetLocation, gray, parents, pq);
+		Node *down =new Node(Point2D(current.GetPoint().GetX(), current.GetPoint().GetY() - 1), targetLocation, 0);
+		addNodeAStarHelper(current, *down, targetLocation, gray, parents, pq);
 	}
 
 	// try to go LAFT
 	if (*(maze[current.GetPoint().GetY()][current.GetPoint().GetX() - 1]) == ConstValue::TARGET)
 		finished = true;
-	else if (*(maze[current.GetPoint().GetY() - 1][current.GetPoint().GetX() - 1]) != ConstValue::WALL)
+	else if (*(maze[current.GetPoint().GetY()][current.GetPoint().GetX() - 1]) != ConstValue::WALL)
 	{
-		Node left = Node(Point2D(current.GetPoint().GetX() - 1, current.GetPoint().GetY()), targetLocation, 0);
-		addNodeAStarHelper(current, left, targetLocation, gray, parents, pq);
+		Node *left =new Node(Point2D(current.GetPoint().GetX() - 1, current.GetPoint().GetY()), targetLocation, 0);
+		addNodeAStarHelper(current, *left, targetLocation, gray, parents, pq);
 	}
 
 	// try to go RIGHT
-	if (*(maze[current.GetPoint().GetY()][current.GetPoint().GetX() - 1]) == ConstValue::TARGET)
+	if (*(maze[current.GetPoint().GetY()][current.GetPoint().GetX() + 1]) == ConstValue::TARGET)
 		finished = true;
-	else if (*(maze[current.GetPoint().GetY() - 1][current.GetPoint().GetX() + 1]) != ConstValue::WALL)
+	else if (*(maze[current.GetPoint().GetY()][current.GetPoint().GetX() + 1]) != ConstValue::WALL)
 	{
-		Node right = Node(Point2D(current.GetPoint().GetX() + 1, current.GetPoint().GetY()), targetLocation, 0);
-		addNodeAStarHelper(current, right, targetLocation, gray, parents, pq);
+		Node *right = new Node(Point2D(current.GetPoint().GetX() + 1, current.GetPoint().GetY()), targetLocation, 0);
+		addNodeAStarHelper(current, *right, targetLocation, gray, parents, pq);
 	}
 	return finished;
 	
@@ -136,7 +136,9 @@ void Warrior::localAStar(Point2D &targetLocation)
 	//static int count = 0;
 	//count++;
 	if (!currentRoom.locatedInTheRoom(targetLocation))
+	{
 		cout << "localAStar need to switch room for reach " << targetLocation.GetX()<<","<<targetLocation.GetY() << " cordinat.";
+	}
 
 	//Variables for A* algorithm
 	Node *current = nullptr;
@@ -234,7 +236,7 @@ double Warrior::getDistance(const Warrior & other) const
 }
 
 /* add node to  */
-void Warrior::AddNode(Node current, int direction)
+void Warrior::AddNode(Node &current, int direction)
 {
 	Node* tmp;
 	Point2D* pt;
