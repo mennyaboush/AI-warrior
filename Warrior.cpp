@@ -131,10 +131,12 @@ void Warrior::exitTheRoom(Room &room)
 	//2. go to the enter of door.
 	if (doorDest == nullptr)
 		cout << "null" << endl;
-	Point2D &p = doorDest->getEnterLocation();
-	this->localAStar(p);
+	//Point2D &p = doorDest->getEnterLocation();
+	//this->localAStar(p);
 	//3. got to the exit of the door.
-	//this->localAStar(doorDest->getExitLocation());
+	this->localAStar(doorDest->getExitLocation());
+	vector<Room*> v = doorDest->getDestinations();
+	this->currentRoom = *v[v.size()-1];
 }
 
 /*

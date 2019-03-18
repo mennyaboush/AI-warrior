@@ -1,6 +1,4 @@
-﻿  main.cpp
-c:\users\sonya\desktop\final\first\first\main.cpp(134): warning C4101: 'to': unreferenced local variable
-c:\users\sonya\desktop\final\first\first\main.cpp(204): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
-c:\users\sonya\desktop\final\first\first\main.cpp(266): warning C4101: 'tmp': unreferenced local variable
-c:\users\sonya\desktop\final\first\first\main.cpp(271): warning C4101: 'weight': unreferenced local variable
+﻿  Warrior.cpp
+c:\users\sonya\desktop\final\first\first\warrior.cpp(354): warning C4101: 'tmp': unreferenced local variable
+c:\users\sonya\desktop\final\first\first\warrior.cpp(358): warning C4101: 'weight': unreferenced local variable
   First.vcxproj -> C:\Users\Sonya\Desktop\final\First\Debug\First.exe

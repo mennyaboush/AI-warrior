@@ -33,7 +33,7 @@ private:
 
 	bool	life = true;
 	
-	Room	currentRoom;
+	Room	&currentRoom;
 	Point2D	location;
 	
 	stack<Point2D> walkingPath;
