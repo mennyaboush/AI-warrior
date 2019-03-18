@@ -1,2 +1,14 @@
-﻿  Room.cpp
+﻿  Action.cpp
+  CompareActions.cpp
+  Warrior.cpp
+c:\users\sonya\desktop\final\first\first\warrior.cpp(241): warning C4101: 'tmp': unreferenced local variable
+c:\users\sonya\desktop\final\first\first\warrior.cpp(245): warning C4101: 'weight': unreferenced local variable
+  main.cpp
+c:\users\sonya\desktop\final\first\first\main.cpp(134): warning C4101: 'to': unreferenced local variable
+c:\users\sonya\desktop\final\first\first\main.cpp(194): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+c:\users\sonya\desktop\final\first\first\main.cpp(162): warning C4101: 'pt': unreferenced local variable
+c:\users\sonya\desktop\final\first\first\main.cpp(256): warning C4101: 'tmp': unreferenced local variable
+c:\users\sonya\desktop\final\first\first\main.cpp(261): warning C4101: 'weight': unreferenced local variable
+c:\users\sonya\desktop\final\first\first\main.cpp(257): warning C4101: 'pt': unreferenced local variable
+  Generating Code...
   First.vcxproj -> C:\Users\Sonya\Desktop\final\First\Debug\First.exe
