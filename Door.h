@@ -7,6 +7,7 @@ private:
 	vector<Room*> destinations;
 	Point2D &enterLocation;
 	Point2D &exitLocation;
+
 public:
 	Door(Room& current, Point2D &enterlocation, Point2D &exitlocation);
 	~Door();

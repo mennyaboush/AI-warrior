@@ -33,7 +33,7 @@ private:
 
 	bool	life = true;
 	
-	Room	&currentRoom;
+	Room	*currentRoom;
 	Point2D	location;
 	
 	stack<Point2D> walkingPath;
@@ -50,13 +50,12 @@ private:
 	void throGrenade();
 	double getDistance(const Warrior &other) const;
 	bool lookForEnemyInRoom(Warrior &other);
-	void AddNode(Node &current, int direction);
+	bool AddNode(Node & current, Point2D & targetLocation, vector<Point2D>& gray, vector<Point2D>& black, vector<Parent>& parents, priority_queue<Node*, vector<Node*>, CompareNodes>& pq, int direction);
 	
 	void addNodeAStarHelper(Node &currentNode, Node &nextNode, Point2D &targetLocation, vector <Point2D> &gray, vector <Parent> &parents, priority_queue<Node*, vector<Node*>, CompareNodes> &pq);
 	//void addNodeAStarHelper(Node &currentNode, Node &nextNode, Point2D &targetLocation, vector <Point2D*> &gray, vector <Parent*> &parents, priority_queue<Node*, vector<Node*>, CompareNodes> &pq);
 	bool addNeighborsAStarHelper(Node &current, Point2D &targetLocation, vector <Point2D> &gray, vector <Parent> &parents, priority_queue<Node*, vector<Node*>, CompareNodes> &pq);
 	//bool addNeighborsAStarHelper(Node &current, Point2D &targetLocation, vector <Point2D*> &gray, vector <Parent*> &parents, priority_queue<Node*, vector<Node*>, CompareNodes> &pq);
-
 
 public:
 	Warrior(int maze[ConstValue::MSIZE][ConstValue::MSIZE], Room &room, Point2D &location);
@@ -71,8 +70,11 @@ public:
 	int getlifePoints() { return lifePoint; }
 	int	getGunsAmmo() { return gunsAmmo; }
 	int	getGrenadeAmmo() { return grenadeAmmo; }
-	Room& getCurrentRoom() { return currentRoom; }
-	Point2D getLocation() const { return this->location; }
+	Room& getCurrentRoom() { return *currentRoom; }
+	Point2D getLocation() const 
+	{
+		return location; 
+	}
 	void setX(int x) { this->location.setX(x); }
 	void setY(int y) { this->location.setY(y); }
 	bool isALife() const { return life; }

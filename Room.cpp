@@ -11,17 +11,18 @@ Room::~Room()
 }
 
 
-Room::Room(const Point2D& center_point, int w, int h)
+Room::Room(int id, const Point2D& center_point, int w, int h)
 {
-	center = center_point;
+	this->id = id;
+	center = (Point2D* )&center_point;
 	width = w;
 	height = h;
 }
 
 
-Point2D Room::GetCenter() const
+Point2D& Room::GetCenter() const
 {
-	return center;
+	return *center;
 }
 
 
@@ -39,8 +40,8 @@ int Room::GetHeight() const
 
 bool Room::IsOverlap(const Room& other)
 {
-	return abs(center.GetX()-other.GetCenter().GetX())
-		< (width+other.width)/2+5 && abs(center.GetY() - 
+	return abs(center->GetX()-other.GetCenter().GetX())
+		< (width+other.width)/2+5 && abs(center->GetY() - 
 			other.GetCenter().GetY()) < (height+other.height)/2+5  ;
 }
 

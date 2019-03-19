@@ -1,4 +1,2 @@
 ﻿  Warrior.cpp
-c:\users\sonya\desktop\final\first\first\warrior.cpp(354): warning C4101: 'tmp': unreferenced local variable
-c:\users\sonya\desktop\final\first\first\warrior.cpp(358): warning C4101: 'weight': unreferenced local variable
   First.vcxproj -> C:\Users\Sonya\Desktop\final\First\Debug\First.exe
