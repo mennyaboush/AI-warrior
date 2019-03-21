@@ -45,84 +45,76 @@ void Warrior::lookForEnemy(Warrior &other)
 Look for other warrior in room using A* algorithm
 use stack::walkingPath to save the steps and move the warrior.
 */
-bool Warrior::lookForEnemyInRoom(Warrior &other)
+void Warrior::lookForEnemyInRoom(Warrior &other)
 {
+	Point2D p = other.getLocation();
+	localAStar(p);
+	////Variables for A* algorithm
+	//Node *current;
+	//priority_queue<Node*, vector<Node*>, CompareNodes> pq;
+	//vector<Point2D>::iterator gray_it;
+	//vector<Point2D>::iterator black_it;
+	//vector <Point2D> gray;
+	//vector <Point2D> black;
+	//vector <Parent> parents;
+	//bool finished = false;
+
+	////A* action
+	//pq.emplace(new Node(this->getLocation(), other.getLocation(), 0));
+	//while (!finished)
+	//{
+	//	cout << "5" << endl;
+	//	if (pq.empty())
+	//	{
+	//		cout << "pq should not be empty in this function!\n fnuctin:lookForEnemyInRoom ";
+	//		return false; //Naver need to happend.
+	//	}
+	//	current = pq.top();
+	//	pq.pop(); // remove it from pq
+	//	parents.push_back(*new Parent(current->GetPoint(), current->GetPoint(), false));
+
+	//	// the target has been found
+	//	if (current->GetH() == 0)
+	//		finished = true;
+
+	//	// go back to start and enter the steps to walkingPath 
+	//	vector<Parent>::iterator itr = find(parents.begin(), parents.end(),Parent(current->GetPoint(), current->GetPoint(), true));
+	//	
+	//	walkingPath.push(itr->GetCurrent());
+	//	while (itr->HasParent())
+	//	{
+	//			Point2D tmp_prev = itr->GetPrev();
+	//			Point2D tmp_cur = itr->GetCurrent();
+	//			walkingPath.push(tmp_cur);
+	//			itr = find(parents.begin(), parents.end(),
+	//				Parent(tmp_prev, current->GetPoint(), true));
+	//			cout << "3" << endl;
+	//		}
+
+	//	// check the neighbours
+	//		// remove current from gray 
+	//		gray_it = find(gray.begin(), gray.end(), current->GetPoint());
+	//		if (gray_it != gray.end())
+	//			gray.erase(gray_it);
+	//		// and paint it black
+	//		black.push_back(current->GetPoint());
+
+	//		// try to go UP
+	//		AddNode(*current, other.getLocation(), gray, black, parents, pq, ConstValue::UP);
+	//		// try to go DOWN
+	//		AddNode(*current, other.getLocation(), gray, black, parents, pq, ConstValue::DOWN);
+	//		// try to go LEFT
+	//		AddNode(*current, other.getLocation(), gray, black, parents, pq, ConstValue::LEFT);
+	//		// try to go RIGHT
+	//		AddNode(*current, other.getLocation(), gray, black, parents, pq, ConstValue::RIGHT);
 
 
-	//Variables for A* algorithm
-	Node *current;
-
-	priority_queue<Node*, vector<Node*>, CompareNodes> pq;
-
-	vector<Point2D>::iterator gray_it;
-	vector<Point2D>::iterator black_it;
-	vector <Point2D> gray;
-	vector <Point2D> black;
-	vector <Parent> parents;
-	
-	bool finished = false;
-
-	//A* action
-	pq.emplace(new Node(this->getLocation(), other.getLocation(), 0));
-	while (!finished)
-	{
-		cout << "5" << endl;
-		if (pq.empty())
-		{
-			cout << "pq should not be empty in this function!\n fnuctin:lookForEnemyInRoom ";
-			return false; //Naver need to happend.
-		}
-
-		
-		current = pq.top();
-		pq.pop(); // remove it from pq
-		parents.push_back(*new Parent(current->GetPoint(), current->GetPoint(), false));
-
-		// the target has been found
-		if (current->GetH() == 0)
-		{
-			finished = true;
-		}
-		// go back to start and enter the steps to walkingPath 
-		vector<Parent>::iterator itr = find(parents.begin(), parents.end(),Parent(current->GetPoint(), current->GetPoint(), true));
-		
-		walkingPath.push(itr->GetCurrent());
-		while (itr->HasParent())
-		{
-				Point2D tmp_prev = itr->GetPrev();
-				Point2D tmp_cur = itr->GetCurrent();
-				walkingPath.push(tmp_cur);
-				itr = find(parents.begin(), parents.end(),
-					Parent(tmp_prev, current->GetPoint(), true));
-				cout << "3" << endl;
-
-			}
-
-		// check the neighbours
-		
-			// remove current from gray 
-			gray_it = find(gray.begin(), gray.end(), current->GetPoint());
-			if (gray_it != gray.end())
-				gray.erase(gray_it);
-			// and paint it black
-			black.push_back(current->GetPoint());
-
-			// try to go UP
-			AddNode(*current, other.getLocation(), gray, black, parents, pq, ConstValue::UP);
-			// try to go DOWN
-			AddNode(*current, other.getLocation(), gray, black, parents, pq, ConstValue::DOWN);
-			// try to go LEFT
-			AddNode(*current, other.getLocation(), gray, black, parents, pq, ConstValue::LEFT);
-			// try to go RIGHT
-			AddNode(*current, other.getLocation(), gray, black, parents, pq, ConstValue::RIGHT);
+	//		/*if (*(maze[current->GetPoint().GetY() + 1][current->GetPoint().GetX()]) == ConstValue::TARGET)
+	//			finished = true;*/
 
 
-			/*if (*(maze[current->GetPoint().GetY() + 1][current->GetPoint().GetX()]) == ConstValue::TARGET)
-				finished = true;*/
-
-
-	} // while
-	return true;
+	//} // while
+	//return true;
 }
 
 /*go to the next room to reach the destination room */
@@ -182,7 +174,7 @@ void Warrior::localAStar(Point2D &targetLocation)
 	{
 		if (pq.empty())
 			cout << "pq should not be empty in this function!\n fnuctin:lookForEnemyInRoom ";
-		cout << "1" << endl;
+		//cout << "1" << endl;
 
 		vector<Parent>::iterator itr;
 
@@ -445,6 +437,7 @@ void Warrior::selectMission(Warrior& other)
 	{
 		moveWarrior(walkingPath.top());
 		walkingPath.pop();
+		
 	}
 	else
 	{
