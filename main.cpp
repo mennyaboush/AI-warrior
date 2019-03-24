@@ -405,66 +405,8 @@ void drawWarrior(const Warrior &warrior)
 	maze[location.GetY()][location.GetX()] = ConstValue::WARRIOR;
 }
 
-//void SetupMaze()
-//{
-//	int i, j,counter;
-//	int left, right, top, bottom;
-//	bool isValidRoom;
-//	Room* pr=NULL;
-//
-//	for (counter = 0; counter < NUM_ROOMS; counter++)
-//	{
-//		// create room
-//		do
-//		{
-//			free(pr);
-//			pr = new Room(Point2D(rand()%MSIZE,rand() % MSIZE),
-//				Room::MINIMUM_SIZE + rand() % 15, Room::MINIMUM_SIZE + rand() % 25);
-//
-//			//Set limits to the room and check for leakage from window size
-//			top = pr->GetCenter().GetY() - pr->GetHeight() / 2;
-//			if (top < 0) top = 0;
-//			bottom = pr->GetCenter().GetY() + pr->GetHeight() / 2;
-//			if (bottom >= MSIZE) bottom = MSIZE - 1;
-//			left = pr->GetCenter().GetX() - pr->GetWidth() / 2;
-//			if (left < 0) left = 0;
-//			right = pr->GetCenter().GetX() + pr->GetWidth() / 2;
-//			if (right >= MSIZE) right = MSIZE - 1;
-//
-//			//check overlapping rooms 
-//			isValidRoom = true;
-//			for (i = 0; i < counter && isValidRoom; i++)
-//				if (all_rooms[i].IsOverlap(*pr))
-//					isValidRoom = false;
-//
-//		} while (!isValidRoom);
-//
-//		all_rooms[counter] = *pr;
-//		for (i = top; i <= bottom; i++)
-//			for (j = left; j <= right; j++)
-//				maze[i][j] = ConstValue::SPACE;
-//	}
-//
-//	//Create ammo storgae
-//	for (i = 0; i < ConstValue::NUM_OF_AMMO_STORAGE; i++)
-//	{
-//		int roomIndex = i;
-//		Storage *s = new Storage(all_rooms[roomIndex], TRUE);
-//		ammoStorage[i] = *s;
-//		drawStorage(*s);
-//	}
-//
-//	//Create medical storgae
-//	for (i = 0; i < ConstValue::NUM_OF_MEDICAL_STORAGE; i++)
-//	{
-//		int roomIndex = NUM_ROOMS - i - 1;
-//		Storage *s = new Storage(all_rooms[roomIndex], FALSE);
-//		medicalStorage[i] = *s;
-//		drawStorage(*s);
-//	}
-//
-//	DigTunnels();
-//}
+
+
 
 void DrawMaze()
 {
