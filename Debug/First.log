@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿  Action.cpp
 c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\point2d.h(16): warning C4244: 'return': conversion from 'const double' to 'int', possible loss of data
   CompareActions.cpp
@@ -52,3 +53,7 @@ c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\re
 c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(393): error C2661: 'Node::Node': no overloaded function takes 2 arguments
   Generating Code...
 c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\point2d.cpp(46): error C4716: 'Point2D::calcuateSeftyScore': must return a value
+=======
+﻿  Warrior.cpp
+  First.vcxproj -> C:\Users\Sonya\Desktop\final\First\Debug\First.exe
+>>>>>>> parent of e8fa217... lookForEnemyInRoom
