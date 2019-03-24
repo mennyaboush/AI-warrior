@@ -29,10 +29,9 @@ private:
 	int		gunsAmmo = 50; // 50 bullets
 	int		grenadeAmmo = 2; // 2 grenades
 	int		safetyScore; // Depends on walls neer the warrior 
-	int		*maze[ConstValue::MSIZE][ConstValue::MSIZE];
 	bool	life = true;
 	
-	Maze maze = Maze();
+	Maze maze = Maze::getInstance();
 	Room	*currentRoom;
 	Point2D	location;
 	
@@ -58,7 +57,7 @@ private:
 	//bool addNeighborsAStarHelper(Node &current, Point2D &targetLocation, vector <Point2D*> &gray, vector <Parent*> &parents, priority_queue<Node*, vector<Node*>, CompareNodes> &pq);
 
 public:
-	Warrior(int maze[ConstValue::MSIZE][ConstValue::MSIZE], Room &room, Point2D &location);
+	Warrior(Room &room, Point2D &location);
 	~Warrior();
 
 	void selectMission(Warrior& other);
