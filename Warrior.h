@@ -11,6 +11,7 @@
 #include "CompareActions.h"
 #include "ConstValue.h"
 #include "Parent.h"
+#include "Maze.h"
 
 class Action;
 using namespace std;
@@ -23,16 +24,15 @@ and for nevigation.
 class Warrior
 {
 private:
-	
 	int		id;
 	int		lifePoint = 100; //range [0,100]
 	int		gunsAmmo = 50; // 50 bullets
 	int		grenadeAmmo = 2; // 2 grenades
 	int		safetyScore; // Depends on walls neer the warrior 
 	int		*maze[ConstValue::MSIZE][ConstValue::MSIZE];
-
 	bool	life = true;
 	
+	Maze maze = Maze();
 	Room	*currentRoom;
 	Point2D	location;
 	

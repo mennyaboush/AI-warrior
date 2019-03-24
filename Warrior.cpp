@@ -2,22 +2,14 @@
 #include "Action.h"
 #include "Door.h"
 
-Warrior::Warrior(int maze[ConstValue::MSIZE][ConstValue::MSIZE], Room &room, Point2D &location):
+Warrior::Warrior(Room &room, Point2D &location):
 	currentRoom(&room), location(location)
 {
-	//init maze
-	for (int i = 0; i < ConstValue::MSIZE; i++) 
-	{
-		for(int j = 0 ; j < ConstValue::MSIZE; j++)
-			(this->maze[i][j]) = &maze[i][j];
-	}
 	// temp
 	actionQueue.push(new Action(*this, Action::FIGHT, 10));
 	actionQueue.push(new Action(*this, Action::FIND_AMMO, 0));
 	actionQueue.push(new Action(*this, Action::RUN, 0));
 	actionQueue.push(new Action(*this, Action::FIND_MED, 0));
-	
-	refrashSafetyScore();
 }
 
 Warrior::~Warrior()
