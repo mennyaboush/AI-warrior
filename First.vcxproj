@@ -154,7 +154,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Parent.cpp" />
-    <ClCompile Include="PieceOfLand.cpp" />
     <ClCompile Include="Point2D.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="Storage.cpp" />
@@ -168,7 +167,6 @@
     <ClInclude Include="Door.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Parent.h" />
-    <ClInclude Include="PieceOfLand.h" />
     <ClInclude Include="Point2D.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="Storage.h" />
