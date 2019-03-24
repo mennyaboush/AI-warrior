@@ -2,6 +2,7 @@
 #include <fstream>
 #include "Room.h"
 #include "Door.h"
+#include "Storage.h"
 
 using namespace std;
 
@@ -19,25 +20,30 @@ public:
 	static const int AMMO = 8;
 	static const int WARRIOR = 9;
 	static const int DOOR = 10;
+
 	static const int NUM_ROOMS = 10;
+	static const int NUM_OF_MEDICAL_STORAGE = 2;
+	static const int NUM_OF_AMMO_STORAGE = 2;
 
 private:
 	static Maze* maze;
 	int parts[MSIZE][MSIZE];
 	Room all_rooms[NUM_ROOMS];
+	Storage medicalStorage[NUM_OF_MEDICAL_STORAGE];
+	Storage ammoStorage[NUM_OF_AMMO_STORAGE];
 
 	Maze();
 
 public:
 	~Maze();
 
-	Maze& getInstance();
+	static Maze& getInstance();
 	
 	void loadMazeFromFile();
 	void cleanUp();
 	void drawType(int type);
 	
 	int** getParts() const;
-
+	Room* getRooms() const;
 };
 
