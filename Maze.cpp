@@ -86,3 +86,8 @@ void Maze::cleanUp()
 			parts[i][j] = WALL;
 	}
 }
+
+Room* Maze::getRooms() const
+{
+	return (Room*)all_rooms;
+}
