@@ -126,7 +126,7 @@ void readMazeFromFile()
 		myfile >> h;
 		myfile >> w;
 		int idx = i + 1;
-		all_rooms[i] = *new Room(idx ,*new Point2D(x, y), w, h);
+		all_rooms[i] = *new Room(idx ,*new Point2D(x, y, &maze), w, h);
 	}
 	myfile.close();
 
@@ -145,7 +145,7 @@ void readMazeFromFile()
 		myfile >> x2;
 		myfile >> y2;
 		myfile >> room_num;	
-		Door* door = new Door(all_rooms[from - 1],*new Point2D(x1, y1), *new Point2D(x2, y2));
+		Door* door = new Door(all_rooms[from - 1],*new Point2D(x1, y1, &maze), *new Point2D(x2, y2, &maze));
 		
 		for (int j = 0; j < room_num; j++) {
 			int roomIndex;

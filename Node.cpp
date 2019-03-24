@@ -15,10 +15,15 @@ Node::~Node()
 {
 }
 
-
 double Node::GetF() const
 {
 	return GetG()+GetH();
+}
+
+double Node::getDistance()
+{
+	return sqrt(pow(point.GetX() - target.GetX(), 2) +
+		pow(point.GetY() - target.GetY(), 2));
 }
 
 double Node::GetG() const
@@ -33,11 +38,12 @@ double Node::GetH() const
 }
 
 
-Node::Node(const Point2D& p, const Point2D& t, double g)
+Node::Node(const Point2D& p, const Point2D& t, double saftyScore)
 {
 	point = p;
 	target = t;
-	this->g = g;
+	this->g = saftyScore;
+	this->saftyScore = saftyScore;
 }
 
 

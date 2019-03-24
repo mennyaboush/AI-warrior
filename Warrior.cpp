@@ -17,7 +17,7 @@ Warrior::Warrior(int maze[ConstValue::MSIZE][ConstValue::MSIZE], Room &room, Poi
 	actionQueue.push(new Action(*this, Action::RUN, 0));
 	actionQueue.push(new Action(*this, Action::FIND_MED, 0));
 	
-	refrashSafetyScore();
+	this->safetyScore = Point2D::calcuateSeftyScore(this->getLocation(), maze);
 }
 
 Warrior::~Warrior()
@@ -169,7 +169,8 @@ void Warrior::localAStar(Point2D &targetLocation)
 	bool finished = false;
 
 	//A* action
-	pq.emplace(new Node(this->getLocation(), targetLocation, 0));
+	pq.emplace(new Node(this->getLocation(), targetLocation,
+		Point2D::calcuateSeftyScore(this->getLocation(),maze)));
 	while (!finished)
 	{
 		if (pq.empty())
@@ -234,20 +235,24 @@ void Warrior::localAStar(Point2D &targetLocation)
 /*
 Each close wall in the area increases the score by 1.
 The function tests a 3X3 area when the warrior is in the center of the area.
-*/
-void Warrior::refrashSafetyScore()
-{
-	int score = 0, i, j;
-	int x = this->location.GetX();
-	int y = this->location.GetY();
-	for (i = x - 1; i <= x + 1; i++)
-	{
-		for (j = y - 1; j <= y + 1; j++)
-		{
-			
-		}
-	}
-}
+//*/
+//void Warrior::calculateSaftyScore()
+//{
+//	const int ALL_AREA = 8; //Chack area of 3X3 
+//	int safeAreas = 0;
+//	int score = 0, i, j;
+//	int x = this->location.GetX();
+//	int y = this->location.GetY();
+//	for (i = x - 1; i <= x + 1; i++)
+//	{
+//		for (j = y - 1; j <= y + 1; j++)
+//		{
+//			if (*(maze[y][x]) == ConstValue::WALL)
+//				safeAreas++;
+//		}
+//	}
+//	return (ALL_AREA - safeAreas) / ALL_AREA;
+//}
 
 /*
 Each shot consumes one ball.

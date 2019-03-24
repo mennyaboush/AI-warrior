@@ -42,7 +42,7 @@ private:
 	//functions
 	void lookForMedicalStorageInTheRoom();
 	void lookForAmmoStorageInTheRoom();
-	void refrashSafetyScore(); //scan the area and change the safetyScore.
+	//void calculateSaftyScore(); //scan the area and change the safetyScore.
 	void exitTheRoom(Room &room); //Implaments in A*.
 	void shoot(Warrior &other);
 	void localAStar(Point2D &targetLoction);
