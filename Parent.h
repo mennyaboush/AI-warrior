@@ -10,10 +10,10 @@ private:
 	Point2D prev;
 	bool has_prev;
 public:
-	Parent(Point2D c, Point2D p, bool has);
+	Parent(Point2D &c, Point2D &p, bool has);
 	bool operator==(Parent other);
 	bool HasParent();
-	Point2D GetPrev();
-	Point2D GetCurrent();
+	Point2D &GetPrev();
+	Point2D &GetCurrent();
 };
 

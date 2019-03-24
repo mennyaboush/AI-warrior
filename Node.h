@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Point2D.h"
 class Node
 {
@@ -6,7 +7,7 @@ public:
 	Node();
 	~Node();
 private:
-	Point2D point,target;
+	Point2D point, target;
 	double g;
 public:
 	double GetF() const;

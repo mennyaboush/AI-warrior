@@ -28,8 +28,6 @@ double Node::GetG() const
 
 double Node::GetH() const
 {
-//	return abs(point.GetX()-target.GetX())+ 
-//		abs(point.GetY() - target.GetY());
 	return sqrt(pow(point.GetX() - target.GetX(), 2) +
 		pow(point.GetY() - target.GetY(), 2));
 }
