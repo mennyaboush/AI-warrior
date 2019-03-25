@@ -2,10 +2,17 @@
 #include "Action.h"
 #include "Door.h"
 
+/**
+ToDo:
+- search for ammo&med
+- run away
+- shoot
+*/
+
+
 Warrior::Warrior(Room &room, Point2D &location) :
 	currentRoom(&room), location(location)
 {
-	// temp
 	actionQueue.push(new Action(*this, Action::FIGHT, 10));
 	actionQueue.push(new Action(*this, Action::FIND_AMMO, 0));
 	actionQueue.push(new Action(*this, Action::RUN, 0));
@@ -67,11 +74,11 @@ void Warrior::selectMission(Warrior& other)
 	}
 	else
 	{
-		Action toDo = *(actionQueue.top());	// RUN, FIND_AMMO, FIND_MED, FIGHT
+		current = actionQueue.top();	// RUN, FIND_AMMO, FIND_MED, FIGHT
 		//actionQueue.pop();
 
 		lookForEnemy(other);
-		switch (toDo.getType())
+		switch (current->getType())
 		{
 		case Action::FIGHT:
 			lookForEnemy(other);
@@ -94,10 +101,10 @@ look in the current room, then go to another room and check him.*/
 void Warrior::lookForEnemy(Warrior &other)
 {
 	//1. look for enemy in the current room.
-	if (currentRoom->getId() != other.getCurrentRoom().getId())
+	if (currentRoom->getId() != other.getCurrentRoom().getId()) 
 		exitTheRoom(other.getCurrentRoom());
 	else
-		lookForEnemyInRoom(other);
+		lookForEnemyInRoom(other); // enemy is in the room
 
 	//2. calculat the next room the warrior will check.
 
@@ -112,23 +119,64 @@ use stack::walkingPath to save the steps and move the warrior.
 */
 void Warrior::lookForEnemyInRoom(Warrior &other)
 {
-	walkingPath = maze->localAStar(location, other.getLocation());
+	if (getDistance(other) < ConstValue::SHOOT_MAX_DISTANCE)
+		shoot(other);
+	else
+		walkingPath = maze->localAStar(location, other.getLocation());
 }
 
 /*Get a point and move the warrior on the maze to the point cordinate*/
 void Warrior::moveWarrior(Point2D & nextStep)
 {
 	//deleate the warrior from the maze
-	maze->parts[location.GetY()][location.GetX()].setType(ConstValue::SPACE);
+	maze->parts[location.GetY()][location.GetX()].setType(MazePart::SPACE);
 
 	//change the location of warrior.
 	this->location.setX(nextStep.GetX());
 	this->location.setY(nextStep.GetY());
 
 	//draw the warrior on the maze
-	maze->parts[location.GetY()][location.GetX()].setType(ConstValue::WARRIOR);
+	maze->parts[location.GetY()][location.GetX()].setType(MazePart::WARRIOR);
 }
 
+
+/*
+Each shot consumes one ball.
+The damage caused to the second fighter depends on the distance between them
+*/
+void Warrior::shoot(Warrior &other)
+{
+	if (gunsAmmo <= 0)
+		return;
+	//Check the ammo.
+	double distance = getDistance(other);
+
+	cout << "warrior " << id << " is trying to soot" << endl;
+	//check if the warrior no too far
+	int damage = ConstValue::SHOOT_MAX_DISTANCE - (int)distance;
+	if (damage > 0)
+	{
+		current->updateScore(-2);
+		gunsAmmo--;
+		cout << this->id << " shot! " << other.id << endl;
+		other.injured(damage);
+	}
+	else
+		walkingPath = maze->localAStar(location, other.getCurrentRoom().GetCenter());
+}
+
+/* Decrease the life point until dead. */
+void Warrior::injured(int hitPoint)
+{
+	// TODO: update action med and action run priority
+	
+	lifePoint = lifePoint - hitPoint;
+	if (lifePoint <= 0)
+	{
+		lifePoint = 0;
+		life = false;
+	}
+}
 
 ///*
 //Each close wall in the area increases the score by 1.
@@ -148,29 +196,7 @@ void Warrior::moveWarrior(Point2D & nextStep)
 //	}
 //}
 
-///*
-//Each shot consumes one ball.
-//The damage caused to the second fighter depends on the distance between them
-//*/
-//void Warrior::shoot(Warrior &other)
-//{
-//	//Check the ammo.
-//	if (this->gunsAmmo > 0)
-//	{
-//		double distance = getDistance(other);
-//
-//		//check if the warrior no too far
-//		int damage = ConstValue::MAX_DISTANCE_TO_INJURED - (int)distance;
-//		if (damage > 0)
-//		{
-//			gunsAmmo--;
-//			std::cout << this->id << " shot " << other.id;
-//			other.injured(damage);
-//		}
-//		else
-//			walkingPath = maze->localAStar(location, other.getCurrentRoom().GetCenter());
-//	}
-//}
+
 
 ///*this function help to A* and do 2 things
 //1. create new node who represent the step for UP direction and push him to priortyQ and to gray vector.
@@ -232,13 +258,3 @@ void Warrior::moveWarrior(Point2D & nextStep)
 //}
 
 
-///* Decrease the life point until dead. */
-//void Warrior::injured(int hitPoint)
-//{
-//	lifePoint = lifePoint - hitPoint;
-//	if (lifePoint <= 0)
-//	{
-//		lifePoint = 0;
-//		life = false;
-//	}
-//}

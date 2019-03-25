@@ -42,7 +42,7 @@ const int PURPLE = 18;
 const int BLACK = 19;
 const int BROWN = 20;
 
-static const int MSIZE = ConstValue::MSIZE;
+static const int MSIZE = Maze::MSIZE;
 const double SQSIZE = 2.0 / MSIZE;
 
 Warrior *warriors[ConstValue::NUM_OF_WARRIORS];
@@ -79,10 +79,10 @@ void createWarriors()
 
 	for (int i = 0; i < ConstValue::NUM_OF_WARRIORS; i++)
 	{
-		Room& r = maze->getRooms()[rand() % ConstValue::NUM_ROOMS];
+		Room& r = maze->getRooms()[rand() % Maze::NUM_ROOMS];
 		int y = r.GetCenter().GetY();
 		int x = r.GetCenter().GetX();
-		maze->parts[y][x].setType(ConstValue::WARRIOR);
+		maze->parts[y][x].setType(MazePart::WARRIOR);
 		Warrior *w = new Warrior(r, *new Point2D(x, y));
 		warriors[i] = w;
 		drawWarrior(*warriors[i]);
@@ -92,7 +92,7 @@ void createWarriors()
 void drawWarrior(const Warrior &warrior)
 {
 	Point2D location = warrior.getLocation();
-	maze->parts[location.GetY()][location.GetX()].setType(ConstValue::WARRIOR);
+	maze->parts[location.GetY()][location.GetX()].setType(MazePart::WARRIOR);
 }
 
 void DrawMaze()
@@ -104,31 +104,28 @@ void DrawMaze()
 		{
 			switch (maze->parts[i][j].getType())
 			{
-			case ConstValue::WALL:
+			case MazePart::WALL:
 				glColor3d(0.4, 0, 0); // dark red;
 				break;
-			case ConstValue::SPACE:
+			case MazePart::SPACE:
 				glColor3d(1, 1, 1); // white;
 				break;
-			case ConstValue::VISITED:
+			case MazePart::VISITED:
 				glColor3d(0, 0.9, 0); // green;
 				break;
-			case ConstValue::START:
-				glColor3d(0, 0, 1); // blue;
-				break;
-			case ConstValue::TARGET:
+			case MazePart::TARGET:
 				glColor3d(1,0,0 ); // RED;
 				break;
-			case ConstValue::GRAY:
+			case MazePart::GRAY:
 				glColor3d(1, .8, 0); // ORANGE;
 				break;
-			case ConstValue::MEDICAL:
+			case MazePart::MEDICAL:
 				glColor3d(0,0,1); //blue
 				break;
-			case ConstValue::AMMO:
+			case MazePart::AMMO:
 				glColor3d(1,0,0); //red
 				break;
-			case ConstValue::WARRIOR:
+			case MazePart::WARRIOR:
 				glColor3d(0, 0, 0); // BLACK
 				break;
 
@@ -154,9 +151,12 @@ void display()
 
 void idle()
 {
+	if (!warriors[0]->isAlive() || !warriors[1]->isAlive())
+		return;
+
 	// temp
 	(warriors[0])->selectMission(*warriors[1]);
-	//(warriors[1])->selectMission(*warriors[0]);
+	(warriors[1])->selectMission(*warriors[0]);
 
 	glutPostRedisplay(); // calls indirectly to display
 	delay(5);

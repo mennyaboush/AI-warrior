@@ -1,5 +1,6 @@
 #include "Room.h"
 #include "Door.h"
+#include "Maze.h"
 #include <stdlib.h>
 Room::Room()
 {
@@ -57,8 +58,8 @@ int Room::getLeft() const
 int Room::getRight() const
 {
 	int right = this->GetCenter().GetX() + this->GetWidth() / 2;
-	if (right >= ConstValue::MSIZE)
-		return ConstValue::MSIZE - 1 ;
+	if (right >= Maze::MSIZE)
+		return Maze::MSIZE - 1 ;
 	return right;
 }
 
@@ -74,7 +75,7 @@ int Room::getTop() const
 int Room::getBottom() const
 {
 	int bottom = this->GetCenter().GetY() + this->GetHeight() / 2;
-	if (bottom >= ConstValue::MSIZE) return bottom = ConstValue::MSIZE - 1;
+	if (bottom >= Maze::MSIZE) return bottom = Maze::MSIZE - 1;
 	else
 		return bottom;
 }

@@ -1,4 +1,7 @@
-﻿  CompareNodes.cpp
-c:\users\sonya\desktop\final\first\first\comparenodes.cpp(22): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-c:\users\sonya\desktop\final\first\first\comparenodes.cpp(23): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+﻿  Action.cpp
+  CompareActions.cpp
+  Warrior.cpp
+  main.cpp
+c:\users\sonya\desktop\final\first\first\main.cpp(72): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+  Generating Code...
   First.vcxproj -> C:\Users\Sonya\Desktop\final\First\Debug\First.exe

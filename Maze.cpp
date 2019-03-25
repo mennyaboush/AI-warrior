@@ -175,13 +175,13 @@ bool Maze::AddNewNode(Node & current, Point2D & targetLocation, vector<Point2D>&
 		break;
 	} // switch
 
-	if (maze->parts[current.GetPoint().GetY()][current.GetPoint().GetX() - 1].getType() == ConstValue::TARGET)
+	if (maze->parts[current.GetPoint().GetY()][current.GetPoint().GetX() - 1].getType() == MazePart::TARGET)
 		finished = true;
 
 	if (direction == ConstValue::UP && current.GetPoint().GetY() > 0 ||
-		direction == ConstValue::DOWN && current.GetPoint().GetY() < ConstValue::MSIZE - 1 ||
+		direction == ConstValue::DOWN && current.GetPoint().GetY() < MSIZE - 1 ||
 		direction == ConstValue::LEFT && current.GetPoint().GetX() > 0 ||
-		direction == ConstValue::RIGHT && current.GetPoint().GetX() < ConstValue::MSIZE - 1)
+		direction == ConstValue::RIGHT && current.GetPoint().GetX() < MSIZE - 1)
 	{
 		pt = new Point2D(current.GetPoint().GetX() + dx, current.GetPoint().GetY() + dy);
 		gray_it = find(gray.begin(), gray.end(), *pt);
@@ -189,7 +189,7 @@ bool Maze::AddNewNode(Node & current, Point2D & targetLocation, vector<Point2D>&
 		if (gray_it == gray.end() && black_it == black.end()) // this is a new point
 		{
 			// very important to tunnels
-			if (maze->parts[current.GetPoint().GetY() + dy][current.GetPoint().GetX() + dx].getType() == ConstValue::WALL)
+			if (maze->parts[current.GetPoint().GetY() + dy][current.GetPoint().GetX() + dx].getType() == MazePart::WALL)
 				weight = wall_weight;
 			else weight = space_weight;
 			// weight depends on previous weight and wheater we had to dig
