@@ -14,6 +14,6 @@ public:
 	double GetG() const;
 	double GetH() const;
 	Node(const Point2D& p, const Point2D& t, double g);
-	Point2D GetPoint();
+	Point2D GetPoint() const;
 };
 

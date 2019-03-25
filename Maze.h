@@ -4,9 +4,17 @@
 #include "Door.h"
 #include "Storage.h"
 #include "MazePart.h"
+#include <queue>
+#include <vector>
+#include <stack>
+#include <iostream>
+#include "CompareActions.h"
+#include "Parent.h"
+#include "Node.h"
 
 using namespace std;
 
+class CompareNodes;
 class Maze
 {
 public:
@@ -32,15 +40,19 @@ public:
 	Maze& operator=(Maze &other) = delete;
 	static Maze& getInstance();
 	
+	int countSpaces(int i, int j);
+	void setSaftyScores();
 	void loadMazeFromFile();
 	void cleanUp();
 	
-	MazePart** getParts() const;
+	//MazePart** getParts() const;
 	Room* getRooms() const;
 	double getSaftyScore(Point2D &point) const;
 	bool isPointInRoom(Point2D &point) const;
+	stack<Point2D> localAStar(Point2D &currentLocation, Point2D &targetLocation);
+	bool AddNewNode(Node & current, Point2D & targetLocation, vector<Point2D>& gray,
+		vector<Point2D>& black, vector<Parent>& parents, priority_queue<Node*, vector<Node*>, CompareNodes>& pq, int direction);
 
-	// astar stack
-	// is in room
+		// is in room
 };
 
