@@ -1,67 +1,52 @@
-#include "My_Room.h"
-
-
-
-My_Room::My_Room()
+#include "Room.h"
+#include "Door.h"
+#include "Maze.h"
+#include <stdlib.h>
+Room::Room()
 {
 }
 
 
-My_Room::~My_Room()
+Room::~Room()
 {
 }
 
 
-My_Room::My_Room(const Point2D& center_point, int w, int h)
+Room::Room(int id, const Point2D& center_point, int w, int h)
 {
-	center = center_point;
+	this->id = id;
+	center = (Point2D* )&center_point;
 	width = w;
 	height = h;
 }
 
 
-Point2D My_Room::GetCenter() const
+Point2D& Room::GetCenter() const
 {
-	return center;
+	return *center;
 }
 
 
-int My_Room::GetWidth() const
+int Room::GetWidth() const
 {
 	return width;
 }
 
 
-int My_Room::GetHeight() const
+int Room::GetHeight() const
 {
 	return height;
 }
 
 
-bool My_Room::IsOverlap(const My_Room& other) const
+bool Room::IsOverlap(const Room& other)
 {
-	return abs(center.GetX()-other.GetCenter().GetX())
-		< (width+other.width)/2+5 && abs(center.GetY() - 
+	return abs(center->GetX()-other.GetCenter().GetX())
+		< (width+other.width)/2+5 && abs(center->GetY() - 
 			other.GetCenter().GetY()) < (height+other.height)/2+5  ;
 }
 
-bool My_Room::locatedInTheRoom(const Point2D & p) const
-{
-	return (p.GetX() <= getRight() && p.GetX() >= getLeft()
-		&& p.GetY() <= getBottom() && p.GetY() >= GetHeight());
-}
-
-void My_Room::addDoor(Door door)
-{
-	doors.push_back(door);
-}
-
-std::vector<Door> My_Room::getAllDoors()
-{
-	 return doors; 
-}
-
-int My_Room::getLeft() const
+int Room::getLeft() const
 {
 	int left = this->GetCenter().GetX() - this->GetWidth() / 2;
 	if (left < 0)
@@ -70,15 +55,15 @@ int My_Room::getLeft() const
 		return left;
 }
 
-int My_Room::getRight() const
+int Room::getRight() const
 {
 	int right = this->GetCenter().GetX() + this->GetWidth() / 2;
-	if (right >= ConstValue::MSIZE)
-		return ConstValue::MSIZE - 1 ;
+	if (right >= Maze::MSIZE)
+		return Maze::MSIZE - 1 ;
 	return right;
 }
 
-int My_Room::getTop() const
+int Room::getTop() const
 {
 	int top = this->GetCenter().GetY() - this->GetHeight() / 2;
 	if(top < 0)
@@ -87,10 +72,44 @@ int My_Room::getTop() const
 		return top;
 }
 
-int My_Room::getBottom() const
+int Room::getBottom() const
 {
 	int bottom = this->GetCenter().GetY() + this->GetHeight() / 2;
-	if (bottom >= ConstValue::MSIZE) return bottom = ConstValue::MSIZE - 1;
+	if (bottom >= Maze::MSIZE) return bottom = Maze::MSIZE - 1;
 	else
 		return bottom;
+}
+
+vector<Door*> Room::getDoors() const
+{
+	return doors;
+}
+
+void Room::addDoor(Door& door)
+{
+	doors.push_back(&door);
+}
+
+bool Room::locatedInTheRoom(const Point2D & p) const
+{
+	int x = p.GetX();
+	int y = p.GetY();
+	int right = getRight();
+	int left = getLeft();
+
+	return (abs(x - right) < 2 && abs(x - getLeft()) < 2 && abs(y - getBottom()) < 2 && abs(y - GetHeight()) < 2);
+}
+
+/*chack all the doors and the rooms.*/
+bool Room::isDestionationRoom(const Room & destionation) const
+{
+	int numOfDoors = doors.size();
+	for (int i = 0; i < numOfDoors; i++)
+	{
+		if (doors[i]->isDestinationDoor(destionation) )
+		{
+			return true;
+		}
+	}
+	return false;
 }

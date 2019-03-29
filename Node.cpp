@@ -41,7 +41,7 @@ Node::Node(const Point2D& p, const Point2D& t, double g)
 }
 
 
-Point2D Node::GetPoint()
+Point2D Node::GetPoint() const
 {
 	return point;
 }

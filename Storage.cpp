@@ -4,7 +4,7 @@
 
 void Storage::setCenterByRoom()
 {
-	//srand(time(0));
+	srand(time(0));
 	int w = this->containedInRoom.getRight() - this->containedInRoom.getLeft();
 	int h = this->containedInRoom.getBottom() - this->containedInRoom.getTop();
 	w = rand()%w + this->containedInRoom.getLeft();
@@ -12,7 +12,7 @@ void Storage::setCenterByRoom()
 	this->center = Point2D(w, h);
 }
 
-Storage::Storage(My_Room containedInRoom, bool isAmmo)
+Storage::Storage(Room containedInRoom, bool isAmmo)
 {
 	this->containedInRoom = containedInRoom;
 	this->isAmmo = isAmmo;
