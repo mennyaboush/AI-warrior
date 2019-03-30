@@ -15,6 +15,7 @@
 
 class Maze;
 class Action;
+class CompareActions;
 using namespace std;
 
 /*

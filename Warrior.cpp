@@ -16,10 +16,10 @@ Warrior::Warrior(Room &room, Point2D &location) :
 	maze = &Maze::getInstance();
 	static int genId = 0;
 	this->id = genId++;
-	actionQueue.push(new Action(*this, Action::FIGHT, 10));
-	actionQueue.push(new Action(*this, Action::FIND_AMMO, 0));
-	actionQueue.push(new Action(*this, Action::RUN, 0));
-	actionQueue.push(new Action(*this, Action::FIND_MED, 0));
+	actionQueue.push(new Action(*this, eType::FIGHT));
+	actionQueue.push(new Action(*this, eType::FIND_AMMO));
+	actionQueue.push(new Action(*this, eType::RUN));
+	actionQueue.push(new Action(*this, eType::FIND_MED));
 }
 
 Warrior::~Warrior()
@@ -83,16 +83,16 @@ void Warrior::selectMission(Warrior& other)
 		lookForEnemy(other);
 		switch (current->getType())
 		{
-		case Action::FIGHT:
+		case eType::FIGHT:
 			lookForEnemy(other);
 			break;
-		case Action::RUN:
+		case eType::RUN:
 			// runAway();
 			break;
-		case Action::FIND_AMMO:
+		case eType::FIND_AMMO:
 			// target of Astar is ammo
 			break;
-		case Action::FIND_MED:
+		case eType::FIND_MED:
 			// target of Astar is med
 			break;
 		}

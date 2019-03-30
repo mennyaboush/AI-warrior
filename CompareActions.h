@@ -12,7 +12,7 @@ private:
 
 	/*Calculate the Score by the action type 
 	and the parameters we can get from the warrior and need for the calculate function.*/
-	double calculateScore(Action::eType type, Warrior &warrior);
+	double calculateScore(eType type, Warrior &warrior);
 	double calculateScoreRun(Warrior& w);
 	double calculateScoreFindAmmo(Warrior& w);
 	double calculateScoreFindMed(Warrior& w);

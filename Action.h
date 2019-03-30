@@ -5,6 +5,7 @@
 #include <iostream>
 
 using namespace std;
+enum eType { RUN, FIND_AMMO, FIND_MED, FIGHT, HURT };
 
 /*This class conatin priorityQ
 with all the action.
@@ -12,7 +13,6 @@ the Q get update regularly and the top action is the action the warrior shoulde 
 class Action
 {
 public:
-	enum eType { RUN, FIND_AMMO, FIND_MED, FIGHT, HURT };
 
 	Action(Warrior& warrior, eType type);
 	Action &operator=(const Action & other) = delete;
