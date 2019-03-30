@@ -14,7 +14,7 @@ class Action
 public:
 	enum eType { RUN, FIND_AMMO, FIND_MED, FIGHT, HURT };
 
-	Action(Warrior& warrior, eType type, int startScore);
+	Action(Warrior& warrior, eType type);
 	Action &operator=(const Action & other) = delete;
 
 private:
