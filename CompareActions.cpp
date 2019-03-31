@@ -1,29 +1,31 @@
 #include "CompareActions.h"
+#include "Warrior.h"
 
 
 double CompareActions::calculateScore(Action::eType type, Warrior & warrior)
 {
+switch(type)
+{
 	Action::RUN;
-	switch (type)
-	{
 	case Action::RUN:
-		calculateScoreRun(warrior);
+		return calculateScoreRun(warrior);
 		break;
 	case Action::FIND_AMMO:
-		calculateScoreFindAmmo(warrior);
+		return calculateScoreFindAmmo(warrior);
 		break;
 	case Action::FIND_MED:
-		calculateScoreFindMed(warrior);
+		return calculateScoreFindMed(warrior);
 		break;
 	case Action::FIGHT:
 		calculateScoreFight(warrior);
 		break;
 	case Action::HURT:
 		calculateScoreHurt(warrior);
-		break;
+
 	default:
 		break;
 	}
+	return 0;
 }
 
 

@@ -1,6 +1,7 @@
 #include "Warrior.h"
 #include "Action.h"
 #include "Door.h"
+#include "CompareActions.h"
 
 /**
 ToDo:
@@ -20,6 +21,7 @@ Warrior::Warrior(Room &room, Point2D &location) :
 	actionQueue.push(new Action(*this, Action::FIND_AMMO));
 	actionQueue.push(new Action(*this, Action::RUN));
 	actionQueue.push(new Action(*this,Action::FIND_MED));
+
 }
 
 Warrior::~Warrior()
@@ -92,7 +94,7 @@ void Warrior::selectMission(Warrior& other)
 		case Action::FIND_AMMO:
 			// target of Astar is ammo
 			break;
-		caseAction::FIND_MED:
+		case Action::FIND_MED:
 			// target of Astar is med
 			break;
 		}
