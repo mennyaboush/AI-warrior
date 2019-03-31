@@ -2,8 +2,9 @@
 #include "Action.h"
 #include "Maze.h"
 
-class Action;
 class Maze;
+class Action;
+
 
 class CompareActions
 {

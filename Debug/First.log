@@ -1,10 +1,10 @@
 ﻿  Action.cpp
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\compareactions.h(15): error C2061: syntax error: identifier 'eType'
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\compareactions.h(16): error C2061: syntax error: identifier 'Warrior'
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\compareactions.h(16): error C2061: syntax error: identifier 'eType'
 c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\compareactions.h(17): error C2061: syntax error: identifier 'Warrior'
 c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\compareactions.h(18): error C2061: syntax error: identifier 'Warrior'
 c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\compareactions.h(19): error C2061: syntax error: identifier 'Warrior'
 c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\compareactions.h(20): error C2061: syntax error: identifier 'Warrior'
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\compareactions.h(21): error C2061: syntax error: identifier 'Warrior'
 c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.h(38): warning C4244: 'initializing': conversion from 'const double' to 'int', possible loss of data
 c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.h(39): warning C4244: 'initializing': conversion from 'const double' to 'int', possible loss of data
 c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.h(40): warning C4244: 'initializing': conversion from 'const double' to 'int', possible loss of data
@@ -125,24 +125,7 @@ c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\re
 c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.h(39): warning C4244: 'initializing': conversion from 'const double' to 'int', possible loss of data
 c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.h(40): warning C4244: 'initializing': conversion from 'const double' to 'int', possible loss of data
   Warrior.cpp
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\action.h(17): error C2061: syntax error: identifier 'Warrior'
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\action.h(23): error C2143: syntax error: missing ';' before '&'
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\action.h(23): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\action.h(23): error C2238: unexpected token(s) preceding ';'
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\action.h(29): error C2143: syntax error: missing ';' before '&'
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\action.h(29): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\action.h(29): error C2238: unexpected token(s) preceding ';'
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\compareactions.h(15): error C2061: syntax error: identifier 'Warrior'
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\compareactions.h(16): error C2061: syntax error: identifier 'Warrior'
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\compareactions.h(17): error C2061: syntax error: identifier 'Warrior'
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\compareactions.h(18): error C2061: syntax error: identifier 'Warrior'
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\compareactions.h(19): error C2061: syntax error: identifier 'Warrior'
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\compareactions.h(20): error C2061: syntax error: identifier 'Warrior'
 c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.h(38): warning C4244: 'initializing': conversion from 'const double' to 'int', possible loss of data
 c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.h(39): warning C4244: 'initializing': conversion from 'const double' to 'int', possible loss of data
 c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.h(40): warning C4244: 'initializing': conversion from 'const double' to 'int', possible loss of data
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(19): error C2661: 'Action::Action': no overloaded function takes 2 arguments
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(20): error C2661: 'Action::Action': no overloaded function takes 2 arguments
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(21): error C2661: 'Action::Action': no overloaded function takes 2 arguments
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(22): error C2661: 'Action::Action': no overloaded function takes 2 arguments
   Generating Code...
