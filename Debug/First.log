@@ -1,10 +1,5 @@
 ﻿  Action.cpp
 c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\compareactions.h(16): error C2061: syntax error: identifier 'eType'
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\compareactions.h(17): error C2061: syntax error: identifier 'Warrior'
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\compareactions.h(18): error C2061: syntax error: identifier 'Warrior'
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\compareactions.h(19): error C2061: syntax error: identifier 'Warrior'
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\compareactions.h(20): error C2061: syntax error: identifier 'Warrior'
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\compareactions.h(21): error C2061: syntax error: identifier 'Warrior'
 c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.h(38): warning C4244: 'initializing': conversion from 'const double' to 'int', possible loss of data
 c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.h(39): warning C4244: 'initializing': conversion from 'const double' to 'int', possible loss of data
 c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.h(40): warning C4244: 'initializing': conversion from 'const double' to 'int', possible loss of data
