@@ -11,7 +11,6 @@
 #include "CompareActions.h"
 #include "Parent.h"
 #include "Node.h"
-#include "Warrior.h"
 #include <math.h>
 
 using namespace std;

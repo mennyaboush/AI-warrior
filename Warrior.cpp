@@ -1,6 +1,7 @@
 #include "Warrior.h"
 #include "Action.h"
 #include "Door.h"
+#include "CompareActions.h"
 
 /**
 ToDo:
@@ -16,10 +17,10 @@ Warrior::Warrior(Room &room, Point2D &location) :
 	maze = &Maze::getInstance();
 	static int genId = 0;
 	this->id = genId++;
-	actionQueue.push(new Action(*this, eType::FIGHT));
-	actionQueue.push(new Action(*this, eType::FIND_AMMO));
-	actionQueue.push(new Action(*this, eType::RUN));
-	actionQueue.push(new Action(*this, eType::FIND_MED));
+	actionQueue.push(new Action(*this, Action::FIGHT));
+	actionQueue.push(new Action(*this, Action::FIND_AMMO));
+	actionQueue.push(new Action(*this, Action::RUN));
+	actionQueue.push(new Action(*this, Action::FIND_MED));
 }
 
 Warrior::~Warrior()
@@ -83,16 +84,16 @@ void Warrior::selectMission(Warrior& other)
 		lookForEnemy(other);
 		switch (current->getType())
 		{
-		case eType::FIGHT:
+		case Action::FIGHT:
 			lookForEnemy(other);
 			break;
-		case eType::RUN:
+		case Action::RUN:
 			// runAway();
 			break;
-		case eType::FIND_AMMO:
+		case Action::FIND_AMMO:
 			// target of Astar is ammo
 			break;
-		case eType::FIND_MED:
+		case Action::FIND_MED:
 			// target of Astar is med
 			break;
 		}

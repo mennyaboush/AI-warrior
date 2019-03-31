@@ -1,29 +1,31 @@
 #include "CompareActions.h"
+#include "Warrior.h"
 
 
-double CompareActions::calculateScore(eType type, Warrior & warrior)
+double CompareActions::calculateScore(Action::eType type, Warrior & warrior)
 {
-	eType::RUN;
+	//eType::RUN;
 	switch (type)
 	{
-	case eType::RUN:
-		calculateScoreRun(warrior);
+	case Action::RUN:
+		return calculateScoreRun(warrior);
 		break;
-	case eType::FIND_AMMO:
-		calculateScoreFindAmmo(warrior);
+	case Action::FIND_AMMO:
+		return calculateScoreFindAmmo(warrior);
 		break;
-	case eType::FIND_MED:
-		calculateScoreFindMed(warrior);
+	case Action::FIND_MED:
+		return calculateScoreFindMed(warrior);
 		break;
-	case eType::FIGHT:
+	case Action::FIGHT:
 		calculateScoreFight(warrior);
 		break;
-	case eType::HURT:
-		calculateScoreHurt(warrior);
+	case Action::HURT:
+		return calculateScoreHurt(warrior);
 		break;
 	default:
 		break;
 	}
+	return 0;
 }
 
 
@@ -31,7 +33,7 @@ double CompareActions::calculateScore(eType type, Warrior & warrior)
 /*f(w) = (maxGuns - currentGuns + maxGrandes - currentGrandes)/(MaxGuns + MaxGreandes) * 100 */
 double CompareActions::calculateScoreFindAmmo(Warrior & w)
 {
-	double maxGuns = w.getMaxGrandes, currentGuns = w.getGunsAmmo(),
+	double maxGuns = w.getMaxGrandes(), currentGuns = w.getGunsAmmo(),
 		maxGrandes = w.getMaxGrandes(), currentGrandes = w.getGrenadeAmmo();
 	return (maxGuns - currentGuns + maxGrandes - currentGrandes) / (maxGuns + maxGrandes) * 100;
 }

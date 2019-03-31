@@ -1,5 +1,6 @@
 #include "Maze.h"
 #include "CompareNodes.h"
+#include "Warrior.h"
 
 Maze* Maze::maze = nullptr;
 
@@ -40,6 +41,8 @@ void Maze::loadMazeFromFile()
 		for (int j = 0; j < MSIZE; j++)
 		{
 			file >> type;
+			/*if (type == MazePart::MEDICAL)
+				Storage med = new Storage(room, false);*/
 			parts[i][j].setType(type);
 		}
 	}

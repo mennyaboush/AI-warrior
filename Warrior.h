@@ -11,11 +11,10 @@
 #include "CompareActions.h"
 #include "ConstValue.h"
 #include "Parent.h"
+#include "Action.h"
 #include "Maze.h"
 
 class Maze;
-class Action;
-class CompareActions;
 using namespace std;
 
 /*
@@ -27,9 +26,9 @@ class Warrior
 {
 private:
 	//const values.
-	const double MAX_LIFE = 100;
-	const double MAX_GUNS_AMMO = 50;
-	const double MAX_GRANDE_AMMO = 2;
+	const int MAX_LIFE = 100;
+	const int MAX_GUNS_AMMO = 50;
+	const int MAX_GRANDE_AMMO = 2;
 
 	//variables.
 	Maze* maze;
