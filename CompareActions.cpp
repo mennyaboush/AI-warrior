@@ -1,24 +1,24 @@
 #include "CompareActions.h"
 
 
-double CompareActions::calculateScore(eType type, Warrior & warrior)
+double CompareActions::calculateScore(Action::eType type, Warrior & warrior)
 {
-	eType::RUN;
+	Action::RUN;
 	switch (type)
 	{
-	case eType::RUN:
+	case Action::RUN:
 		calculateScoreRun(warrior);
 		break;
-	case eType::FIND_AMMO:
+	case Action::FIND_AMMO:
 		calculateScoreFindAmmo(warrior);
 		break;
-	case eType::FIND_MED:
+	case Action::FIND_MED:
 		calculateScoreFindMed(warrior);
 		break;
-	case eType::FIGHT:
+	case Action::FIGHT:
 		calculateScoreFight(warrior);
 		break;
-	case eType::HURT:
+	case Action::HURT:
 		calculateScoreHurt(warrior);
 		break;
 	default:
@@ -31,7 +31,7 @@ double CompareActions::calculateScore(eType type, Warrior & warrior)
 /*f(w) = (maxGuns - currentGuns + maxGrandes - currentGrandes)/(MaxGuns + MaxGreandes) * 100 */
 double CompareActions::calculateScoreFindAmmo(Warrior & w)
 {
-	double maxGuns = w.getMaxGrandes, currentGuns = w.getGunsAmmo(),
+	double maxGuns = w.getMaxGrandes(), currentGuns = w.getGunsAmmo(),
 		maxGrandes = w.getMaxGrandes(), currentGrandes = w.getGrenadeAmmo();
 	return (maxGuns - currentGuns + maxGrandes - currentGrandes) / (maxGuns + maxGrandes) * 100;
 }
@@ -44,7 +44,7 @@ double CompareActions::calculateScoreFindMed(Warrior & w)
 }
 
 
-/*f(w) = (calculateMedical + calculateAmmo + seftyScore) /(3 *maxScoreType) * 100 */
+/*f(w) = (calculateMedical + calculateAmmo + seftyScore) /(3 *maxScorAction::eType) * 100 */
 double CompareActions::calculateScoreRun(Warrior & w)
 {
 	Maze* m = &Maze::getInstance();

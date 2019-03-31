@@ -22,7 +22,7 @@ int Action::getScore() const
 	return score;
 }
 
-eType Action::getType() const
+Action::eType Action::getType() const
 {
 	return type;
 }
