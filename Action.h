@@ -17,14 +17,11 @@ public:
 	Action(Warrior& warrior, eType type);
 	Action &operator=(const Action & other) = delete;
 
-	void updateScore(int val);
+	void updateScore();
 	int getScore() const { return score; };
 	Warrior& getWarrior() const;
 	eType getType() const;
 	
-	/*Calculate the Score by the action type
-	and the parameters we can get from the warrior and need for the calculate function.*/
-	double calculateScore(Action::eType type, Warrior &warrior);
 	
 private:
 	static const int NUM_OF_TYPES = 4;
@@ -35,6 +32,9 @@ private:
 	int score;
 	eType type;
 
+	/*Calculate the Score by the action type
+	and the parameters we can get from the warrior and need for the calculate function.*/
+	double calculateScore(Action::eType type, Warrior &warrior);
 	double calculateScoreRun(Warrior& w);
 	double calculateScoreFindAmmo(Warrior& w);
 	double calculateScoreFindMed(Warrior& w);

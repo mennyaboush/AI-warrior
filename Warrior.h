@@ -47,7 +47,7 @@ private:
 	stack<Point2D> walkingPath;
 	priority_queue<Action*, vector<Action*>, CompareActions> actionQueue;
 
-	Action *current;
+	Action *currentAction;
 
 	//functions
 	void exitTheRoom(Room &room); //Implaments in A*.
