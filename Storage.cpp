@@ -1,22 +1,9 @@
 #include "Storage.h"
 
 
-
-void Storage::setCenterByRoom()
+Storage::Storage(Room &containedInRoom, Point2D &location, int type): containedInRoom(&containedInRoom), location(&location), type(type)
 {
-	srand(time(0));
-	int w = this->containedInRoom.getRight() - this->containedInRoom.getLeft();
-	int h = this->containedInRoom.getBottom() - this->containedInRoom.getTop();
-	w = rand()%w + this->containedInRoom.getLeft();
-	h = rand() % h + this->containedInRoom.getTop();
-	this->center = Point2D(w, h);
-}
 
-Storage::Storage(Room containedInRoom, bool isAmmo)
-{
-	this->containedInRoom = containedInRoom;
-	this->isAmmo = isAmmo;
-	setCenterByRoom();
 }
 
 
@@ -24,12 +11,12 @@ Storage::~Storage()
 {
 }
 
-Point2D Storage::getCenter()
+Point2D &Storage::getLocation() const
 {
-	return this->center;
+	return *location;
 }
 
-bool Storage::getIsAmmo()
+int Storage::getType() const
 {
-	return isAmmo;
+	return type;
 }

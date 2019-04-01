@@ -42,13 +42,14 @@ public:
 	Maze(Maze &other) = delete;
 	Maze& operator=(Maze &other) = delete;
 	static Maze& getInstance();
-	
+	void createStorages();
 	int countSpaces(int i, int j);
 	void setSaftyScores();
 	void loadMazeFromFile();
 	void cleanUp();
 	
 	//MazePart** getParts() const;
+	void drawStorage(const Storage &s);
 	Room* getRooms() const;
 	double getSaftyScore(Point2D &point) const;
 	bool isPointInRoom(Point2D &point) const;
@@ -56,6 +57,6 @@ public:
 	bool AddNewNode(Node & current, Point2D & targetLocation, vector<Point2D>& gray,
 		vector<Point2D>& black, vector<Parent>& parents, priority_queue<Node*, vector<Node*>, CompareNodes>& pq, int direction);
 
-	stack<Point2D> goTgoToTheClosestMedicalStorage(Warrior &warrior);
+	stack<Point2D> goToTheClosestMedicalStorage(Warrior &warrior);
 };
 

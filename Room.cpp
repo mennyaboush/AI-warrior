@@ -113,3 +113,16 @@ bool Room::isDestionationRoom(const Room & destionation) const
 	}
 	return false;
 }
+
+Point2D& Room::getRandomPointInRoom()
+{	
+	srand(time(0));
+
+	int posX = rand() % 2 == 1 ? 1 : -1;
+	int posY = rand() % 2 == 1 ? 1 : -1;
+
+	int x = center->GetX() + posX * (rand() % (width / 2));
+	int y = center->GetY() + posY * (rand() % (height / 2));
+
+	return *new Point2D(x, y);
+}

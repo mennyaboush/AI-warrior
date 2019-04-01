@@ -82,21 +82,21 @@ void Warrior::selectMission(Warrior& other)
 		//actionQueue.pop();
 
 		lookForEnemy(other);
-		switch (current->getType())
-		{
-		case Action::FIGHT:
-			lookForEnemy(other);
-			break;
-		case Action::RUN:
-			// runAway();
-			break;
-		case Action::FIND_AMMO:
-			// target of Astar is ammo
-			break;
-		case Action::FIND_MED:
-			// target of Astar is med
-			break;
-		}
+		//switch (current->getType())
+		//{
+		//case Action::FIGHT:
+		//	lookForEnemy(other);
+		//	break;
+		//case Action::RUN:
+		//	// runAway();
+		//	break;
+		//case Action::FIND_AMMO:
+		//	// target of Astar is ammo
+		//	break;
+		//case Action::FIND_MED:
+		//	// target of Astar is med
+		//	break;
+		//}
 	}
 }
 
@@ -133,7 +133,7 @@ void Warrior::lookForEnemyInRoom(Warrior &other)
 the warrior use a* algorithm to reach the storage and get healed*/
 void Warrior::lookForMedicalStorage()
 {
-	maze->goTgoToTheClosestMedicalStorage(*this);
+	maze->goToTheClosestMedicalStorage(*this);
 }
 
 /*Get a point and move the warrior on the maze to the point cordinate*/

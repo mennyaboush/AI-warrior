@@ -1,2 +1,3 @@
-﻿  Action.cpp
+﻿  Room.cpp
+c:\users\sonya\desktop\final\first\first\room.cpp(119): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   First.vcxproj -> C:\Users\Sonya\Desktop\final\First\Debug\First.exe

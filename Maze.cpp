@@ -13,6 +13,7 @@ Maze::Maze()
 	}
 	loadMazeFromFile();
 	setSaftyScores();
+	createStorages();
 }
 
 Maze::~Maze()
@@ -41,8 +42,6 @@ void Maze::loadMazeFromFile()
 		for (int j = 0; j < MSIZE; j++)
 		{
 			file >> type;
-			/*if (type == MazePart::MEDICAL)
-				Storage med = new Storage(room, false);*/
 			parts[i][j].setType(type);
 		}
 	}
@@ -87,6 +86,33 @@ void Maze::loadMazeFromFile()
 		all_rooms[from - 1].addDoor(*door);
 	}
 	file.close();
+}
+
+void Maze::createStorages() {
+	//Create ammo storgae
+	for (int i = 0; i < NUM_OF_AMMO_STORAGE; i++)
+	{
+		int roomIndex = i;
+		// get random point in the selected room
+		Storage *s = new Storage(all_rooms[roomIndex], all_rooms[roomIndex].getRandomPointInRoom(), MazePart::AMMO);
+		ammoStorage[i] = *s;
+		drawStorage(*s);
+	}
+
+	//Create medical storgae
+	for (int i = 0; i < NUM_OF_MEDICAL_STORAGE; i++)
+	{
+		int roomIndex = NUM_ROOMS - i - 1;
+		Storage *s = new Storage(all_rooms[roomIndex], all_rooms[roomIndex].getRandomPointInRoom(), MazePart::MEDICAL);
+		medicalStorage[i] = *s;
+		drawStorage(*s);
+	}
+}
+
+void Maze::drawStorage(const Storage &s)
+{
+	Point2D &location = s.getLocation();
+	parts[location.GetY()][location.GetX()].setType(s.getType());
 }
 
 void Maze::setSaftyScores()
@@ -207,7 +233,7 @@ bool Maze::AddNewNode(Node & current, Point2D & targetLocation, vector<Point2D>&
 	return finished;
 }
 
-stack<Point2D> Maze::goTgoToTheClosestMedicalStorage(Warrior & warrior)
+stack<Point2D> Maze::goToTheClosestMedicalStorage(Warrior & warrior)
 {
 	//1. variables
 	Point2D destination;
@@ -216,17 +242,17 @@ stack<Point2D> Maze::goTgoToTheClosestMedicalStorage(Warrior & warrior)
 	double distance;
 	//2. check for the closest medical storage.
 		//2.1 sotrage 0.
-	temp = medicalStorage[0].getCenter();
+	temp = medicalStorage[0].getLocation();
 	distance = sqrt(pow(temp.GetX() - warriorLocation.GetX(), 2) +
 		pow(temp.GetY() - warriorLocation.GetY(), 2));
 		//2.2 equels storage 1 to storage 0.
-	temp = medicalStorage[1].getCenter();
+	temp = medicalStorage[1].getLocation();
 	if (distance >= sqrt(pow(temp.GetX() - warriorLocation.GetX(), 2) +
 		pow(temp.GetY() - warriorLocation.GetY(), 2)))
 			destination = temp;
 	
 	//3. use A* to reach him
-	return maze->localAStar(warriorLocation, destination);
+	return localAStar(warriorLocation, destination);
 }
 
 /*

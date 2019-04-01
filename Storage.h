@@ -11,20 +11,21 @@ The storage size is 3X3 by defult.
 class Storage
 {
 private:
-	Point2D center; // use like ID and for draw.
-	Room containedInRoom; 
-	bool isAmmo; // true id this ammo storage false if thie medical storage.
+	Point2D *location; // use like ID and for draw.
+	Room *containedInRoom; 
+	int type;
 	
 	//functions
-	void setCenterByRoom();
+	//void setCenterByRoom();
 public:
 	static const int STORAGE_SIZE = 3;
 	
 	//functions
-	Storage(Room containedInRoom, bool isAmmo);
-	Storage() {}
+	Storage(Room &containedInRoom, Point2D &location, int type);
+	Storage() {};
 	~Storage();
-	Point2D getCenter();
-	bool getIsAmmo();
+	Point2D &getLocation() const;
+	int getType() const;
+
 };
 
