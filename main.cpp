@@ -158,12 +158,8 @@ void idle()
 		return;
 
 	// temp
-	/*(warriors[0])->selectMission(*warriors[1]);
-	(warriors[1])->selectMission(*warriors[0]);
-*/
 	(warriors[0])->selectMission(*warriors[1]);
 	(warriors[1])->selectMission(*warriors[0]);
-
 
 	glutPostRedisplay(); // calls indirectly to display
 	delay(5);

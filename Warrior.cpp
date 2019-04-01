@@ -98,6 +98,7 @@ void Warrior::selectMission(Warrior& other)
 			break;
 		}
 		actionQueue.push(currentAction);
+
 	}
 }
 
@@ -134,7 +135,7 @@ void Warrior::lookForEnemyInRoom(Warrior &other)
 the warrior use a* algorithm to reach the storage and get healed*/
 void Warrior::lookForMedicalStorage()
 {
-	maze->goTgoToTheClosestMedicalStorage(*this);
+	maze->goToTheClosestMedicalStorage(*this);
 }
 
 /*Get a point and move the warrior on the maze to the point cordinate*/
