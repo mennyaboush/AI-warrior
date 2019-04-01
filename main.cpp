@@ -164,6 +164,7 @@ void idle()
 	/*(warriors[0])->lookForMedicalStorage();
 	(warriors[1])->lookForMedicalStorage();*/
 
+
 	glutPostRedisplay(); // calls indirectly to display
 	delay(5);
 }
