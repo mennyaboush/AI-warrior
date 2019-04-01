@@ -18,6 +18,7 @@ private:
 	Point2D *location;
 	double saftyScore;
 	int type;
+	int originType;
 
 public:
 	~MazePart();
@@ -26,8 +27,10 @@ public:
 	Point2D& getLocation() const { return *location; }
 	double getSaftyScore() const { return saftyScore; }
 	int getType() const { return type; }
+	int getOriginType() const { return originType; }
 	void setLocation(Point2D &location) { this->location = &location; }
 	void setSaftyScore(double saftyScore) { this->saftyScore = saftyScore; }
 	void setType(int type) { this->type = type; }
-
+	void setOriginType(int type) { this->originType = type; }
+	void resetType();
 };

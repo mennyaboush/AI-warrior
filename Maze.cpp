@@ -43,6 +43,7 @@ void Maze::loadMazeFromFile()
 		{
 			file >> type;
 			parts[i][j].setType(type);
+			parts[i][j].setOriginType(type);
 		}
 	}
 	file.close();
@@ -233,27 +234,82 @@ bool Maze::AddNewNode(Node & current, Point2D & targetLocation, vector<Point2D>&
 	return finished;
 }
 
-stack<Point2D> Maze::goToTheClosestMedicalStorage(Warrior & warrior)
+stack<Point2D> Maze::goToTheClosestAmmoStorage(Warrior & warrior)
 {
 	//1. variables
 	Point2D destination;
 	Point2D temp;
 	Point2D warriorLocation = warrior.getLocation();
 	double distance;
-	//2. check for the closest medical storage.
+	//2. check for the closest ammo storage.
 		//2.1 sotrage 0.
-	temp = medicalStorage[0].getLocation();
+	temp = ammoStorage[0].getLocation();
 	distance = sqrt(pow(temp.GetX() - warriorLocation.GetX(), 2) +
 		pow(temp.GetY() - warriorLocation.GetY(), 2));
-		//2.2 equels storage 1 to storage 0.
-	temp = medicalStorage[1].getLocation();
+	//2.2 equels storage 1 to storage 0.
+	temp = ammoStorage[1].getLocation();
 	if (distance >= sqrt(pow(temp.GetX() - warriorLocation.GetX(), 2) +
 		pow(temp.GetY() - warriorLocation.GetY(), 2)))
-			destination = temp;
-	
+		destination = temp;
+
 	//3. use A* to reach him
 	return localAStar(warriorLocation, destination);
 }
+
+Storage & Maze::getClosestStorage(int type, Point2D &currentLocation)
+{
+	Point2D location1, location2;
+	Storage *ret1 = nullptr;
+	Storage *ret2 = nullptr;
+
+	switch (type)
+	{
+	case Action::FIND_AMMO:
+		location1 = ammoStorage[0].getLocation();
+		location2 = ammoStorage[1].getLocation();
+		ret1 = &ammoStorage[0];
+		ret2 = &ammoStorage[1];
+		break;
+	case Action::FIND_MED:
+		location1 = medicalStorage[0].getLocation();
+		location2 = medicalStorage[1].getLocation();
+		ret1 = &medicalStorage[0];
+		ret2 = &medicalStorage[1];
+		break;
+	default:
+		break;
+	}
+
+	double distance1 = sqrt( pow(location1.GetX() - currentLocation.GetX(), 2) + pow(location1.GetY() - currentLocation.GetY(), 2));
+	double distance2 = sqrt( pow(location2.GetX() - currentLocation.GetX(), 2) + pow(location2.GetY() - currentLocation.GetY(), 2));
+
+	if (distance1 < distance2)
+		return *ret1;
+	return *ret2;
+
+}
+
+//stack<Point2D> Maze::goToTheClosestMedicalStorage(Warrior & warrior)
+//{
+//	//1. variables
+//	Point2D destination;
+//	Point2D temp;
+//	Point2D warriorLocation = warrior.getLocation();
+//	double distance;
+//	//2. check for the closest medical storage.
+//		//2.1 sotrage 0.
+//	temp = medicalStorage[0].getLocation();
+//	distance = sqrt(pow(temp.GetX() - warriorLocation.GetX(), 2) +
+//		pow(temp.GetY() - warriorLocation.GetY(), 2));
+//		//2.2 equels storage 1 to storage 0.
+//	temp = medicalStorage[1].getLocation();
+//	if (distance >= sqrt(pow(temp.GetX() - warriorLocation.GetX(), 2) +
+//		pow(temp.GetY() - warriorLocation.GetY(), 2)))
+//			destination = temp;
+//	
+//	//3. use A* to reach him
+//	return localAStar(warriorLocation, destination);
+//}
 
 /*
 this function assumed that the targetLocation in the same room,
@@ -281,8 +337,10 @@ stack<Point2D> Maze::localAStar(Point2D &currentLocation, Point2D &targetLocatio
 	while (!finished)
 	{
 		if (pq.empty())
+		{
 			cout << "pq should not be empty in this function!\n fnuctin:lookForEnemyInRoom ";
-		cout << "1" << endl;
+			return walkingPath;
+		}
 
 		vector<Parent>::iterator itr;
 
@@ -310,7 +368,6 @@ stack<Point2D> Maze::localAStar(Point2D &currentLocation, Point2D &targetLocatio
 				walkingPath.push(tmp_cur);
 				itr = find(parents.begin(), parents.end(),
 					Parent(tmp_prev, current->GetPoint(), true));
-				cout << "6" << endl;
 
 			}
 		}

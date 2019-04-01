@@ -56,7 +56,8 @@ public:
 	stack<Point2D> localAStar(Point2D &currentLocation, Point2D &targetLocation);
 	bool AddNewNode(Node & current, Point2D & targetLocation, vector<Point2D>& gray,
 		vector<Point2D>& black, vector<Parent>& parents, priority_queue<Node*, vector<Node*>, CompareNodes>& pq, int direction);
-
+	stack<Point2D> goToTheClosestAmmoStorage(Warrior &warrior);
 	stack<Point2D> goToTheClosestMedicalStorage(Warrior &warrior);
+	Storage &getClosestStorage(int type, Point2D &currentLocation);
 };
 

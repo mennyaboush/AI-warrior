@@ -12,7 +12,7 @@ class Storage
 {
 private:
 	Point2D *location; // use like ID and for draw.
-	Room *containedInRoom; 
+	Room *room; 
 	int type;
 	
 	//functions
@@ -25,6 +25,7 @@ public:
 	Storage() {};
 	~Storage();
 	Point2D &getLocation() const;
+	Room &getRoom() const { return *room; }
 	int getType() const;
 
 };

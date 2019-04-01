@@ -80,9 +80,10 @@ double Action::calculateScoreRun(Warrior & w)
 		(MAX_SCORE + MAX_SCORE + ConstValue::MAX_SAFTY_SCORE) * 100;
 }
 /*f(w) = MAX_SCORE - calcualteScoreRun */
+
 double Action::calculateScoreFight(Warrior & w)
 {
-	return MAX_SCORE - calculateScoreRun(w);
+	return MAX_SCORE - calculateScoreRun(w) ;
 }
 
 /*???*/

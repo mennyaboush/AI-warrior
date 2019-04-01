@@ -17,10 +17,7 @@ Warrior::Warrior(Room &room, Point2D &location) :
 	maze = &Maze::getInstance();
 	static int genId = 0;
 	this->id = genId++;
-	actionQueue.push(new Action(*this, Action::FIGHT));
-	actionQueue.push(new Action(*this, Action::FIND_AMMO));
-	actionQueue.push(new Action(*this, Action::RUN));
-	actionQueue.push(new Action(*this, Action::FIND_MED));
+	updateActions();
 }
 
 Warrior::~Warrior()
@@ -71,6 +68,19 @@ if the warrior started to walk he keep going
 else he select new mission.*/
 void Warrior::selectMission(Warrior& other)
 {
+	if (this->lifePoint <= 50)
+		cout << "Test" << endl;
+	static int count = 0;
+	srand(time(0));
+
+	if (getDistance(other) < ConstValue::SHOOT_MAX_DISTANCE && (&other.getCurrentRoom() == this->currentRoom))
+	{
+		if (currentAction->getType() == Action::FIGHT)
+			while (!walkingPath.empty())
+				walkingPath.pop();
+		shoot(other);
+
+	}
 	if (walkingPath.size() > 0)
 	{
 		moveWarrior(walkingPath.top());
@@ -78,9 +88,9 @@ void Warrior::selectMission(Warrior& other)
 	}
 	else
 	{
+		count++;
 		currentAction = actionQueue.top();	// RUN, FIND_AMMO, FIND_MED, FIGHT
-		actionQueue.pop();
-
+		
 		lookForEnemy(other);
 		switch (currentAction->getType())
 		{
@@ -91,15 +101,26 @@ void Warrior::selectMission(Warrior& other)
 			// runAway();
 			break;
 		case Action::FIND_AMMO:
-			// target of Astar is ammo
+			lookForStorage(maze->getClosestStorage(Action::FIND_AMMO, location), true);
 			break;
 		case Action::FIND_MED:
-			// target of Astar is med
+			lookForStorage(maze->getClosestStorage(Action::FIND_MED, location), false);
 			break;
 		}
-		actionQueue.push(currentAction);
-
+		updateActions();
 	}
+}
+void Warrior::updateActions()
+{
+	while (!actionQueue.empty())
+	{
+		actionQueue.pop();
+	}
+
+	actionQueue.push(new Action(*this, Action::FIGHT));
+	actionQueue.push(new Action(*this, Action::FIND_AMMO));
+	actionQueue.push(new Action(*this, Action::RUN));
+	actionQueue.push(new Action(*this, Action::FIND_MED));
 }
 
 /*Serch enemy in the maze
@@ -119,6 +140,26 @@ void Warrior::lookForEnemy(Warrior &other)
 	//4. look for enemy in the current room.
 }
 
+/*Serch enemy in the maze
+look in the current room, then go to another room and check him.*/
+void Warrior::lookForStorage(Storage &s, bool ammo)
+{
+	cout << "looking  for " ;
+	if (ammo)
+		cout << " ammo" << endl;
+	else
+		cout << " med" << endl;
+
+
+	//1. look in the current room.
+	if (currentRoom->getId() != s.getRoom().getId())
+		exitTheRoom(s.getRoom());
+	else if (ammo)
+		walkingPath = maze->localAStar(location, s.getLocation()); // enemy is in the room
+	else
+		walkingPath = maze->localAStar(location, s.getLocation());
+}
+
 /*
 Look for other warrior in room using A* algorithm
 use stack::walkingPath to save the steps and move the warrior.
@@ -131,22 +172,33 @@ void Warrior::lookForEnemyInRoom(Warrior &other)
 		walkingPath = maze->localAStar(location, other.getLocation());
 }
 
+void Warrior::lookForAmmo()
+{
+	cout << "looking for ammo" << endl;
+	walkingPath = maze->goToTheClosestAmmoStorage(*this);
+}
+
 /*The medical storage in the same room.
 the warrior use a* algorithm to reach the storage and get healed*/
 void Warrior::lookForMedicalStorage()
 {
-	maze->goToTheClosestMedicalStorage(*this);
+	cout << "looking for med" << endl;
+	walkingPath = maze->goToTheClosestMedicalStorage(*this);
 }
 
 /*Get a point and move the warrior on the maze to the point cordinate*/
-void Warrior::moveWarrior(Point2D & nextStep)
+void Warrior::moveWarrior(Point2D &nextStep)
 {
 	//deleate the warrior from the maze
-	maze->parts[location.GetY()][location.GetX()].setType(MazePart::SPACE);
+	maze->parts[location.GetY()][location.GetX()].resetType();
 
 	//change the location of warrior.
-	this->location.setX(nextStep.GetX());
-	this->location.setY(nextStep.GetY());
+	location.setX(nextStep.GetX());
+	location.setY(nextStep.GetY());
+
+	// check if point is located in a room
+	//Room *r = nullptr;
+	//currentRoom = r;
 
 	//draw the warrior on the maze
 	maze->parts[location.GetY()][location.GetX()].setType(MazePart::WARRIOR);
@@ -159,6 +211,12 @@ The damage caused to the second fighter depends on the distance between them
 */
 void Warrior::shoot(Warrior &other)
 {
+	srand(time(0));
+	int hit = rand() % 10;
+
+	if (hit < 6)
+		return;
+
 	if (gunsAmmo <= 0)
 		return;
 	//Check the ammo.
@@ -175,7 +233,7 @@ void Warrior::shoot(Warrior &other)
 		other.injured(damage);
 	}
 	else
-		walkingPath = maze->localAStar(location, other.getCurrentRoom().GetCenter());
+		walkingPath = maze->localAStar(location, other.getLocation());
 }
 
 /* Decrease the life point until dead. */

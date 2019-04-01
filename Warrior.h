@@ -40,7 +40,7 @@ private:
 	int		safetyScore; // Depends on walls neer the warrior 
 
 	bool	life = true;
-
+	bool	isInRoom = true;
 	Room	*currentRoom;
 	Point2D	location;
 
@@ -53,18 +53,12 @@ private:
 	void exitTheRoom(Room &room); //Implaments in A*.
 	double getDistance(const Warrior &other) const;
 	void lookForEnemyInRoom(Warrior &other);
-	
-//	void lookForMedicalStorageInTheRoom();
-	//void lookForAmmoStorageInTheRoom();
-	//void refrashSafetyScore(); //scan the area and change the safetyScore.
+	void lookForAmmo();
+
 	void shoot(Warrior &other);
 	void injured(int hitPoint);
 	//void throGrenade();
-	//void addNodeAStarHelper(Node &currentNode, Node &nextNode, Point2D &targetLocation, vector <Point2D> &gray, vector <Parent> &parents, priority_queue<Node*, vector<Node*>, CompareNodes> &pq);
-	//void addNodeAStarHelper(Node &currentNode, Node &nextNode, Point2D &targetLocation, vector <Point2D*> &gray, vector <Parent*> &parents, priority_queue<Node*, vector<Node*>, CompareNodes> &pq);
-	//bool addNeighborsAStarHelper(Node &current, Point2D &targetLocation, vector <Point2D> &gray, vector <Parent> &parents, priority_queue<Node*, vector<Node*>, CompareNodes> &pq);
-	//bool addNeighborsAStarHelper(Node &current, Point2D &targetLocation, vector <Point2D*> &gray, vector <Parent*> &parents, priority_queue<Node*, vector<Node*>, CompareNodes> &pq);
-
+	
 public:
 	Warrior(Room &room, Point2D &location);
 	~Warrior();
@@ -72,6 +66,7 @@ public:
 	void selectMission(Warrior& other);
 	void moveWarrior(Point2D &nextStep);
 
+	void lookForStorage(Storage &s, bool ammo);
 	void lookForEnemy(Warrior &other);
 	void lookForMedicalStorage();
 
@@ -88,6 +83,6 @@ public:
 	void setX(int x) { this->location.setX(x); }
 	void setY(int y) { this->location.setY(y); }
 	bool isAlive() const { return life; }
-
+	void updateActions();
 };
 

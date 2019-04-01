@@ -29,7 +29,7 @@ private:
 
 
 	Warrior& warrior;
-	int score;
+	double score;
 	eType type;
 
 	/*Calculate the Score by the action type
