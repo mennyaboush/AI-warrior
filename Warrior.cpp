@@ -20,8 +20,7 @@ Warrior::Warrior(Room &room, Point2D &location) :
 	actionQueue.push(new Action(*this, Action::FIGHT));
 	actionQueue.push(new Action(*this, Action::FIND_AMMO));
 	actionQueue.push(new Action(*this, Action::RUN));
-	actionQueue.push(new Action(*this,Action::FIND_MED));
-
+	actionQueue.push(new Action(*this, Action::FIND_MED));
 }
 
 Warrior::~Warrior()
