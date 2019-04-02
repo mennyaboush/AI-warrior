@@ -219,10 +219,7 @@ the function using a* algorithm to reach the targetLocation
 */
 stack<Point2D> Maze::localAStar(Point2D &currentLocation, Point2D &targetLocation)
 {
-	/*if (!currentRoom->locatedInTheRoom(targetLocation))
-		cout << "localAStar need to switch room for reach " << targetLocation.GetX() << "," << targetLocation.GetY() << " cordinat.";*/
-
-		//Variables for A* algorithm
+	//Variables for A* algorithm
 	stack<Point2D> walkingPath;
 	Node *current = nullptr;
 	priority_queue<Node*, vector<Node*>, CompareNodes> pq; // the compare node class may not considare the saftyScore.
@@ -269,7 +266,6 @@ stack<Point2D> Maze::localAStar(Point2D &currentLocation, Point2D &targetLocatio
 				walkingPath.push(tmp_cur);
 				itr = find(parents.begin(), parents.end(),
 					Parent(tmp_prev, current->GetPoint(), true));
-
 			}
 		}
 
@@ -292,7 +288,6 @@ stack<Point2D> Maze::localAStar(Point2D &currentLocation, Point2D &targetLocatio
 			AddNewNode(*current, targetLocation, gray, black, parents, pq, ConstValue::LEFT);
 			// try to go RIGHT
 			AddNewNode(*current, targetLocation, gray, black, parents, pq, ConstValue::RIGHT);
-
 		}
 	}
 	return walkingPath;

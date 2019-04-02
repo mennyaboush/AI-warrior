@@ -86,7 +86,7 @@ void createWarriors()
 		int y = r.GetCenter().GetY();
 		int x = r.GetCenter().GetX();
 		maze->parts[y][x].setType(MazePart::WARRIOR);
-		Warrior *w = new Warrior(r, *new Point2D(x, y));
+		Warrior *w = new Warrior(r, *new Point2D(x, y), ((double)rand() / (RAND_MAX)), ((double)rand() / (RAND_MAX)), ((double)rand() / (RAND_MAX)));
 		warriors[i] = w;
 		drawWarrior(*warriors[i]);
 	}

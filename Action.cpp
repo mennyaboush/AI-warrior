@@ -36,13 +36,13 @@ double Action::calculateScore(Action::eType type, Warrior & warrior)
 		return calculateScoreRun(warrior);
 		break;
 	case Action::FIND_AMMO:
-		return calculateScoreFindAmmo(warrior);
+		return warrior.getAmmoP() * calculateScoreFindAmmo(warrior);
 		break;
 	case Action::FIND_MED:
-		return calculateScoreFindMed(warrior);
+		return warrior.getMedP() * calculateScoreFindMed(warrior);
 		break;
 	case Action::FIGHT:
-		return calculateScoreFight(warrior);
+		return warrior.getFightP() * calculateScoreFight(warrior);
 		break;
 	default:
 		break;

@@ -9,8 +9,8 @@ ToDo:
 - run away
 - shoot
 */
-Warrior::Warrior(Room &room, Point2D &location) :
-	currentRoom(&room), location(location)
+Warrior::Warrior(Room &room, Point2D &location, double ammoP, double medP, double fightP) :
+	currentRoom(&room), location(location),ammoP(ammoP), medP(medP), fightP(fightP)
 {
 	maze = &Maze::getInstance();
 	static int genId = 0;
@@ -40,16 +40,11 @@ void Warrior::exitTheRoom(Room &destRoom)
 		}
 	}
 
-	//2. go to the enter of door.
-	//Point2D &p = doorDest->getEnterLocation();
-	//this->localAStar(p);
-	//3. got to the exit of the door.
 
 	walkingPath = maze->localAStar(location, nextDoor->getExitLocation());
 
 	cout << "currentRoom: x: " << currentRoom->GetCenter().GetX() << " y: " << currentRoom->GetCenter().GetY() << endl;
-	/*vector<Room*> v = nextDoor->getDestinations();
-	currentRoom = v.front();*/
+
 	cout << "currentRoom: x: " << currentRoom->GetCenter().GetX() << " y: " << currentRoom->GetCenter().GetY() << endl;
 }
 
@@ -233,7 +228,8 @@ void Warrior::shoot(Warrior &other)
 
 	cout << "warrior " << id << " is trying to soot" << endl;
 	//check if the warrior no too far
-	int damage = (ConstValue::SHOOT_MAX_DISTANCE - (int)distance)* 10;
+	int damage = (ConstValue::SHOOT_MAX_DISTANCE - (int)distance);
+	damage *= 5;
 	if (damage > 0)
 	{
 		currentAction->updateScore();
@@ -246,11 +242,11 @@ void Warrior::shoot(Warrior &other)
 }
 
 /* Decrease the life point until dead. */
-void Warrior::injured(int hitPoint)
+void Warrior::injured(double hitPoint)
 {
 	// TODO: update action med and action run priority
 	
-	lifePoint = lifePoint - (safetyScore/ConstValue::MAX_SAFTY_SCORE * hitPoint);
+	lifePoint = lifePoint - ((1-safetyScore/ConstValue::MAX_SAFTY_SCORE) * hitPoint);
 	if (lifePoint <= 0)
 	{
 		lifePoint = 0;
