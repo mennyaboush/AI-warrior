@@ -69,6 +69,7 @@ public:
 	void lookForStorage(Storage &s, bool ammo);
 	void lookForEnemy(Warrior &other);
 	void lookForMedicalStorage();
+	void updateCurrentRoom();
 
 	//getters & setters
 	int getlifePoints() { return lifePoint; }

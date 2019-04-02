@@ -234,28 +234,6 @@ bool Maze::AddNewNode(Node & current, Point2D & targetLocation, vector<Point2D>&
 	return finished;
 }
 
-stack<Point2D> Maze::goToTheClosestAmmoStorage(Warrior & warrior)
-{
-	//1. variables
-	Point2D destination;
-	Point2D temp;
-	Point2D warriorLocation = warrior.getLocation();
-	double distance;
-	//2. check for the closest ammo storage.
-		//2.1 sotrage 0.
-	temp = ammoStorage[0].getLocation();
-	distance = sqrt(pow(temp.GetX() - warriorLocation.GetX(), 2) +
-		pow(temp.GetY() - warriorLocation.GetY(), 2));
-	//2.2 equels storage 1 to storage 0.
-	temp = ammoStorage[1].getLocation();
-	if (distance >= sqrt(pow(temp.GetX() - warriorLocation.GetX(), 2) +
-		pow(temp.GetY() - warriorLocation.GetY(), 2)))
-		destination = temp;
-
-	//3. use A* to reach him
-	return localAStar(warriorLocation, destination);
-}
-
 Storage & Maze::getClosestStorage(int type, Point2D &currentLocation)
 {
 	Point2D location1, location2;
@@ -288,28 +266,6 @@ Storage & Maze::getClosestStorage(int type, Point2D &currentLocation)
 	return *ret2;
 
 }
-
-//stack<Point2D> Maze::goToTheClosestMedicalStorage(Warrior & warrior)
-//{
-//	//1. variables
-//	Point2D destination;
-//	Point2D temp;
-//	Point2D warriorLocation = warrior.getLocation();
-//	double distance;
-//	//2. check for the closest medical storage.
-//		//2.1 sotrage 0.
-//	temp = medicalStorage[0].getLocation();
-//	distance = sqrt(pow(temp.GetX() - warriorLocation.GetX(), 2) +
-//		pow(temp.GetY() - warriorLocation.GetY(), 2));
-//		//2.2 equels storage 1 to storage 0.
-//	temp = medicalStorage[1].getLocation();
-//	if (distance >= sqrt(pow(temp.GetX() - warriorLocation.GetX(), 2) +
-//		pow(temp.GetY() - warriorLocation.GetY(), 2)))
-//			destination = temp;
-//	
-//	//3. use A* to reach him
-//	return localAStar(warriorLocation, destination);
-//}
 
 /*
 this function assumed that the targetLocation in the same room,

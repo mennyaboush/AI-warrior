@@ -50,8 +50,8 @@ void Warrior::exitTheRoom(Room &destRoom)
 	walkingPath = maze->localAStar(location, nextDoor->getExitLocation());
 
 	cout << "currentRoom: x: " << currentRoom->GetCenter().GetX() << " y: " << currentRoom->GetCenter().GetY() << endl;
-	vector<Room*> v = nextDoor->getDestinations();
-	currentRoom = v.front();
+	/*vector<Room*> v = nextDoor->getDestinations();
+	currentRoom = v.front();*/
 	cout << "currentRoom: x: " << currentRoom->GetCenter().GetX() << " y: " << currentRoom->GetCenter().GetY() << endl;
 }
 
@@ -73,7 +73,7 @@ void Warrior::selectMission(Warrior& other)
 	static int count = 0;
 	srand(time(0));
 
-	if (getDistance(other) < ConstValue::SHOOT_MAX_DISTANCE && (&other.getCurrentRoom() == this->currentRoom))
+	if (currentRoom != nullptr && getDistance(other) < ConstValue::SHOOT_MAX_DISTANCE && (&other.getCurrentRoom() == currentRoom))
 	{
 		if (currentAction->getType() == Action::FIGHT)
 			while (!walkingPath.empty())
@@ -128,7 +128,7 @@ look in the current room, then go to another room and check him.*/
 void Warrior::lookForEnemy(Warrior &other)
 {
 	//1. look for enemy in the current room.
-	if (currentRoom->getId() != other.getCurrentRoom().getId()) 
+	if (currentRoom != nullptr && &other.getCurrentRoom() != nullptr && currentRoom->getId() != other.getCurrentRoom().getId())
 		exitTheRoom(other.getCurrentRoom());
 	else
 		lookForEnemyInRoom(other); // enemy is in the room
@@ -152,7 +152,7 @@ void Warrior::lookForStorage(Storage &s, bool ammo)
 
 
 	//1. look in the current room.
-	if (currentRoom->getId() != s.getRoom().getId())
+	if (currentRoom != nullptr && currentRoom->getId() != s.getRoom().getId())
 		exitTheRoom(s.getRoom());
 	else if (ammo)
 		walkingPath = maze->localAStar(location, s.getLocation()); // enemy is in the room
@@ -172,20 +172,6 @@ void Warrior::lookForEnemyInRoom(Warrior &other)
 		walkingPath = maze->localAStar(location, other.getLocation());
 }
 
-void Warrior::lookForAmmo()
-{
-	cout << "looking for ammo" << endl;
-	walkingPath = maze->goToTheClosestAmmoStorage(*this);
-}
-
-/*The medical storage in the same room.
-the warrior use a* algorithm to reach the storage and get healed*/
-void Warrior::lookForMedicalStorage()
-{
-	cout << "looking for med" << endl;
-	walkingPath = maze->goToTheClosestMedicalStorage(*this);
-}
-
 /*Get a point and move the warrior on the maze to the point cordinate*/
 void Warrior::moveWarrior(Point2D &nextStep)
 {
@@ -196,12 +182,9 @@ void Warrior::moveWarrior(Point2D &nextStep)
 	location.setX(nextStep.GetX());
 	location.setY(nextStep.GetY());
 
-	// check if point is located in a room
-	//Room *r = nullptr;
-	//currentRoom = r;
-
 	//draw the warrior on the maze
 	maze->parts[location.GetY()][location.GetX()].setType(MazePart::WARRIOR);
+	updateCurrentRoom();
 }
 
 
@@ -214,7 +197,7 @@ void Warrior::shoot(Warrior &other)
 	srand(time(0));
 	int hit = rand() % 10;
 
-	if (hit < 6)
+	if (hit < 7)
 		return;
 
 	if (gunsAmmo <= 0)
@@ -247,4 +230,19 @@ void Warrior::injured(int hitPoint)
 		lifePoint = 0;
 		life = false;
 	}
+}
+
+void Warrior::updateCurrentRoom()
+{
+	Room* rooms = maze->getRooms();
+
+	for (int i = 0; i < Maze::NUM_ROOMS; i++)
+	{
+		if (rooms[i].locatedInTheRoom(location))
+		{
+			currentRoom = &rooms[i];
+			return;
+		}
+	}
+	currentRoom = nullptr;
 }
