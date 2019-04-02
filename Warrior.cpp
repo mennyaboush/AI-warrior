@@ -87,8 +87,8 @@ if the warrior started to walk he keep going
 else he select new mission.*/
 void Warrior::selectMission(Warrior& other)
 {
-	/*if (this->lifePoint <= 50)
-		cout << "Test" << endl;*/
+	if (this->lifePoint <= 50)
+		cout << "Test" << endl;
 	static int count = 0;
 	srand(time(0));
 
@@ -185,10 +185,13 @@ use stack::walkingPath to save the steps and move the warrior.
 */
 void Warrior::lookForEnemyInRoom(Warrior &other)
 {
-	if (getDistance(other) > ConstValue::SHOOT_MAX_DISTANCE && this->grenadeAmmo > 0)
-		this->throGrenade(other);
-	if (getDistance(other) < ConstValue::SHOOT_MAX_DISTANCE)
-		shoot(other);
+	if (canFight(other))
+	{
+		if (getDistance(other) > ConstValue::SHOOT_MAX_DISTANCE && this->grenadeAmmo > 0)
+			this->throGrenade(other);
+		else if (getDistance(other) < ConstValue::SHOOT_MAX_DISTANCE)
+				shoot(other);
+	}
 	else
 		walkingPath = maze->localAStar(location, other.getLocation());
 }
@@ -218,7 +221,7 @@ void Warrior::shoot(Warrior &other)
 	srand(time(0));
 	int hit = rand() % 10;
 
-	if (hit < 7)
+	if (hit < 3)
 	{
 		cout << "Warrior " << this->id << " Miss the shoot" << endl;
 		return;
@@ -231,7 +234,7 @@ void Warrior::shoot(Warrior &other)
 
 	cout << "warrior " << id << " is trying to soot" << endl;
 	//check if the warrior no too far
-	int damage = ConstValue::SHOOT_MAX_DISTANCE - (int)distance;
+	int damage = (ConstValue::SHOOT_MAX_DISTANCE - (int)distance)* 10;
 	if (damage > 0)
 	{
 		currentAction->updateScore();

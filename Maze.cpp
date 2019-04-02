@@ -109,6 +109,8 @@ void Maze::createStorages() {
 		// get random point in the selected room
 		Point2D &rand = all_rooms[roomIndex].getRandomPointInRoom();
 		Storage *s = new Storage(all_rooms[roomIndex], rand, MazePart::AMMO);
+		parts[rand.GetY()][rand.GetX()].setOriginType(MazePart::AMMO);
+		parts[rand.GetY()][rand.GetX()].setType(MazePart::AMMO);
 		ammoStorage[i] = *s;
 		drawStorage(*s);
 	}
@@ -117,7 +119,10 @@ void Maze::createStorages() {
 	for (int i = 0; i < NUM_OF_MEDICAL_STORAGE; i++)
 	{
 		int roomIndex = NUM_ROOMS - i - 1;
-		Storage *s = new Storage(all_rooms[roomIndex], all_rooms[roomIndex].getRandomPointInRoom(), MazePart::MEDICAL);
+		Point2D &rand = all_rooms[roomIndex].getRandomPointInRoom();
+		Storage *s = new Storage(all_rooms[roomIndex],rand, MazePart::MEDICAL);
+		parts[rand.GetY()][rand.GetX()].setOriginType(MazePart::MEDICAL);
+		parts[rand.GetY()][rand.GetX()].setOriginType(MazePart::MEDICAL);
 		medicalStorage[i] = *s;
 		drawStorage(*s);
 	}
