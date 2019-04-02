@@ -14,7 +14,7 @@ private:
 	Point2D *location; // use like ID and for draw.
 	Room *room; 
 	int type;
-	
+
 	//functions
 	//void setCenterByRoom();
 public:
@@ -27,6 +27,5 @@ public:
 	Point2D &getLocation() const;
 	Room &getRoom() const { return *room; }
 	int getType() const;
-
 };
 

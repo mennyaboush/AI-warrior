@@ -7,6 +7,6 @@ class CompareNodes
 public:
 	CompareNodes();
 	~CompareNodes();
-	bool operator ( ) (const Node* n1, const Node* n2);
+	virtual bool operator( ) (const Node* n1, const Node* n2);
 };
 
