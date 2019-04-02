@@ -15,6 +15,7 @@
 #include "Maze.h"
 
 class Maze;
+class Point2D;
 using namespace std;
 
 /*
@@ -51,14 +52,18 @@ private:
 
 	//functions
 	void exitTheRoom(Room &room); //Implaments in A*.
+	double Warrior::getDistance(const Point2D &p1, const Point2D &p2) const;
 	double getDistance(const Warrior &other) const;
 	void lookForEnemyInRoom(Warrior &other);
 	void lookForAmmo();
 
 	void shoot(Warrior &other);
 	void injured(int hitPoint);
-	//void throGrenade();
-	
+	void throGrenade(Warrior &other);
+	void calculateVactorValues(double &Vx, double &Vy,const Point2D &p);
+	void NormalizingVector(double &Vx, double &Vy);
+	void checkStorage(Action::eType action);
+	Point2D& getTargetByVector(Room &room, double &Vx, double &Vy);
 public:
 	Warrior(Room &room, Point2D &location);
 	~Warrior();

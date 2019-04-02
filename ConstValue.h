@@ -8,7 +8,10 @@ public:
 	static const int NUM_OF_STORAGES = 2;
 
 	static const int NUM_OF_WARRIORS = 2;
+
 	static const int SHOOT_MAX_DISTANCE = 10;
+	static const int TROW_GRENADE_MAX_DISTANCE = 15;
+	static const int GRENADE_DEMAGE_RADIOS = 7;
 
 
 	static const int UP = 1;

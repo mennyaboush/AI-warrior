@@ -38,6 +38,7 @@ public:
 	int getBottom() const;
 	vector<Door*> getDoors() const;
 	void addDoor(Door& door);
+	void currectPointToBeInRoom(Point2D &p);
 	Point2D& getRandomPointInRoom();
 	
 };

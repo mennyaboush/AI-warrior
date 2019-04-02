@@ -47,7 +47,8 @@ public:
 	void setSaftyScores();
 	void loadMazeFromFile();
 	void cleanUp();
-	
+	bool checkIfPointIsMedStorage(const Point2D &p) const;
+	bool checkIfPointIsAmmoStorage(const Point2D &p) const;
 	//MazePart** getParts() const;
 	void drawStorage(const Storage &s);
 	Room* getRooms() const;

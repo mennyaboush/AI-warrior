@@ -89,6 +89,16 @@ void Maze::loadMazeFromFile()
 	file.close();
 }
 
+bool Maze::checkIfPointIsMedStorage(const Point2D & p) const
+{
+	return (medicalStorage[0].getLocation() == p) || (medicalStorage[1].getLocation() == p);
+}
+
+bool Maze::checkIfPointIsAmmoStorage(const Point2D & p) const
+{
+	return (ammoStorage[0].getLocation() == p) || (ammoStorage[1].getLocation() == p);
+}
+
 void Maze::createStorages() {
 	//Create ammo storgae
 	for (int i = 0; i < NUM_OF_AMMO_STORAGE; i++)

@@ -90,6 +90,19 @@ void Room::addDoor(Door& door)
 	doors.push_back(&door);
 }
 
+/*this function called when some point need to be in the Room but she didn't*/
+void Room::currectPointToBeInRoom(Point2D & p)
+{
+	if (p.GetX() < this->getLeft())
+		p.setX(this->getLeft());
+	else if (p.GetX() > this->getRight())
+		p.setX(this->getRight());
+	if (p.GetY() < this->getTop())
+		p.setY(this->getTop());
+	else if (p.GetY() < this->getBottom())
+		p.setY(this->getBottom());
+}
+
 bool Room::locatedInTheRoom(const Point2D & p) const
 {
 	int x = p.GetX();

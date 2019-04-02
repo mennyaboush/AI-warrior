@@ -9,8 +9,6 @@ ToDo:
 - run away
 - shoot
 */
-
-
 Warrior::Warrior(Room &room, Point2D &location) :
 	currentRoom(&room), location(location)
 {
@@ -55,21 +53,42 @@ void Warrior::exitTheRoom(Room &destRoom)
 	cout << "currentRoom: x: " << currentRoom->GetCenter().GetX() << " y: " << currentRoom->GetCenter().GetY() << endl;
 }
 
-double Warrior::getDistance(const Warrior & other) const
+
+double Warrior::getDistance(const Point2D &p1, const Point2D &p2) const
 {
-	int x = this->location.GetX() - other.location.GetX();
-	int y = this->location.GetY() - other.location.GetY();
+	int x = p1.GetX() - p2.GetX();
+	int y = p1.GetY() - p2.GetY();
 
 	return sqrt(pow(x, 2) + pow(y, 2));
 }
+
+double Warrior::getDistance(const Warrior & other) const
+{
+	return getDistance(this->getLocation(), other.getLocation());
+}
+void Warrior::checkStorage(Action::eType action)
+{
+	if (action == Action::FIND_AMMO && maze->checkIfPointIsAmmoStorage(this->getLocation()))
+	{
+		this->gunsAmmo = MAX_GUNS_AMMO;
+		this->grenadeAmmo = MAX_GRANDE_AMMO;
+		cout << "Warrior" << this->id << "get AMMO! ;) " << endl;
+	}
+	else if (action == Action::FIND_MED && maze->checkIfPointIsMedStorage(this->getLocation()))
+	{
+		this->lifePoint = MAX_LIFE;
+		cout << "Warrior" << this->id << "get HEALED :)" << endl;
+	}
+}
+
 
 /*Warrior select a mission.
 if the warrior started to walk he keep going
 else he select new mission.*/
 void Warrior::selectMission(Warrior& other)
 {
-	if (this->lifePoint <= 50)
-		cout << "Test" << endl;
+	/*if (this->lifePoint <= 50)
+		cout << "Test" << endl;*/
 	static int count = 0;
 	srand(time(0));
 
@@ -90,7 +109,8 @@ void Warrior::selectMission(Warrior& other)
 	{
 		count++;
 		currentAction = actionQueue.top();	// RUN, FIND_AMMO, FIND_MED, FIGHT
-		
+		checkStorage(currentAction->getType());
+
 		lookForEnemy(other);
 		switch (currentAction->getType())
 		{
@@ -127,17 +147,10 @@ void Warrior::updateActions()
 look in the current room, then go to another room and check him.*/
 void Warrior::lookForEnemy(Warrior &other)
 {
-	//1. look for enemy in the current room.
 	if (currentRoom != nullptr && &other.getCurrentRoom() != nullptr && currentRoom->getId() != other.getCurrentRoom().getId())
 		exitTheRoom(other.getCurrentRoom());
 	else
-		lookForEnemyInRoom(other); // enemy is in the room
-
-	//2. calculat the next room the warrior will check.
-
-	//3. go to next room  safely as possible.
-
-	//4. look for enemy in the current room.
+		lookForEnemyInRoom(other); 
 }
 
 /*Serch enemy in the maze
@@ -166,6 +179,8 @@ use stack::walkingPath to save the steps and move the warrior.
 */
 void Warrior::lookForEnemyInRoom(Warrior &other)
 {
+	if (getDistance(other) > ConstValue::SHOOT_MAX_DISTANCE && this->grenadeAmmo > 0)
+		this->throGrenade(other);
 	if (getDistance(other) < ConstValue::SHOOT_MAX_DISTANCE)
 		shoot(other);
 	else
@@ -198,7 +213,10 @@ void Warrior::shoot(Warrior &other)
 	int hit = rand() % 10;
 
 	if (hit < 7)
+	{
+		cout << "Warrior " << this->id << " Miss the shoot" << endl;
 		return;
+	}
 
 	if (gunsAmmo <= 0)
 		return;
@@ -212,7 +230,7 @@ void Warrior::shoot(Warrior &other)
 	{
 		currentAction->updateScore();
 		gunsAmmo--;
-		cout << this->id << " shot! " << other.id << endl;
+		cout << this->id << " shot! " << other.id <<"("<< damage <<")" <<endl;
 		other.injured(damage);
 	}
 	else
@@ -224,12 +242,66 @@ void Warrior::injured(int hitPoint)
 {
 	// TODO: update action med and action run priority
 	
-	lifePoint = lifePoint - hitPoint;
+	lifePoint = lifePoint - (safetyScore * hitPoint);
 	if (lifePoint <= 0)
 	{
 		lifePoint = 0;
 		life = false;
+		cout << "Warrior " << this - id << " died" << endl;
 	}
+}
+
+void Warrior::throGrenade(Warrior & other)
+{
+	//1. Variables 
+	const double grenadeMaxDamage = 30;
+	double damage = 0;
+	double Vx, Vy; // vectors values
+	Point2D targetLocation;
+	//2.  throw the grenade 
+	//2.1. calculate the vector to knoe the direction for throwing the grenade
+	calculateVactorValues(Vx, Vy, other.getLocation());
+	//2.2. Normalizing the vector and adapting it to the warrior's ability to throw.
+	NormalizingVector(Vx, Vy);
+	//2.2. calculate the target location.
+	targetLocation = getTargetByVector(this->getCurrentRoom(), Vx, Vy);
+	//3. Calculate damage
+	damage = (ConstValue::GRENADE_DEMAGE_RADIOS - getDistance(targetLocation, other.getLocation())) 
+		/ ConstValue::GRENADE_DEMAGE_RADIOS * grenadeMaxDamage;
+	//4. Trow the grenade
+	cout << "Warrior " << this->id << "trow grenade!" << endl;
+	if (damage > 0)
+		other.injured(damage);
+}
+
+/*insert to Vx and Vy the values of the calculate vector*/
+void Warrior::calculateVactorValues(double & Vx, double & Vy, const Point2D & p)
+{
+	Vx = p.GetX() - this->getLocation().GetX();
+	Vy = p.GetY() - this->getLocation().GetY();
+}
+
+/*Normalizing the values of the vactor*/
+void Warrior::NormalizingVector(double & Vx, double & Vy)
+{
+	double vectorSize = sqrt((Vx*Vx) + (Vy*Vy));
+	Vx = Vx / vectorSize;
+	Vy = Vy / vectorSize;
+}
+
+/*get the direction by the vector and calculate the target point*/
+Point2D& Warrior::getTargetByVector(Room & room, double & Vx, double & Vy)
+{
+	int x, y;
+	Point2D* p;
+	x = (int)(Vx * ConstValue::TROW_GRENADE_MAX_DISTANCE) + this->getLocation().GetX();
+	y = (int)(Vy * ConstValue::TROW_GRENADE_MAX_DISTANCE) + this->getLocation().GetY();
+	p = new Point2D(x, y);
+	if (room.locatedInTheRoom(*p))
+		return *p;
+	else
+		room.currectPointToBeInRoom(*p);
+	return *p;
 }
 
 void Warrior::updateCurrentRoom()
