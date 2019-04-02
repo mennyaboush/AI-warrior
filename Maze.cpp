@@ -1,5 +1,6 @@
 #include "Maze.h"
 #include "CompareNodes.h"
+#include "CompareStorages.h"
 #include "Warrior.h"
 
 Maze* Maze::maze = nullptr;
@@ -19,6 +20,7 @@ Maze::Maze()
 Maze::~Maze()
 {
 	delete maze;
+	// ..
 }
 
 Maze& Maze::getInstance()
@@ -95,7 +97,8 @@ void Maze::createStorages() {
 	{
 		int roomIndex = i;
 		// get random point in the selected room
-		Storage *s = new Storage(all_rooms[roomIndex], all_rooms[roomIndex].getRandomPointInRoom(), MazePart::AMMO);
+		Point2D &rand = all_rooms[roomIndex].getRandomPointInRoom();
+		Storage *s = new Storage(all_rooms[roomIndex], rand, MazePart::AMMO);
 		ammoStorage[i] = *s;
 		drawStorage(*s);
 	}
@@ -169,102 +172,29 @@ double Maze::getSaftyScore(Point2D &point) const
 	return parts[point.GetY()][point.GetX()].getSaftyScore();
 }
 
-bool Maze::isPointInRoom(Point2D &point) const
+
+
+Storage &Maze::getTargetStorage(int type, Point2D &currentLocation, Point2D &enamy)
 {
-	// get room of the point and check
-	return true;
-}
+	priority_queue<StorageNode*, vector<StorageNode*>, CompareStorages> targetQueue;
 
-bool Maze::AddNewNode(Node & current, Point2D & targetLocation, vector<Point2D>& gray, vector<Point2D>& black, vector<Parent>& parents, priority_queue<Node*, vector<Node*>, CompareNodes>& pq, int direction)
-{
-	Node* tmp;
-	Point2D* pt;
-	vector<Point2D>::iterator gray_it;
-	vector<Point2D>::iterator black_it;
-	double space_weight = 0.1, wall_weight = 5, weight;
-	int dx, dy;
-	bool finished = false;
-
-	switch (direction)
+	if (type == Action::FIND_AMMO)
 	{
-	case ConstValue::UP:
-		dx = 0;
-		dy = -1;
-		break;
-	case ConstValue::DOWN:
-		dx = 0;
-		dy = 1;
-		break;
-	case ConstValue::LEFT:
-		dx = -1;
-		dy = 0;
-		break;
-	case ConstValue::RIGHT:
-		dx = 1;
-		dy = 0;
-		break;
-	} // switch
-
-	if (maze->parts[current.GetPoint().GetY()][current.GetPoint().GetX() - 1].getType() == MazePart::TARGET)
-		finished = true;
-
-	if (direction == ConstValue::UP && current.GetPoint().GetY() > 0 ||
-		direction == ConstValue::DOWN && current.GetPoint().GetY() < MSIZE - 1 ||
-		direction == ConstValue::LEFT && current.GetPoint().GetX() > 0 ||
-		direction == ConstValue::RIGHT && current.GetPoint().GetX() < MSIZE - 1)
-	{
-		pt = new Point2D(current.GetPoint().GetX() + dx, current.GetPoint().GetY() + dy);
-		gray_it = find(gray.begin(), gray.end(), *pt);
-		black_it = find(black.begin(), black.end(), *pt);
-		if (gray_it == gray.end() && black_it == black.end()) // this is a new point
+		for (int i = 0; i < NUM_OF_AMMO_STORAGE; i++)
 		{
-			// very important to tunnels
-			if (maze->parts[current.GetPoint().GetY() + dy][current.GetPoint().GetX() + dx].getType() == MazePart::WALL)
-				weight = wall_weight;
-			else weight = space_weight;
-			// weight depends on previous weight and wheater we had to dig
-			// to this point or not
-			tmp = new Node(*pt, targetLocation, current.GetG() + weight);
-			pq.emplace(tmp); // insert first node to priority queue
-			gray.push_back(*pt); // paint it gray
-			// add Parent
-			parents.push_back(Parent(tmp->GetPoint(), current.GetPoint(), true));
-		}
+			StorageNode *n = new StorageNode(currentLocation, enamy, ammoStorage[i]);
+			targetQueue.push(n);
+		}		
 	}
-	return finished;
-}
 
-Storage & Maze::getClosestStorage(int type, Point2D &currentLocation)
-{
-	Point2D location1, location2;
-	Storage *ret1 = nullptr;
-	Storage *ret2 = nullptr;
-
-	switch (type)
+	else
 	{
-	case Action::FIND_AMMO:
-		location1 = ammoStorage[0].getLocation();
-		location2 = ammoStorage[1].getLocation();
-		ret1 = &ammoStorage[0];
-		ret2 = &ammoStorage[1];
-		break;
-	case Action::FIND_MED:
-		location1 = medicalStorage[0].getLocation();
-		location2 = medicalStorage[1].getLocation();
-		ret1 = &medicalStorage[0];
-		ret2 = &medicalStorage[1];
-		break;
-	default:
-		break;
+		for (int i = 0; i < NUM_OF_MEDICAL_STORAGE; i++)
+			targetQueue.push(new StorageNode(currentLocation, enamy, medicalStorage[i]));
+		
 	}
-
-	double distance1 = sqrt( pow(location1.GetX() - currentLocation.GetX(), 2) + pow(location1.GetY() - currentLocation.GetY(), 2));
-	double distance2 = sqrt( pow(location2.GetX() - currentLocation.GetX(), 2) + pow(location2.GetY() - currentLocation.GetY(), 2));
-
-	if (distance1 < distance2)
-		return *ret1;
-	return *ret2;
-
+	
+	return targetQueue.top()->getStorage();
 }
 
 /*
@@ -353,4 +283,62 @@ stack<Point2D> Maze::localAStar(Point2D &currentLocation, Point2D &targetLocatio
 	return walkingPath;
 }
 
-	
+
+bool Maze::AddNewNode(Node & current, Point2D & targetLocation, vector<Point2D>& gray, vector<Point2D>& black, vector<Parent>& parents, priority_queue<Node*, vector<Node*>, CompareNodes>& pq, int direction)
+{
+	Node* tmp;
+	Point2D* pt;
+	vector<Point2D>::iterator gray_it;
+	vector<Point2D>::iterator black_it;
+	double space_weight = 0.1, wall_weight = 5, weight;
+	int dx, dy;
+	bool finished = false;
+
+	switch (direction)
+	{
+	case ConstValue::UP:
+		dx = 0;
+		dy = -1;
+		break;
+	case ConstValue::DOWN:
+		dx = 0;
+		dy = 1;
+		break;
+	case ConstValue::LEFT:
+		dx = -1;
+		dy = 0;
+		break;
+	case ConstValue::RIGHT:
+		dx = 1;
+		dy = 0;
+		break;
+	} // switch
+
+	if (maze->parts[current.GetPoint().GetY()][current.GetPoint().GetX() - 1].getType() == MazePart::TARGET)
+		finished = true;
+
+	if (direction == ConstValue::UP && current.GetPoint().GetY() > 0 ||
+		direction == ConstValue::DOWN && current.GetPoint().GetY() < MSIZE - 1 ||
+		direction == ConstValue::LEFT && current.GetPoint().GetX() > 0 ||
+		direction == ConstValue::RIGHT && current.GetPoint().GetX() < MSIZE - 1)
+	{
+		pt = new Point2D(current.GetPoint().GetX() + dx, current.GetPoint().GetY() + dy);
+		gray_it = find(gray.begin(), gray.end(), *pt);
+		black_it = find(black.begin(), black.end(), *pt);
+		if (gray_it == gray.end() && black_it == black.end()) // this is a new point
+		{
+			// very important to tunnels
+			if (maze->parts[current.GetPoint().GetY() + dy][current.GetPoint().GetX() + dx].getType() == MazePart::WALL)
+				weight = wall_weight;
+			else weight = space_weight;
+			// weight depends on previous weight and wheater we had to dig
+			// to this point or not
+			tmp = new Node(*pt, targetLocation, current.GetG() + weight);
+			pq.emplace(tmp); // insert first node to priority queue
+			gray.push_back(*pt); // paint it gray
+			// add Parent
+			parents.push_back(Parent(tmp->GetPoint(), current.GetPoint(), true));
+		}
+	}
+	return finished;
+}

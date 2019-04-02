@@ -75,7 +75,7 @@ void Warrior::selectMission(Warrior& other)
 
 	if (currentRoom != nullptr && getDistance(other) < ConstValue::SHOOT_MAX_DISTANCE && (&other.getCurrentRoom() == currentRoom))
 	{
-		if (currentAction->getType() == Action::FIGHT)
+		if (currentAction != nullptr && currentAction->getType() == Action::FIGHT)
 			while (!walkingPath.empty())
 				walkingPath.pop();
 		shoot(other);
@@ -90,8 +90,8 @@ void Warrior::selectMission(Warrior& other)
 	{
 		count++;
 		currentAction = actionQueue.top();	// RUN, FIND_AMMO, FIND_MED, FIGHT
-		
-		lookForEnemy(other);
+
+		//lookForEnemy(other);
 		switch (currentAction->getType())
 		{
 		case Action::FIGHT:
@@ -101,10 +101,10 @@ void Warrior::selectMission(Warrior& other)
 			// runAway();
 			break;
 		case Action::FIND_AMMO:
-			lookForStorage(maze->getClosestStorage(Action::FIND_AMMO, location), true);
+			lookForStorage(maze->getTargetStorage(Action::FIND_AMMO, location, other.getLocation()), true);
 			break;
 		case Action::FIND_MED:
-			lookForStorage(maze->getClosestStorage(Action::FIND_MED, location), false);
+			lookForStorage(maze->getTargetStorage(Action::FIND_MED, location, other.getLocation()), false);
 			break;
 		}
 		updateActions();
