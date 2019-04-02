@@ -44,9 +44,6 @@ double Action::calculateScore(Action::eType type, Warrior & warrior)
 	case Action::FIGHT:
 		return calculateScoreFight(warrior);
 		break;
-	case Action::HURT:
-		return calculateScoreHurt(warrior);
-		break;
 	default:
 		break;
 	}

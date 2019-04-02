@@ -12,7 +12,7 @@ the Q get update regularly and the top action is the action the warrior shoulde 
 class Action
 {
 public:
-	enum eType { RUN, FIND_AMMO, FIND_MED, FIGHT, HURT };
+	enum eType { RUN, FIND_AMMO, FIND_MED, FIGHT };
 	
 	Action(Warrior& warrior, eType type);
 	Action &operator=(const Action & other) = delete;
