@@ -80,7 +80,7 @@ public:
 	int getlifePoints() { return lifePoint; }
 	int	getGunsAmmo() { return gunsAmmo; }
 	int	getGrenadeAmmo() { return grenadeAmmo; }
-	Room& getCurrentRoom() { return *currentRoom; }
+	Room* getCurrentRoom() { return currentRoom; }
 	Point2D getLocation() const { return location; }
 	double getMaxLife() const { return MAX_LIFE; }
 	double getMaxGuns() const { return MAX_GUNS_AMMO; }
@@ -90,5 +90,6 @@ public:
 	void setY(int y) { this->location.setY(y); }
 	bool isAlive() const { return life; }
 	void updateActions();
+	bool canFight(Warrior &other) const;
 };
 

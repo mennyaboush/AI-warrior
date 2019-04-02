@@ -92,7 +92,7 @@ void Warrior::selectMission(Warrior& other)
 	static int count = 0;
 	srand(time(0));
 
-	if (currentRoom != nullptr && getDistance(other) < ConstValue::SHOOT_MAX_DISTANCE && (&other.getCurrentRoom() == currentRoom))
+	if (currentRoom != nullptr && getDistance(other) < ConstValue::SHOOT_MAX_DISTANCE && (other.getCurrentRoom() == currentRoom))
 	{
 		if (currentAction != nullptr && currentAction->getType() == Action::FIGHT)
 			while (!walkingPath.empty())
@@ -143,12 +143,18 @@ void Warrior::updateActions()
 	actionQueue.push(new Action(*this, Action::FIND_MED));
 }
 
+bool Warrior::canFight(Warrior & other) const
+{
+	return (currentRoom != nullptr && (other.getCurrentRoom()) != nullptr) && ((currentRoom->getId()) == (other.getCurrentRoom()->getId()));
+}
+
 /*Serch enemy in the maze
 look in the current room, then go to another room and check him.*/
 void Warrior::lookForEnemy(Warrior &other)
 {
-	if (currentRoom != nullptr && &other.getCurrentRoom() != nullptr && currentRoom->getId() != other.getCurrentRoom().getId())
-		exitTheRoom(other.getCurrentRoom());
+	if (currentRoom != nullptr && other.getCurrentRoom() != nullptr && currentRoom->getId() != other.getCurrentRoom()->getId())
+		exitTheRoom(*other.getCurrentRoom());
+
 	else
 		lookForEnemyInRoom(other); 
 }
@@ -253,6 +259,8 @@ void Warrior::injured(int hitPoint)
 
 void Warrior::throGrenade(Warrior & other)
 {
+	if (currentRoom == nullptr)
+		return;
 	//1. Variables 
 	const double grenadeMaxDamage = 30;
 	double damage = 0;
@@ -264,7 +272,7 @@ void Warrior::throGrenade(Warrior & other)
 	//2.2. Normalizing the vector and adapting it to the warrior's ability to throw.
 	NormalizingVector(Vx, Vy);
 	//2.2. calculate the target location.
-	targetLocation = getTargetByVector(this->getCurrentRoom(), Vx, Vy);
+	targetLocation = getTargetByVector(*currentRoom, Vx, Vy);
 	//3. Calculate damage
 	damage = (ConstValue::GRENADE_DEMAGE_RADIOS - getDistance(targetLocation, other.getLocation())) 
 		/ ConstValue::GRENADE_DEMAGE_RADIOS * grenadeMaxDamage;
