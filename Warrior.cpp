@@ -118,13 +118,12 @@ void Warrior::selectMission(Warrior& other)
 			lookForEnemy(other);
 			break;
 		case Action::RUN:
-			// runAway();
+			
+		case Action::FIND_MED:
+			lookForStorage(maze->getTargetStorage(Action::FIND_MED, location, other.getLocation()), false);
 			break;
 		case Action::FIND_AMMO:
 			lookForStorage(maze->getTargetStorage(Action::FIND_AMMO, location, other.getLocation()), true);
-			break;
-		case Action::FIND_MED:
-			lookForStorage(maze->getTargetStorage(Action::FIND_MED, location, other.getLocation()), false);
 			break;
 		}
 		updateActions();
@@ -229,7 +228,7 @@ void Warrior::shoot(Warrior &other)
 
 	if (gunsAmmo <= 0)
 		return;
-	//Check the ammo.
+
 	double distance = getDistance(other);
 
 	cout << "warrior " << id << " is trying to soot" << endl;
@@ -239,7 +238,7 @@ void Warrior::shoot(Warrior &other)
 	{
 		currentAction->updateScore();
 		gunsAmmo--;
-		cout << this->id << " shot! " << other.id <<"("<< damage <<")" <<endl;
+		cout << this->id << " shot! " << other.id <<"("<<damage <<")" <<endl;
 		other.injured(damage);
 	}
 	else
@@ -251,7 +250,7 @@ void Warrior::injured(int hitPoint)
 {
 	// TODO: update action med and action run priority
 	
-	lifePoint = lifePoint - (safetyScore * hitPoint);
+	lifePoint = lifePoint - (safetyScore/ConstValue::MAX_SAFTY_SCORE * hitPoint);
 	if (lifePoint <= 0)
 	{
 		lifePoint = 0;
