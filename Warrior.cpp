@@ -71,10 +71,11 @@ void Warrior::checkStorage(Action::eType action)
 		this->grenadeAmmo = MAX_GRANDE_AMMO;
 		cout << "Warrior" << this->id << "get AMMO! ;) " << endl;
 	}
-	else if (action == Action::FIND_MED && maze->checkIfPointIsMedStorage(this->getLocation()))
+	else if ((action == Action::FIND_MED || action == Action::RUN) && maze->checkIfPointIsMedStorage(this->getLocation()))
 	{
 		this->lifePoint = MAX_LIFE;
 		cout << "Warrior" << this->id << "get HEALED :)" << endl;
+
 	}
 }
 
@@ -86,7 +87,6 @@ void Warrior::selectMission(Warrior& other)
 {
 	if (this->lifePoint <= 50)
 		cout << "warrior "<< id <<" have less the half life" << endl;
-	static int count = 0;
 	srand(time(0));
 
 	if (currentRoom != nullptr && getDistance(other) < ConstValue::SHOOT_MAX_DISTANCE && (other.getCurrentRoom() == currentRoom))
@@ -99,6 +99,9 @@ void Warrior::selectMission(Warrior& other)
 		shoot(other);
 
 	}
+	if(currentAction != NULL)
+		solveTango(other);
+
 	if (walkingPath.size() > 0)
 	{
 		moveWarrior(walkingPath.top());
@@ -106,10 +109,9 @@ void Warrior::selectMission(Warrior& other)
 	}
 	else
 	{
-		count++;
 		currentAction = actionQueue.top();	// RUN, FIND_AMMO, FIND_MED, FIGHT
-		checkStorage(currentAction->getType());
-
+		if(currentAction->getType() != Action::FIGHT)
+			checkStorage(currentAction->getType());
 
 		switch (currentAction->getType())
 		{
@@ -152,7 +154,6 @@ void Warrior::lookForEnemy(Warrior &other)
 {
 	if (currentRoom != nullptr && other.getCurrentRoom() != nullptr && currentRoom->getId() != other.getCurrentRoom()->getId())
 		exitTheRoom(*other.getCurrentRoom());
-
 	else
 		lookForEnemyInRoom(other); 
 }
@@ -207,6 +208,7 @@ void Warrior::moveWarrior(Point2D &nextStep)
 	//draw the warrior on the maze
 	maze->parts[location.GetY()][location.GetX()].setType(MazePart::WARRIOR);
 	updateCurrentRoom();
+
 }
 
 
@@ -230,7 +232,7 @@ void Warrior::shoot(Warrior &other)
 
 	double distance = getDistance(other);
 
-	cout << "warrior " << id << " is trying to soot" << endl;
+	cout << "warrior " << id << " is trying to shoot" << endl;
 	//check if the warrior no too far
 	int damage = (ConstValue::SHOOT_MAX_DISTANCE - (int)distance);
 	if (damage > 0)
@@ -280,7 +282,10 @@ void Warrior::throGrenade(Warrior & other)
 	//4. Trow the grenade
 	cout << "Warrior " << this->id << "trow grenade!" << endl;
 	if (damage > 0)
+	{
+		grenadeAmmo--;
 		other.injured(damage);
+	}
 }
 
 /*insert to Vx and Vy the values of the calculate vector*/
@@ -311,6 +316,21 @@ Point2D& Warrior::getTargetByVector(Room & room, double & Vx, double & Vy)
 	else
 		room.currectPointToBeInRoom(*p);
 	return *p;
+}
+
+void Warrior::solveTango(Warrior & other)
+{
+	if (this->currentAction->getType() == Action::FIGHT && other.getCurrentActionType() == Action::FIGHT
+		&& this->getLocation() == other.getLocation())
+	{
+		actionQueue.pop();
+		this->currentAction = actionQueue.top();
+		while (!walkingPath.empty())
+		{
+			walkingPath.pop();
+		}
+	}
+
 }
 
 void Warrior::updateCurrentRoom()

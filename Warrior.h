@@ -66,6 +66,8 @@ private:
 	void NormalizingVector(double &Vx, double &Vy);
 	void checkStorage(Action::eType action);
 	Point2D& getTargetByVector(Room &room, double &Vx, double &Vy);
+	void solveTango(Warrior &other);
+	
 public:
 	Warrior(int id, Room &room, Point2D &location);
 	~Warrior();
@@ -96,6 +98,7 @@ public:
 	bool isAlive() const { return life; }
 	void updateActions();
 	bool canFight(Warrior &other) const;
+	Action::eType getCurrentActionType() const { return currentAction->getType(); }
 
 };
 
