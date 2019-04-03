@@ -39,7 +39,6 @@ private:
 	double calculateScoreFindAmmo(Warrior& w);
 	double calculateScoreFindMed(Warrior& w);
 	double calculateScoreFight(Warrior& w);
-	double calculateScoreHurt(Warrior& w);
 
 public:
 };

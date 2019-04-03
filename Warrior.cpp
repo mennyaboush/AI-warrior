@@ -3,18 +3,23 @@
 #include "Door.h"
 #include "CompareActions.h"
 
-/**
-ToDo:
-- search for ammo&med
-- run away
-- shoot
-*/
-Warrior::Warrior(Room &room, Point2D &location, double ammoP, double medP, double fightP) :
-	currentRoom(&room), location(location),ammoP(ammoP), medP(medP), fightP(fightP)
+
+Warrior::Warrior(int id, Room &room, Point2D &location) :
+	id(id), currentRoom(&room), location(location)
 {
 	maze = &Maze::getInstance();
-	static int genId = 0;
-	this->id = genId++;
+	if (id == 0)
+	{
+		ammoP = 0.7;
+		medP = 1;
+		fightP = 0.6;
+	}
+	else
+	{
+		ammoP = 0.85;
+		medP = 0.8;
+		fightP = 0.95;
+	}
 	updateActions();
 }
 
@@ -43,9 +48,6 @@ void Warrior::exitTheRoom(Room &destRoom)
 
 	walkingPath = maze->localAStar(location, nextDoor->getExitLocation());
 
-	cout << "currentRoom: x: " << currentRoom->GetCenter().GetX() << " y: " << currentRoom->GetCenter().GetY() << endl;
-
-	cout << "currentRoom: x: " << currentRoom->GetCenter().GetX() << " y: " << currentRoom->GetCenter().GetY() << endl;
 }
 
 
@@ -83,15 +85,17 @@ else he select new mission.*/
 void Warrior::selectMission(Warrior& other)
 {
 	if (this->lifePoint <= 50)
-		cout << "Test" << endl;
+		cout << "warrior "<< id <<" have less the half life" << endl;
 	static int count = 0;
 	srand(time(0));
 
 	if (currentRoom != nullptr && getDistance(other) < ConstValue::SHOOT_MAX_DISTANCE && (other.getCurrentRoom() == currentRoom))
 	{
-		if (currentAction != nullptr && currentAction->getType() == Action::FIGHT)
+		if (currentAction != nullptr && currentAction->getType() == Action::FIGHT && currentRoom != nullptr)
 			while (!walkingPath.empty())
+			{
 				walkingPath.pop();
+			}
 		shoot(other);
 
 	}
@@ -229,7 +233,6 @@ void Warrior::shoot(Warrior &other)
 	cout << "warrior " << id << " is trying to soot" << endl;
 	//check if the warrior no too far
 	int damage = (ConstValue::SHOOT_MAX_DISTANCE - (int)distance);
-	damage *= 5;
 	if (damage > 0)
 	{
 		currentAction->updateScore();
@@ -251,7 +254,7 @@ void Warrior::injured(double hitPoint)
 	{
 		lifePoint = 0;
 		life = false;
-		cout << "Warrior " << this - id << " died" << endl;
+		cout << "Warrior " << id << " died" << endl;
 	}
 }
 

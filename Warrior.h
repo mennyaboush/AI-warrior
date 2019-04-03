@@ -67,7 +67,7 @@ private:
 	void checkStorage(Action::eType action);
 	Point2D& getTargetByVector(Room &room, double &Vx, double &Vy);
 public:
-	Warrior(Room &room, Point2D &location, double ammoP, double medP, double fightP);
+	Warrior(int id, Room &room, Point2D &location);
 	~Warrior();
 
 	void selectMission(Warrior& other);

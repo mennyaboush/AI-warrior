@@ -29,7 +29,6 @@ Action::eType Action::getType() const
 
 double Action::calculateScore(Action::eType type, Warrior & warrior)
 {
-	//eType::RUN;
 	switch (type)
 	{
 	case Action::RUN:
@@ -83,8 +82,4 @@ double Action::calculateScoreFight(Warrior & w)
 	return MAX_SCORE - calculateScoreRun(w) ;
 }
 
-/*???*/
-double Action::calculateScoreHurt(Warrior & w)
-{
-	return 0.0;
-}
+

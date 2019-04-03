@@ -145,8 +145,6 @@ void Maze::setSaftyScores()
 		{
 			spaces = countSpaces(i, j); // check 3 X 3 square
 
-			// max spaces num = 8 -> not safe -> safty score is low
-			// min spaces num = 1 -> very safe -> safty score is high
 			int score = 1 - (spaces / total);
 			parts[i][j].setSaftyScore(score);
 		}
@@ -167,15 +165,6 @@ int Maze::countSpaces(int i, int j)
 	return count;
 }
 
-//void Maze::cleanUp()
-//{
-//	// clean up the maze
-//	for (int i = 0; i < MSIZE; i++)
-//	{
-//		for (int j = 0; j < MSIZE; j++)
-//			parts[i][j].setType(MazePart::WALL);
-//	}
-//}
 
 Room* Maze::getRooms() const
 {
@@ -254,7 +243,7 @@ stack<Point2D> Maze::localAStar(Point2D &currentLocation, Point2D &targetLocatio
 		if (current->GetH() == 0)
 		{
 			finished = true;
-
+			
 			// go back to start and enter the steps to walkingPath 
 			itr = find(parents.begin(), parents.end(), Parent(current->GetPoint(), current->GetPoint(), true));
 			walkingPath.push((itr->GetCurrent()));
