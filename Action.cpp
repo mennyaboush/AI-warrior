@@ -54,24 +54,24 @@ double Action::calculateScoreFindAmmo(Warrior & w)
 {
 	double maxGuns = w.getMaxGuns(), currentGuns = w.getGunsAmmo(),
 		maxGrandes = w.getMaxGrandes(), currentGrandes = w.getGrenadeAmmo();
-	return ((maxGuns - currentGuns) + (maxGrandes - currentGrandes)) / (maxGuns + maxGrandes) * 100;
+	return ((maxGuns - currentGuns) + (maxGrandes - currentGrandes)) / (maxGuns + maxGrandes) * MAX_SCORE;
 }
 
 /*f(w) = (MaxLife - currentLife)/MaxLife * 100 */
 double Action::calculateScoreFindMed(Warrior & w)
 {
 	double maxLife = w.getMaxLife(), life = w.getlifePoints();
-	return (maxLife - life) / maxLife * 100;
+	return (maxLife - life) / maxLife * MAX_SCORE;
 }
 
 
-/*f(w) = (calculateMedical + calculateAmmo + seftyScore) /(3 *maxScoreType) * 100 */
+/*f(w) = (calculateMedical + calculateAmmo + seftyScore) /(3 *maxScoreType) * MAX_SCORE */
 double Action::calculateScoreRun(Warrior & w)
 {
 	double medScore = calculateScoreFindMed(w), ammoScore = calculateScoreFindAmmo(w), 
 		seftyScore = (&Maze::getInstance())->getSaftyScore(w.getLocation());
 	return (medScore + ammoScore + seftyScore ) /
-		(MAX_SCORE + MAX_SCORE + ConstValue::MAX_SAFTY_SCORE) * 100;
+		(MAX_SCORE + MAX_SCORE + ConstValue::MAX_SAFTY_SCORE) * MAX_SCORE;
 }
 /*f(w) = MAX_SCORE - calcualteScoreRun */
 
