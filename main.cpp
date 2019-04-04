@@ -52,8 +52,9 @@ Point2D start,target;
 Maze* maze;
 
 void drawWarrior(const Warrior &warrior);
+void idle();
 void createWarriors();
-
+void chackIfGameFinish();
 void delay(int number_of_seconds)
 {
 	// Converting time into milli_seconds 
@@ -89,6 +90,21 @@ void createWarriors()
 		Warrior *w = new Warrior(i, r, *new Point2D(x, y));
 		warriors[i] = w;
 		drawWarrior(*warriors[i]);
+	}
+}
+
+void chackIfGameFinish()
+{
+	//1.check if some warrior died
+	bool w0 = warriors[0]->isAlive(), w1 = warriors[1]->isAlive();
+	if (!(w0 && w1))
+	{
+		//2. chack who died and print the right message
+		if (w0)
+			cout << "Warrior " << 0 << " WON the war!" << endl;
+		else
+			cout << "Warrior " << 1 << " WON the war!" << endl;
+		exit(0);
 	}
 }
 
@@ -154,15 +170,16 @@ void display()
 
 void idle()
 {
-	if (!warriors[0]->isAlive() || !warriors[1]->isAlive())
+	/*if (!warriors[0]->isAlive() || !warriors[1]->isAlive())
 		return;
-
+*/
 	// temp
 	(warriors[0])->selectMission(*warriors[1]);
 	(warriors[1])->selectMission(*warriors[0]);
 
 	glutPostRedisplay(); // calls indirectly to display
 	delay(5);
+	chackIfGameFinish();
 }
 
 void main(int argc, char* argv[])

@@ -58,7 +58,6 @@ private:
 	double Warrior::getDistance(const Point2D &p1, const Point2D &p2) const;
 	double getDistance(const Warrior &other) const;
 	void lookForEnemyInRoom(Warrior &other);
-	void lookForAmmo();
 
 	void shoot(Warrior &other);
 	void throGrenade(Warrior &other);
@@ -77,7 +76,6 @@ public:
 
 	void lookForStorage(Storage &s, bool ammo);
 	void lookForEnemy(Warrior &other);
-	void lookForMedicalStorage();
 	void updateCurrentRoom();
 	void injured(double hitPoint);
 
