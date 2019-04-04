@@ -25,8 +25,11 @@ Warrior::Warrior(int id, Room &room, Point2D &location) :
 
 Warrior::~Warrior()
 {
-	// delete actionQueue
-	// ..
+	while (!actionQueue.empty())
+	{
+		delete(actionQueue.top());
+		actionQueue.pop();
+	}
 }
 
 /*go to the next room to reach the destination room */
@@ -89,16 +92,7 @@ void Warrior::selectMission(Warrior& other)
 		cout << "warrior "<< id <<" have less the half life" << endl;
 	srand(time(0));
 
-	if (currentRoom != nullptr && getDistance(other) < ConstValue::SHOOT_MAX_DISTANCE && (other.getCurrentRoom() == currentRoom))
-	{
-		if (currentAction != nullptr && currentAction->getType() == Action::FIGHT && currentRoom != nullptr)
-			while (!walkingPath.empty())
-			{
-				walkingPath.pop();
-			}
-		shoot(other);
-
-	}
+	checkIfCanFire(other);
 	if(currentAction != NULL)
 		solveTango(other);
 
@@ -108,28 +102,9 @@ void Warrior::selectMission(Warrior& other)
 		walkingPath.pop();
 	}
 	else
-	{
-		currentAction = actionQueue.top();	// RUN, FIND_AMMO, FIND_MED, FIGHT
-		if(currentAction->getType() != Action::FIGHT)
-			checkStorage(currentAction->getType());
-
-		switch (currentAction->getType())
-		{
-		case Action::FIGHT:
-			lookForEnemy(other);
-			break;
-		case Action::RUN:
-			
-		case Action::FIND_MED:
-			lookForStorage(maze->getTargetStorage(Action::FIND_MED, location, other.getLocation()), false);
-			break;
-		case Action::FIND_AMMO:
-			lookForStorage(maze->getTargetStorage(Action::FIND_AMMO, location, other.getLocation()), true);
-			break;
-		}
-		updateActions();
-	}
+		doAction(other);
 }
+
 void Warrior::updateActions()
 {
 	while (!actionQueue.empty())
@@ -218,9 +193,9 @@ The damage caused to the second fighter depends on the distance between them
 */
 void Warrior::shoot(Warrior &other)
 {
+	// Probability of 30% miss the shooting
 	srand(time(0));
 	int hit = rand() % 10;
-
 	if (hit < 3)
 	{
 		cout << "Warrior " << this->id << " Miss the shoot" << endl;
@@ -280,9 +255,9 @@ void Warrior::throGrenade(Warrior & other)
 	damage = (ConstValue::GRENADE_DEMAGE_RADIOS - getDistance(targetLocation, other.getLocation())) 
 		/ ConstValue::GRENADE_DEMAGE_RADIOS * grenadeMaxDamage;
 	//4. Trow the grenade
-	cout << "Warrior " << this->id << "trow grenade!" << endl;
 	if (damage > 0)
 	{
+		cout << "Warrior " << this->id << "trow grenade! (potential damage "<< damage <<" )" << endl;
 		grenadeAmmo--;
 		other.injured(damage);
 	}
@@ -326,11 +301,50 @@ void Warrior::solveTango(Warrior & other)
 		actionQueue.pop();
 		this->currentAction = actionQueue.top();
 		while (!walkingPath.empty())
-		{
 			walkingPath.pop();
-		}
 	}
 
+}
+
+/*that function always check if ther are enemy in the range of shoot and shoot him if he can */
+void Warrior::checkIfCanFire(Warrior & other)
+{
+
+	if (currentRoom != nullptr && getDistance(other) < ConstValue::SHOOT_MAX_DISTANCE && (other.getCurrentRoom() == currentRoom))
+	{
+		/*if (currentAction != nullptr && currentAction->getType() == Action::FIGHT && currentRoom != nullptr)
+			while (!walkingPath.empty())
+			{
+				walkingPath.pop();
+			}*/
+		shoot(other);
+
+	}
+
+}
+
+/*get the top action from the actionQ and do it*/
+void Warrior::doAction(Warrior & other)
+{
+	currentAction = actionQueue.top();	// RUN, FIND_AMMO, FIND_MED, FIGHT
+	if (currentAction->getType() != Action::FIGHT)
+		checkStorage(currentAction->getType());
+
+	switch (currentAction->getType())
+	{
+	case Action::FIGHT:
+		lookForEnemy(other);
+		break;
+	case Action::RUN:
+
+	case Action::FIND_MED:
+		lookForStorage(maze->getTargetStorage(Action::FIND_MED, location, other.getLocation()), false);
+		break;
+	case Action::FIND_AMMO:
+		lookForStorage(maze->getTargetStorage(Action::FIND_AMMO, location, other.getLocation()), true);
+		break;
+	}
+	updateActions();
 }
 
 void Warrior::updateCurrentRoom()

@@ -170,10 +170,7 @@ void display()
 
 void idle()
 {
-	/*if (!warriors[0]->isAlive() || !warriors[1]->isAlive())
-		return;
-*/
-	// temp
+
 	(warriors[0])->selectMission(*warriors[1]);
 	(warriors[1])->selectMission(*warriors[0]);
 

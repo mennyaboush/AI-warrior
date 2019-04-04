@@ -11,8 +11,6 @@ void Action::updateScore()
 	double val = calculateScore(type, warrior);
 	if (val >= 0 && val <= 100)
 		this->score = val;
-	/*else
-		throw exception("The function Action::updateScore get invalide value");*/
 }
 
 Warrior& Action::getWarrior() const

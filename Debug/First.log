@@ -1,3 +1,6 @@
-﻿  main.cpp
-c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\main.cpp(76): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+﻿  Warrior.cpp
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\action.h(21): warning C4244: 'return': conversion from 'const double' to 'int', possible loss of data
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(93): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(197): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\מני\desktop\סמסטר א\בינה מלאכותית\final project\relevant code from lesson\tunnels\first\first\warrior.cpp(229): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
   First.vcxproj -> C:\Users\מני\Desktop\סמסטר א\בינה מלאכותית\final project\Relevant code from lesson\Tunnels\First\Debug\First.exe

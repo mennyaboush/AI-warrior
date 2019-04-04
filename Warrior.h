@@ -53,7 +53,7 @@ private:
 
 	Action *currentAction;
 
-	//functions
+	//Private functions
 	void exitTheRoom(Room &room); //Implaments in A*.
 	double Warrior::getDistance(const Point2D &p1, const Point2D &p2) const;
 	double getDistance(const Warrior &other) const;
@@ -66,6 +66,9 @@ private:
 	void checkStorage(Action::eType action);
 	Point2D& getTargetByVector(Room &room, double &Vx, double &Vy);
 	void solveTango(Warrior &other);
+	void checkIfCanFire(Warrior &other);
+	void doAction(Warrior &other);
+
 	
 public:
 	Warrior(int id, Room &room, Point2D &location);
