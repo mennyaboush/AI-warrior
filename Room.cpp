@@ -131,6 +131,17 @@ bool Room::isDestionationRoom(const Room & destionation) const
 	return false;
 }
 
+bool Room::canBeObsacle(Point2D & p)
+{
+	return (p != *center) && notBorder(p);
+}
+
+bool Room::notBorder(Point2D & p) const
+{
+	int px = p.GetX(), py = p.GetY();
+	return px > getLeft() + 1 && px < getRight() - 1 && py > getTop() + 1 && py < getBottom() - 1;
+}
+
 Point2D& Room::getRandomPointInRoom()
 {	
 	srand(time(0));

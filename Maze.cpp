@@ -15,6 +15,24 @@ Maze::Maze()
 	loadMazeFromFile();
 	setSaftyScores();
 	createStorages();
+	createobstacles();
+}
+
+void Maze::createobstacles()
+{
+	for (int i = 0; i < NUM_ROOMS; i++)
+	{
+		int numOfObstacle = rand() % Room::MAX_OBSACLES;
+		for (int j = 0; j < numOfObstacle; j++)
+		{
+			Point2D p = all_rooms[i].getRandomPointInRoom();
+			if (all_rooms[i].canBeObsacle(p) && !checkIfPointIsAmmoStorage(p) &&!checkIfPointIsMedStorage(p))
+			{
+				parts[p.GetX()][p.GetY()].setOriginType(MazePart::WALL);
+				parts[p.GetX()][p.GetY()].setType(MazePart::WALL);
+			}
+		}
+	}
 }
 
 Maze::~Maze()

@@ -14,5 +14,6 @@ public:
 	void setX(int x) { this->x = x; }
 	void setY(int y) { this->y = y; }
 	bool operator==(const Point2D& other);
+	bool operator!=(const Point2D& other);
 };
 

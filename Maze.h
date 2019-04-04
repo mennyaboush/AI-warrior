@@ -38,6 +38,7 @@ private:
 	Storage ammoStorage[NUM_OF_AMMO_STORAGE];
 
 	Maze();
+	void createobstacles();
 
 public:
 	~Maze();
